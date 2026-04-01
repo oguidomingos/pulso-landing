@@ -225,7 +225,106 @@ function HowItWorks() {
 }
 
 function Plans() {
-  const plans = [
+  const [tab, setTab] = useState('individual')
+  const individual = [
+    {
+      name: 'Tr\u00e1fego Pago',
+      icon: 'megaphone',
+      subtitle: 'An\u00fancios que trazem pacientes',
+      desc: 'Gerenciamos seus an\u00fancios no Google e Instagram para atrair pacientes qualificados direto para sua agenda.',
+      features: [
+        'Configura\u00e7\u00e3o de Google Ads + Meta Ads',
+        'Cria\u00e7\u00e3o de 1 landing page por campanha',
+        'Otimiza\u00e7\u00e3o 2-3x por semana',
+        '4-8 criativos de an\u00fancio por m\u00eas',
+        'Remarketing para quem visitou o site',
+        'Relat\u00f3rio mensal (CPL, CPA, ROAS)',
+        'Reuni\u00e3o mensal de resultados',
+      ],
+      ideal: 'Ideal para quem j\u00e1 tem site e Instagram, mas n\u00e3o recebe pacientes pelo digital.',
+    },
+    {
+      name: 'Social Media',
+      icon: 'instagram',
+      subtitle: 'Presen\u00e7a que gera autoridade',
+      desc: 'Cuidamos do seu Instagram por completo: conte\u00fado, visuais, Reels, Stories e intera\u00e7\u00e3o com seguidores.',
+      features: [
+        'Otimiza\u00e7\u00e3o do perfil e bio',
+        '12-16 posts/m\u00eas (feed + carross\u00e9is)',
+        '4-8 Reels editados por m\u00eas',
+        '15-20 Stories/m\u00eas',
+        'Calend\u00e1rio editorial mensal',
+        'Resposta a coment\u00e1rios e DMs',
+        'Relat\u00f3rio mensal de m\u00e9tricas',
+      ],
+      ideal: 'Ideal para quem quer construir autoridade e atrair pacientes pelo Instagram.',
+    },
+    {
+      name: 'Site + Manuten\u00e7\u00e3o',
+      icon: 'globe',
+      subtitle: 'Sua cl\u00ednica 24h no ar',
+      desc: 'Criamos seu site profissional e cuidamos da manuten\u00e7\u00e3o mensal: atualiza\u00e7\u00f5es, seguran\u00e7a e novos conte\u00fados.',
+      features: [
+        'Site institucional completo (6-8 p\u00e1ginas)',
+        'Design mobile-first e r\u00e1pido',
+        'Bot\u00e3o de WhatsApp + agendamento',
+        'SEO b\u00e1sico (Google Search Console + GA4)',
+        'Manuten\u00e7\u00e3o mensal (atualiza\u00e7\u00f5es e corre\u00e7\u00f5es)',
+        '1-2 blog posts/m\u00eas (SEO)',
+        'Certificado SSL + conformidade CFM',
+      ],
+      ideal: 'Ideal para quem n\u00e3o tem site ou tem um site antigo que n\u00e3o gera resultado.',
+    },
+    {
+      name: 'Google Meu Neg\u00f3cio',
+      icon: 'map',
+      subtitle: 'Apare\u00e7a no Google Maps',
+      desc: 'Otimizamos e mantemos seu perfil no Google para voc\u00ea aparecer quando pacientes pesquisarem perto de voc\u00ea.',
+      features: [
+        'Cria\u00e7\u00e3o ou otimiza\u00e7\u00e3o do perfil',
+        'Upload de fotos profissionais',
+        'Posts semanais no Google',
+        'Gest\u00e3o de avalia\u00e7\u00f5es (resposta em 24h)',
+        'Cadastro de todos os servi\u00e7os',
+        'Relat\u00f3rio mensal de insights',
+        'Meta: top 3 no Google Maps',
+      ],
+      ideal: 'Ideal para quem depende de busca local ("perto de mim") para atrair pacientes.',
+    },
+    {
+      name: 'Criativos + V\u00eddeos',
+      icon: 'camera',
+      subtitle: 'Conte\u00fado visual profissional',
+      desc: 'Produzimos as pe\u00e7as visuais e v\u00eddeos que alimentam suas redes e an\u00fancios.',
+      features: [
+        '10-20 pe\u00e7as est\u00e1ticas/m\u00eas',
+        '4-8 v\u00eddeos editados (Reels, an\u00fancios)',
+        'Roteiros para grava\u00e7\u00e3o pelo m\u00e9dico',
+        'Dire\u00e7\u00e3o de grava\u00e7\u00e3o (remota ou presencial)',
+        'Legendas em todos os v\u00eddeos',
+        'Banco de criativos organizado',
+        'Teste A/B de criativos em campanhas',
+      ],
+      ideal: 'Ideal como complemento para quem j\u00e1 tem gest\u00e3o de redes, mas precisa de material visual.',
+    },
+    {
+      name: 'Auditoria + Consultoria',
+      icon: 'clipboard',
+      subtitle: 'Diagn\u00f3stico + plano de a\u00e7\u00e3o',
+      desc: 'Analisamos tudo (digital + comercial) e entregamos um plano claro do que precisa ser feito — voc\u00ea executa ou contrata a gente.',
+      features: [
+        'Diagn\u00f3stico digital completo (score 0-100)',
+        'Diagn\u00f3stico comercial (funil de vendas)',
+        'An\u00e1lise de 5-10 concorrentes',
+        'Pesquisa de keywords + volume de busca',
+        'Scripts de atendimento prontos',
+        'Plano de a\u00e7\u00e3o priorizado (90 dias)',
+        'Apresenta\u00e7\u00e3o executiva para o m\u00e9dico',
+      ],
+      ideal: 'Ideal para quem quer entender a situa\u00e7\u00e3o antes de investir em marketing cont\u00ednuo.',
+    },
+  ]
+  const bundles = [
     {
       name: 'Pulso Starter',
       subtitle: 'Para quem est\u00e1 come\u00e7ando',
@@ -278,42 +377,97 @@ function Plans() {
   return (
     <section id="planos" className="py-16 sm:py-24 px-4 sm:px-6 bg-surface-alt">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">PLANOS</div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Escolha o plano ideal para sua cl&#237;nica</h2>
-          <p className="text-text-muted text-lg max-w-2xl mx-auto">Todos os planos incluem acompanhamento mensal e relat&#243;rios de resultado. Sem surpresas, sem letras mi&#250;das.</p>
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">PLANOS E SERVI&#199;OS</div>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Monte o plano ideal para sua cl&#237;nica</h2>
+          <p className="text-text-muted text-lg max-w-2xl mx-auto">Contrate servi&#231;os individuais ou escolha um pacote completo. Sem surpresas, sem letras mi&#250;das.</p>
         </div>
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-          {plans.map((p, i) => (
-            <div key={i} className={`relative bg-surface rounded-2xl border ${p.popular ? 'border-primary shadow-xl shadow-primary/10 scale-[1.02]' : 'border-border'} p-6 sm:p-8 flex flex-col`}>
-              {p.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-4 py-1 rounded-full">MAIS POPULAR</div>
-              )}
-              <div className="mb-6">
-                <h3 className="text-xl font-extrabold text-midnight mb-1">{p.name}</h3>
-                <p className="text-sm text-primary font-semibold mb-2">{p.subtitle}</p>
-                <p className="text-text-muted text-sm leading-relaxed">{p.desc}</p>
-              </div>
-              <div className="mb-6">
-                <div className="text-text-muted text-sm mb-1">Investimento mensal</div>
-                <div className="text-midnight font-extrabold text-lg">Consulte valores</div>
-                <div className="text-xs text-text-muted">Contrato m&#237;nimo: 6 meses</div>
-              </div>
-              <ul className="space-y-3 mb-8 flex-1">
-                {p.features.map((f, j) => (
-                  <li key={j} className="flex items-start gap-2.5 text-sm text-text">
-                    <Icon name="check" className="w-4 h-4 text-green shrink-0 mt-0.5" />
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className={`block text-center font-bold py-3.5 rounded-xl transition-all ${p.popular ? 'bg-primary hover:bg-primary-dark text-white shadow-lg shadow-primary/20' : 'bg-primary/10 hover:bg-primary/20 text-primary'}`}>
-                Quero esse plano
-              </a>
+
+        <div className="flex items-center justify-center gap-2 mb-10">
+          <button onClick={() => setTab('individual')} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${tab === 'individual' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-surface text-text-muted border border-border hover:border-primary/30'}`}>
+            Servi&#231;os Individuais
+          </button>
+          <button onClick={() => setTab('pacotes')} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${tab === 'pacotes' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-surface text-text-muted border border-border hover:border-primary/30'}`}>
+            Pacotes Completos
+          </button>
+        </div>
+
+        {tab === 'individual' && (
+          <>
+            <p className="text-center text-text-muted text-sm mb-8 max-w-xl mx-auto">Precisa de apenas um servi&#231;o? Escolha o que faz sentido para o momento da sua cl&#237;nica. Todos incluem relat&#243;rio mensal.</p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {individual.map((p, i) => (
+                <div key={i} className="bg-surface rounded-2xl border border-border p-6 flex flex-col hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <Icon name={p.icon} className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-midnight text-lg leading-tight">{p.name}</h3>
+                      <p className="text-xs text-primary font-semibold">{p.subtitle}</p>
+                    </div>
+                  </div>
+                  <p className="text-text-muted text-sm leading-relaxed mb-4">{p.desc}</p>
+                  <ul className="space-y-2 mb-4 flex-1">
+                    {p.features.map((f, j) => (
+                      <li key={j} className="flex items-start gap-2 text-sm text-text">
+                        <Icon name="check" className="w-4 h-4 text-green shrink-0 mt-0.5" />
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="bg-surface-alt rounded-lg p-3 mb-4">
+                    <p className="text-xs text-text-muted">{p.ideal}</p>
+                  </div>
+                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="block text-center font-bold py-3 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary transition-all text-sm">
+                    Saber mais
+                  </a>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <div className="text-center mt-10">
+          </>
+        )}
+
+        {tab === 'pacotes' && (
+          <>
+            <p className="text-center text-text-muted text-sm mb-8 max-w-xl mx-auto">Quer tudo integrado? Nossos pacotes combinam m&#250;ltiplos servi&#231;os com desconto e estrat&#233;gia unificada.</p>
+            <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+              {bundles.map((p, i) => (
+                <div key={i} className={`relative bg-surface rounded-2xl border ${p.popular ? 'border-primary shadow-xl shadow-primary/10 scale-[1.02]' : 'border-border'} p-6 sm:p-8 flex flex-col`}>
+                  {p.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-4 py-1 rounded-full">MAIS POPULAR</div>
+                  )}
+                  <div className="mb-6">
+                    <h3 className="text-xl font-extrabold text-midnight mb-1">{p.name}</h3>
+                    <p className="text-sm text-primary font-semibold mb-2">{p.subtitle}</p>
+                    <p className="text-text-muted text-sm leading-relaxed">{p.desc}</p>
+                  </div>
+                  <div className="mb-6">
+                    <div className="text-text-muted text-sm mb-1">Investimento mensal</div>
+                    <div className="text-midnight font-extrabold text-lg">Consulte valores</div>
+                    <div className="text-xs text-text-muted">Contrato m&#237;nimo: 6 meses</div>
+                  </div>
+                  <ul className="space-y-3 mb-8 flex-1">
+                    {p.features.map((f, j) => (
+                      <li key={j} className="flex items-start gap-2.5 text-sm text-text">
+                        <Icon name="check" className="w-4 h-4 text-green shrink-0 mt-0.5" />
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className={`block text-center font-bold py-3.5 rounded-xl transition-all ${p.popular ? 'bg-primary hover:bg-primary-dark text-white shadow-lg shadow-primary/20' : 'bg-primary/10 hover:bg-primary/20 text-primary'}`}>
+                    Quero esse pacote
+                  </a>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        <div className="text-center mt-10 space-y-2">
+          <p className="text-text-muted text-sm">
+            <strong>N&#227;o sabe qual escolher?</strong> Come&#231;e pelo diagn&#243;stico gratuito — n&#243;s recomendamos o melhor caminho.
+          </p>
           <p className="text-text-muted text-sm">
             <strong>Importante:</strong> o investimento em an&#250;ncios (Google/Meta Ads) &#233; pago pela cl&#237;nica diretamente &#224;s plataformas, n&#227;o faz parte da mensalidade.
           </p>
