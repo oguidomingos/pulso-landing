@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './index.css'
+import Wiki from './Wiki.jsx'
 
 const WHATSAPP_LINK = 'https://wa.me/5561999999999?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20a%20Pulso'
 
@@ -45,6 +46,7 @@ function Navbar() {
           <a href="#planos" className="text-sm text-text-muted hover:text-primary transition-colors">Planos</a>
           <a href="#resultados" className="text-sm text-text-muted hover:text-primary transition-colors">Resultados</a>
           <a href="#faq" className="text-sm text-text-muted hover:text-primary transition-colors">D&#250;vidas</a>
+          <a href="#/wiki" className="text-sm font-semibold text-primary hover:text-primary-dark transition-colors">Wiki</a>
         </div>
         <div className="hidden md:block">
           <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors">
@@ -64,6 +66,7 @@ function Navbar() {
           <a href="#planos" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">Planos</a>
           <a href="#resultados" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">Resultados</a>
           <a href="#faq" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">D&#250;vidas</a>
+          <a href="#/wiki" onClick={() => setOpen(false)} className="block text-sm font-semibold text-primary hover:text-primary-dark">Wiki de Servi&#231;os</a>
           <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="block text-center bg-primary text-white text-sm font-semibold px-5 py-2.5 rounded-xl">Falar com Especialista</a>
         </div>
       )}
@@ -634,6 +637,16 @@ function Footer() {
 }
 
 function App() {
+  const [page, setPage] = useState(window.location.hash === '#/wiki' ? 'wiki' : 'home')
+
+  useEffect(() => {
+    const onHash = () => setPage(window.location.hash === '#/wiki' ? 'wiki' : 'home')
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
+
+  if (page === 'wiki') return <Wiki />
+
   return (
     <div className="min-h-screen">
       <Navbar />
