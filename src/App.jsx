@@ -41,11 +41,11 @@ function Navbar() {
           <span className="text-xl font-bold text-midnight">Pulso</span>
         </a>
         <div className="hidden md:flex items-center gap-8">
-          <a href="#servicos" className="text-sm text-text-muted hover:text-primary transition-colors">Servi&#231;os</a>
+          <a href="#servicos" className="text-sm text-text-muted hover:text-primary transition-colors">Serviços</a>
           <a href="#como-funciona" className="text-sm text-text-muted hover:text-primary transition-colors">Como Funciona</a>
           <a href="#planos" className="text-sm text-text-muted hover:text-primary transition-colors">Planos</a>
           <a href="#resultados" className="text-sm text-text-muted hover:text-primary transition-colors">Resultados</a>
-          <a href="#faq" className="text-sm text-text-muted hover:text-primary transition-colors">D&#250;vidas</a>
+          <a href="#faq" className="text-sm text-text-muted hover:text-primary transition-colors">Dúvidas</a>
           <a href="#/wiki" className="text-sm font-semibold text-primary hover:text-primary-dark transition-colors">Wiki</a>
         </div>
         <div className="hidden md:block">
@@ -61,12 +61,12 @@ function Navbar() {
       </div>
       {open && (
         <div className="md:hidden bg-white border-t border-border px-4 py-4 space-y-3">
-          <a href="#servicos" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">Servi&#231;os</a>
+          <a href="#servicos" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">Serviços</a>
           <a href="#como-funciona" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">Como Funciona</a>
           <a href="#planos" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">Planos</a>
           <a href="#resultados" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">Resultados</a>
-          <a href="#faq" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">D&#250;vidas</a>
-          <a href="#/wiki" onClick={() => setOpen(false)} className="block text-sm font-semibold text-primary hover:text-primary-dark">Wiki de Servi&#231;os</a>
+          <a href="#faq" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">Dúvidas</a>
+          <a href="#/wiki" onClick={() => setOpen(false)} className="block text-sm font-semibold text-primary hover:text-primary-dark">Wiki de Serviços</a>
           <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="block text-center bg-primary text-white text-sm font-semibold px-5 py-2.5 rounded-xl">Falar com Especialista</a>
         </div>
       )}
@@ -80,13 +80,13 @@ function Hero() {
       <div className="max-w-4xl mx-auto">
         <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
           <Icon name="shield" className="w-4 h-4" />
-          Marketing especializado para cl&#237;nicas m&#233;dicas
+          Marketing especializado para clínicas médicas
         </div>
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-midnight leading-tight mb-6">
-          Sua cl&#237;nica merece uma <span className="text-primary">agenda cheia</span> todos os dias
+          Sua clínica merece uma <span className="text-primary">agenda cheia</span> todos os dias
         </h1>
         <p className="text-lg sm:text-xl text-text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
-          A Pulso transforma o marketing da sua cl&#237;nica em um <strong>sistema previs&#237;vel</strong> de atra&#231;&#227;o de pacientes — com estrat&#233;gia, dados e resultados que voc&#234; consegue medir.
+          A Pulso transforma o marketing da sua clínica em um <strong>sistema previsível</strong> de atração de pacientes — com estratégia, dados e resultados que você consegue medir.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white font-bold px-8 py-4 rounded-2xl text-lg transition-all hover:scale-105 shadow-lg shadow-primary/20">
@@ -109,7 +109,7 @@ function Hero() {
           </div>
           <div className="flex items-center gap-2">
             <Icon name="users" className="w-5 h-5 text-blue" />
-            Especialistas em sa&#250;de
+            Especialistas em saúde
           </div>
         </div>
       </div>
@@ -128,8 +128,8 @@ function PainPoints() {
     <section className="py-16 sm:py-24 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Voc&#234; se identifica com isso?</h2>
-          <p className="text-text-muted text-lg max-w-2xl mx-auto">A maioria das cl&#237;nicas enfrenta esses problemas. A diferen&#231;a &#233; que agora existe uma solu&#231;&#227;o.</p>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Você se identifica com isso?</h2>
+          <p className="text-text-muted text-lg max-w-2xl mx-auto">A maioria das clínicas enfrenta esses problemas. A diferença é que agora existe uma solução.</p>
         </div>
         <div className="grid md:grid-cols-2 gap-6">
           {points.map((p, i) => (
@@ -164,9 +164,9 @@ function Services() {
     <section id="servicos" className="py-16 sm:py-24 px-4 sm:px-6 bg-surface-alt">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">NOSSOS SERVI&#199;OS</div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Tudo que sua cl&#237;nica precisa para crescer</h2>
-          <p className="text-text-muted text-lg max-w-2xl mx-auto">Cada servi&#231;o foi pensado para resolver um problema espec&#237;fico. Voc&#234; n&#227;o precisa entender de marketing — &#233; para isso que estamos aqui.</p>
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">NOSSOS SERVIÇOS</div>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Tudo que sua clínica precisa para crescer</h2>
+          <p className="text-text-muted text-lg max-w-2xl mx-auto">Cada serviço foi pensado para resolver um problema específico. Você não precisa entender de marketing — é para isso que estamos aqui.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((s, i) => (
@@ -205,8 +205,8 @@ function HowItWorks() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">COMO FUNCIONA</div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Do diagn&#243;stico ao resultado em 5 passos</h2>
-          <p className="text-text-muted text-lg max-w-xl mx-auto">Voc&#234; cuida dos pacientes. N&#243;s cuidamos de trazer eles at&#233; voc&#234;.</p>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Do diagnóstico ao resultado em 5 passos</h2>
+          <p className="text-text-muted text-lg max-w-xl mx-auto">Você cuida dos pacientes. Nós cuidamos de trazer eles até você.</p>
         </div>
         <div className="space-y-6">
           {steps.map((s, i) => (
@@ -330,50 +330,50 @@ function Plans() {
   const bundles = [
     {
       name: 'Pulso Starter',
-      subtitle: 'Para quem est\u00e1 come\u00e7ando',
-      desc: 'Ideal para cl\u00ednicas que ainda n\u00e3o t\u00eam presen\u00e7a digital ou est\u00e3o no in\u00edcio.',
+      subtitle: 'Para quem está começando',
+      desc: 'Ideal para clínicas que ainda não têm presença digital ou estão no início.',
       popular: false,
       features: [
-        'Diagn\u00f3stico completo (comercial + digital)',
-        'Google Meu Neg\u00f3cio (cria\u00e7\u00e3o + manuten\u00e7\u00e3o)',
-        '12 posts/m\u00eas no Instagram',
-        '10 stories/m\u00eas',
-        '12 pe\u00e7as visuais por m\u00eas',
-        'Relat\u00f3rio mensal de resultados',
+        'Diagnóstico completo (comercial + digital)',
+        'Google Meu Negócio (criação + manutenção)',
+        '12 posts/mês no Instagram',
+        '10 stories/mês',
+        '12 peças visuais por mês',
+        'Relatório mensal de resultados',
       ],
     },
     {
       name: 'Pulso Growth',
-      subtitle: 'Para quem quer crescer r\u00e1pido',
-      desc: 'Para cl\u00ednicas que querem acelerar a capta\u00e7\u00e3o de pacientes com an\u00fancios e site.',
+      subtitle: 'Para quem quer crescer rápido',
+      desc: 'Para clínicas que querem acelerar a captação de pacientes com anúncios e site.',
       popular: true,
       features: [
         'Tudo do Starter +',
         'Pesquisa de mercado completa',
         'Site institucional profissional',
         '1 landing page por campanha',
-        'Gest\u00e3o de Google Ads + Meta Ads',
-        '16 posts + 8 Reels + 20 stories/m\u00eas',
-        '16 pe\u00e7as + 4 v\u00eddeos editados/m\u00eas',
+        'Gestão de Google Ads + Meta Ads',
+        '16 posts + 8 Reels + 20 stories/mês',
+        '16 peças + 4 vídeos editados/mês',
         'Auditoria comercial + scripts',
-        'Reuni\u00e3o mensal de alinhamento',
+        'Reunião mensal de alinhamento',
       ],
     },
     {
       name: 'Pulso Pro',
       subtitle: 'Para quem quer dominar',
-      desc: 'Para cl\u00ednicas que querem ser refer\u00eancia absoluta na regi\u00e3o.',
+      desc: 'Para clínicas que querem ser referência absoluta na região.',
       popular: false,
       features: [
         'Tudo do Growth +',
-        'SEO avan\u00e7ado + 4 blog posts/m\u00eas',
+        'SEO avançado + 4 blog posts/mês',
         'E-mail marketing + CRM',
-        'Gest\u00e3o de reputa\u00e7\u00e3o online',
+        'Gestão de reputação online',
         'Chatbot inteligente no WhatsApp',
         'Multi-plataforma (IG + TikTok + YouTube)',
-        '20 pe\u00e7as + 8 v\u00eddeos editados/m\u00eas',
+        '20 peças + 8 vídeos editados/mês',
         'Dashboard em tempo real',
-        'Reuni\u00e3o quinzenal estrat\u00e9gica',
+        'Reunião quinzenal estratégica',
       ],
     },
   ]
@@ -381,14 +381,14 @@ function Plans() {
     <section id="planos" className="py-16 sm:py-24 px-4 sm:px-6 bg-surface-alt">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">PLANOS E SERVI&#199;OS</div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Monte o plano ideal para sua cl&#237;nica</h2>
-          <p className="text-text-muted text-lg max-w-2xl mx-auto">Contrate servi&#231;os individuais ou escolha um pacote completo. Sem surpresas, sem letras mi&#250;das.</p>
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">PLANOS E SERVIÇOS</div>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Monte o plano ideal para sua clínica</h2>
+          <p className="text-text-muted text-lg max-w-2xl mx-auto">Contrate serviços individuais ou escolha um pacote completo. Sem surpresas, sem letras miúdas.</p>
         </div>
 
         <div className="flex items-center justify-center gap-2 mb-10">
           <button onClick={() => setTab('individual')} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${tab === 'individual' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-surface text-text-muted border border-border hover:border-primary/30'}`}>
-            Servi&#231;os Individuais
+            Serviços Individuais
           </button>
           <button onClick={() => setTab('pacotes')} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${tab === 'pacotes' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-surface text-text-muted border border-border hover:border-primary/30'}`}>
             Pacotes Completos
@@ -397,7 +397,7 @@ function Plans() {
 
         {tab === 'individual' && (
           <>
-            <p className="text-center text-text-muted text-sm mb-8 max-w-xl mx-auto">Precisa de apenas um servi&#231;o? Escolha o que faz sentido para o momento da sua cl&#237;nica. Todos incluem relat&#243;rio mensal.</p>
+            <p className="text-center text-text-muted text-sm mb-8 max-w-xl mx-auto">Precisa de apenas um serviço? Escolha o que faz sentido para o momento da sua clínica. Todos incluem relatório mensal.</p>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {individual.map((p, i) => (
                 <div key={i} className="bg-surface rounded-2xl border border-border p-6 flex flex-col hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all">
@@ -433,7 +433,7 @@ function Plans() {
 
         {tab === 'pacotes' && (
           <>
-            <p className="text-center text-text-muted text-sm mb-8 max-w-xl mx-auto">Quer tudo integrado? Nossos pacotes combinam m&#250;ltiplos servi&#231;os com desconto e estrat&#233;gia unificada.</p>
+            <p className="text-center text-text-muted text-sm mb-8 max-w-xl mx-auto">Quer tudo integrado? Nossos pacotes combinam múltiplos serviços com desconto e estratégia unificada.</p>
             <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
               {bundles.map((p, i) => (
                 <div key={i} className={`relative bg-surface rounded-2xl border ${p.popular ? 'border-primary shadow-xl shadow-primary/10 scale-[1.02]' : 'border-border'} p-6 sm:p-8 flex flex-col`}>
@@ -448,7 +448,7 @@ function Plans() {
                   <div className="mb-6">
                     <div className="text-text-muted text-sm mb-1">Investimento mensal</div>
                     <div className="text-midnight font-extrabold text-lg">Consulte valores</div>
-                    <div className="text-xs text-text-muted">Contrato m&#237;nimo: 6 meses</div>
+                    <div className="text-xs text-text-muted">Contrato mínimo: 6 meses</div>
                   </div>
                   <ul className="space-y-3 mb-8 flex-1">
                     {p.features.map((f, j) => (
@@ -469,10 +469,10 @@ function Plans() {
 
         <div className="text-center mt-10 space-y-2">
           <p className="text-text-muted text-sm">
-            <strong>N&#227;o sabe qual escolher?</strong> Come&#231;e pelo diagn&#243;stico gratuito — n&#243;s recomendamos o melhor caminho.
+            <strong>Não sabe qual escolher?</strong> Comece pelo diagnóstico gratuito — nós recomendamos o melhor caminho.
           </p>
           <p className="text-text-muted text-sm">
-            <strong>Importante:</strong> o investimento em an&#250;ncios (Google/Meta Ads) &#233; pago pela cl&#237;nica diretamente &#224;s plataformas, n&#227;o faz parte da mensalidade.
+            <strong>Importante:</strong> o investimento em anúncios (Google/Meta Ads) é pago pela clínica diretamente às plataformas, não faz parte da mensalidade.
           </p>
         </div>
       </div>
@@ -492,8 +492,8 @@ function Results() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">RESULTADOS</div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">N&#250;meros que importam para voc&#234;</h2>
-          <p className="text-text-muted text-lg max-w-xl mx-auto">N&#227;o falamos de curtidas ou seguidores. Falamos de pacientes na agenda.</p>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Números que importam para você</h2>
+          <p className="text-text-muted text-lg max-w-xl mx-auto">Não falamos de curtidas ou seguidores. Falamos de pacientes na agenda.</p>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {metrics.map((m, i) => (
@@ -504,25 +504,25 @@ function Results() {
           ))}
         </div>
         <div className="mt-12 bg-midnight rounded-2xl p-8 sm:p-10 text-center">
-          <h3 className="text-white text-xl sm:text-2xl font-bold mb-3">Investimento em an&#250;ncios: quanto custa trazer pacientes?</h3>
+          <h3 className="text-white text-xl sm:text-2xl font-bold mb-3">Investimento em anúncios: quanto custa trazer pacientes?</h3>
           <div className="grid sm:grid-cols-3 gap-6 mt-8">
             <div className="bg-white/10 rounded-xl p-5">
-              <div className="text-lilac text-sm font-semibold mb-1">B&#225;sico</div>
-              <div className="text-white text-2xl font-bold">R$1-2 mil/m&#234;s</div>
-              <div className="text-white/60 text-sm mt-1">30-60 leads/m&#234;s</div>
+              <div className="text-lilac text-sm font-semibold mb-1">Básico</div>
+              <div className="text-white text-2xl font-bold">R$1-2 mil/mês</div>
+              <div className="text-white/60 text-sm mt-1">30-60 leads/mês</div>
             </div>
             <div className="bg-white/10 rounded-xl p-5">
-              <div className="text-lilac text-sm font-semibold mb-1">Intermedi&#225;rio</div>
-              <div className="text-white text-2xl font-bold">R$2-5 mil/m&#234;s</div>
-              <div className="text-white/60 text-sm mt-1">60-150 leads/m&#234;s</div>
+              <div className="text-lilac text-sm font-semibold mb-1">Intermediário</div>
+              <div className="text-white text-2xl font-bold">R$2-5 mil/mês</div>
+              <div className="text-white/60 text-sm mt-1">60-150 leads/mês</div>
             </div>
             <div className="bg-white/10 rounded-xl p-5">
-              <div className="text-lilac text-sm font-semibold mb-1">Avan&#231;ado</div>
-              <div className="text-white text-2xl font-bold">R$5-15 mil/m&#234;s</div>
-              <div className="text-white/60 text-sm mt-1">150-400+ leads/m&#234;s</div>
+              <div className="text-lilac text-sm font-semibold mb-1">Avançado</div>
+              <div className="text-white text-2xl font-bold">R$5-15 mil/mês</div>
+              <div className="text-white/60 text-sm mt-1">150-400+ leads/mês</div>
             </div>
           </div>
-          <p className="text-white/50 text-xs mt-6">Valores baseados em CPC m&#233;dio de R$3-8 na &#225;rea de sa&#250;de e taxa de convers&#227;o de 5-15%</p>
+          <p className="text-white/50 text-xs mt-6">Valores baseados em CPC médio de R$3-8 na área de saúde e taxa de conversão de 5-15%</p>
         </div>
       </div>
     </section>
@@ -543,8 +543,8 @@ function Differentials() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">POR QUE A PULSO</div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">N&#227;o somos uma ag&#234;ncia gen&#233;rica</h2>
-          <p className="text-text-muted text-lg max-w-xl mx-auto">Somos especialistas em marketing para cl&#237;nicas m&#233;dicas. Isso faz toda a diferen&#231;a.</p>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Não somos uma agência genérica</h2>
+          <p className="text-text-muted text-lg max-w-xl mx-auto">Somos especialistas em marketing para clínicas médicas. Isso faz toda a diferença.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((item, i) => (
@@ -578,8 +578,8 @@ function FAQ() {
     <section id="faq" className="py-16 sm:py-24 px-4 sm:px-6">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">D&#218;VIDAS FREQUENTES</div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Perguntas que voc&#234; pode ter</h2>
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">DÚVIDAS FREQUENTES</div>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Perguntas que você pode ter</h2>
         </div>
         <div className="space-y-3">
           {faqs.map((faq, i) => (
@@ -607,13 +607,13 @@ function CTA() {
       <div className="max-w-4xl mx-auto bg-gradient-to-br from-primary to-midnight rounded-3xl p-8 sm:p-14 text-center">
         <h2 className="text-2xl sm:text-4xl font-extrabold text-white mb-4">Pronto para lotar sua agenda?</h2>
         <p className="text-white/80 text-lg max-w-xl mx-auto mb-8 leading-relaxed">
-          Comece com um diagn&#243;stico gratuito da sua presen&#231;a digital. Sem compromisso, sem enrola&#231;&#227;o.
+          Comece com um diagnóstico gratuito da sua presença digital. Sem compromisso, sem enrolação.
         </p>
         <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-primary font-bold px-10 py-4 rounded-2xl text-lg transition-all hover:scale-105 shadow-xl">
           <Icon name="phone" className="w-5 h-5" />
           Falar com Especialista
         </a>
-        <p className="text-white/50 text-sm mt-6">Diagn&#243;stico gratuito &#8226; Resposta em at&#233; 2h &#8226; Sem compromisso</p>
+        <p className="text-white/50 text-sm mt-6">Diagnóstico gratuito • Resposta em até 2h • Sem compromisso</p>
       </div>
     </section>
   )
