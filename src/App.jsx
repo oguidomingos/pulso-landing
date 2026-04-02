@@ -637,10 +637,11 @@ function Footer() {
 }
 
 function App() {
-  const [page, setPage] = useState(window.location.hash === '#/wiki' ? 'wiki' : 'home')
+  const isWikiHash = (hash) => hash.startsWith('#/wiki')
+  const [page, setPage] = useState(isWikiHash(window.location.hash) ? 'wiki' : 'home')
 
   useEffect(() => {
-    const onHash = () => setPage(window.location.hash === '#/wiki' ? 'wiki' : 'home')
+    const onHash = () => setPage(isWikiHash(window.location.hash) ? 'wiki' : 'home')
     window.addEventListener('hashchange', onHash)
     return () => window.removeEventListener('hashchange', onHash)
   }, [])

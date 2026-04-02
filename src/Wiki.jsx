@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react'
 
+function getWikiSectionFromHash(hash) {
+  const match = hash.match(/^#\/wiki\/(.+)$/)
+  return match ? decodeURIComponent(match[1]) : null
+}
+
 const baseline = [
   {
     id: 'diagnostico',
@@ -648,13 +653,13 @@ function WikiNav() {
         <div className="mb-2 pb-2 border-b border-[#e9e0f5]">
           <p className="text-[10px] text-[#7B2CBF] font-bold uppercase tracking-wide px-3 mb-1">Base</p>
           {baseline.map(b => (
-            <a key={b.id} href={`#${b.id}`} className="block px-3 py-1.5 rounded-lg text-sm text-[#5a4a6b] hover:bg-[#f5f0ff] hover:text-[#7B2CBF] transition-colors">{b.title}</a>
+            <a key={b.id} href={`#/wiki/${b.id}`} className="block px-3 py-1.5 rounded-lg text-sm text-[#5a4a6b] hover:bg-[#f5f0ff] hover:text-[#7B2CBF] transition-colors">{b.title}</a>
           ))}
         </div>
         <ul className="space-y-1">
           {categories.map(c => (
             <li key={c.id}>
-              <a href={`#${c.id}`} className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#5a4a6b] hover:bg-[#f5f0ff] hover:text-[#7B2CBF] transition-colors">
+              <a href={`#/wiki/${c.id}`} className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#5a4a6b] hover:bg-[#f5f0ff] hover:text-[#7B2CBF] transition-colors">
                 <CategoryIcon type={c.icon} />
                 <span>{c.title}</span>
                 {c.tag && <span className="ml-auto text-[10px] text-[#5a4a6b] font-medium">{c.tag}</span>}
@@ -663,7 +668,7 @@ function WikiNav() {
                 <ul className="ml-8 mt-1 space-y-0.5">
                   {c.subservices.map(sub => (
                     <li key={sub.id}>
-                      <a href={`#${sub.id}`} className="block px-2 py-1 rounded text-xs text-[#5a4a6b] hover:text-[#7B2CBF] hover:bg-[#f5f0ff] transition-colors truncate">
+                      <a href={`#/wiki/${sub.id}`} className="block px-2 py-1 rounded text-xs text-[#5a4a6b] hover:text-[#7B2CBF] hover:bg-[#f5f0ff] transition-colors truncate">
                         {sub.title}
                       </a>
                     </li>
@@ -705,9 +710,9 @@ function WikiTopNav() {
           <span className="text-sm text-[#5a4a6b] hidden sm:inline">/ Wiki</span>
         </div>
         <div className="hidden lg:flex items-center gap-6 text-sm">
-          <a href="#diagnostico" className="text-[#5a4a6b] hover:text-[#7B2CBF] transition-colors">Base</a>
+          <a href="#/wiki/diagnostico" className="text-[#5a4a6b] hover:text-[#7B2CBF] transition-colors">Base</a>
           {categories.map(c => (
-            <a key={c.id} href={`#${c.id}`} className="text-[#5a4a6b] hover:text-[#7B2CBF] transition-colors">{c.title}</a>
+            <a key={c.id} href={`#/wiki/${c.id}`} className="text-[#5a4a6b] hover:text-[#7B2CBF] transition-colors">{c.title}</a>
           ))}
         </div>
         <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-2 text-[#5a4a6b]" aria-label="Menu">
@@ -723,14 +728,14 @@ function WikiTopNav() {
             <div className="px-4 py-3">
               <p className="text-[10px] text-[#7B2CBF] font-bold uppercase tracking-wide px-3 mb-1">Base</p>
               {baseline.map(b => (
-                <a key={b.id} href={`#${b.id}`} onClick={() => setMenuOpen(false)} className="block px-3 py-2 rounded-lg text-sm text-[#5a4a6b] hover:bg-[#faf8ff]">{b.title}</a>
+                <a key={b.id} href={`#/wiki/${b.id}`} onClick={() => setMenuOpen(false)} className="block px-3 py-2 rounded-lg text-sm text-[#5a4a6b] hover:bg-[#faf8ff]">{b.title}</a>
               ))}
             </div>
             <div className="border-t border-[#e9e0f5] px-4 py-3">
               <p className="text-[10px] text-[#7B2CBF] font-bold uppercase tracking-wide px-3 mb-1">Categorias</p>
               {categories.map(c => (
                 <div key={c.id} className="mb-1">
-                  <a href={`#${c.id}`} onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-[#272757] hover:bg-[#faf8ff]">
+                  <a href={`#/wiki/${c.id}`} onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-[#272757] hover:bg-[#faf8ff]">
                     <CategoryIcon type={c.icon} />
                     <span>{c.title}</span>
                     {c.tag && <span className="ml-auto text-[10px] text-[#5a4a6b] bg-gray-100 px-2 py-0.5 rounded-full">{c.tag}</span>}
@@ -738,7 +743,7 @@ function WikiTopNav() {
                   {c.subservices && c.subservices.length > 0 && (
                     <div className="ml-8">
                       {c.subservices.map(sub => (
-                        <a key={sub.id} href={`#${sub.id}`} onClick={() => setMenuOpen(false)} className="block px-3 py-1.5 rounded text-xs text-[#5a4a6b] hover:text-[#7B2CBF] hover:bg-[#faf8ff]">
+                        <a key={sub.id} href={`#/wiki/${sub.id}`} onClick={() => setMenuOpen(false)} className="block px-3 py-1.5 rounded text-xs text-[#5a4a6b] hover:text-[#7B2CBF] hover:bg-[#faf8ff]">
                           {sub.title}
                         </a>
                       ))}
@@ -755,6 +760,21 @@ function WikiTopNav() {
 }
 
 export default function Wiki() {
+  useEffect(() => {
+    const scrollToSection = () => {
+      const sectionId = getWikiSectionFromHash(window.location.hash)
+      if (!sectionId) return
+      const target = document.getElementById(sectionId)
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }
+
+    scrollToSection()
+    window.addEventListener('hashchange', scrollToSection)
+    return () => window.removeEventListener('hashchange', scrollToSection)
+  }, [])
+
   return (
     <div className="min-h-screen bg-[#faf8ff]">
       <WikiTopNav />
