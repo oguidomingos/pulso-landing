@@ -119,10 +119,10 @@ function Hero() {
 
 function PainPoints() {
   const points = [
-    { title: 'Agenda com hor\u00e1rios vagos', desc: 'Voc\u00ea tem capacidade para atender mais pacientes, mas eles n\u00e3o chegam.' },
-    { title: 'Depend\u00eancia de indica\u00e7\u00f5es', desc: 'Quando as indica\u00e7\u00f5es param, a receita cai. N\u00e3o h\u00e1 previsibilidade.' },
-    { title: 'Marketing que n\u00e3o d\u00e1 resultado', desc: 'J\u00e1 gastou com ag\u00eancia ou posts no Instagram, mas n\u00e3o viu retorno.' },
-    { title: 'N\u00e3o aparece no Google', desc: 'Pacientes pesquisam "\u00e9 perto de mim", e sua cl\u00ednica n\u00e3o aparece.' },
+    { title: 'Agenda com horários vagos', desc: 'Você tem capacidade para atender mais pacientes, mas eles não chegam.' },
+    { title: 'Dependência de indicações', desc: 'Quando as indicações param, a receita cai. Não há previsibilidade.' },
+    { title: 'Marketing que não dá resultado', desc: 'Já gastou com agência ou posts no Instagram, mas não viu retorno.' },
+    { title: 'Não aparece no Google', desc: 'Pacientes pesquisam "é perto de mim", e sua clínica não aparece.' },
   ]
   return (
     <section className="py-16 sm:py-24 px-4 sm:px-6">
@@ -149,16 +149,16 @@ function PainPoints() {
 
 function Services() {
   const services = [
-    { icon: 'clipboard', title: 'Diagn\u00f3stico Completo', desc: 'Analisamos tudo: sua cl\u00ednica, pre\u00e7os, concorrentes, presen\u00e7a digital. Voc\u00ea recebe um raio-X completo de onde est\u00e1 e para onde pode ir.', items: ['An\u00e1lise comercial (pre\u00e7os, servi\u00e7os, ocupa\u00e7\u00e3o)', 'Auditoria digital (Google, Instagram, site)', 'Compara\u00e7\u00e3o com concorrentes da regi\u00e3o', 'Score de posicionamento 0-100'] },
-    { icon: 'search', title: 'Pesquisa de Mercado', desc: 'Descobrimos quem s\u00e3o seus pacientes ideais, o que pesquisam no Google e como fazer eles chegarem at\u00e9 voc\u00ea.', items: ['Perfil do paciente ideal', 'Volume de buscas na sua regi\u00e3o', 'An\u00e1lise de concorrentes', 'Oportunidades por sazonalidade'] },
-    { icon: 'map', title: 'Google Meu Neg\u00f3cio', desc: 'Colocamos sua cl\u00ednica no mapa — literalmente. Quando algu\u00e9m pesquisar "dentista perto de mim", voc\u00ea aparece.', items: ['Perfil otimizado e verificado', 'Fotos profissionais e posts semanais', 'Gest\u00e3o de avalia\u00e7\u00f5es', 'Meta: top 3 no Google Maps'] },
-    { icon: 'globe', title: 'Site Profissional', desc: 'Criamos seu site pensando no celular, r\u00e1pido, bonito e feito para o paciente agendar — n\u00e3o s\u00f3 para "ter um site".', items: ['Design mobile-first', 'Bot\u00e3o de WhatsApp e agendamento', 'Otimizado para Google (SEO)', 'Conforme regras do CFM'] },
-    { icon: 'target', title: 'Landing Pages', desc: 'P\u00e1ginas focadas em um \u00fanico objetivo: fazer o paciente agendar. Usadas com an\u00fancios para m\u00e1ximo resultado.', items: ['Uma p\u00e1gina por campanha', 'Textos persuasivos', 'Formul\u00e1rio ou WhatsApp direto', 'Teste A/B para otimiza\u00e7\u00e3o'] },
-    { icon: 'megaphone', title: 'An\u00fancios (Tr\u00e1fego Pago)', desc: 'Gerenciamos seus an\u00fancios no Google e Instagram para atrair pacientes qualificados, n\u00e3o curiosos.', items: ['Google Ads + Meta Ads', 'Otimiza\u00e7\u00e3o 2-3x por semana', 'Relat\u00f3rio mensal de resultados', 'Remarketing inteligente'] },
-    { icon: 'users', title: 'Auditoria Comercial', desc: 'Analisamos como sua equipe atende — do WhatsApp \u00e0 recep\u00e7\u00e3o. De nada adianta tra\u00e7ar pacientes se o atendimento perde a venda.', items: ['An\u00e1lise do funil de vendas', 'Scripts de atendimento prontos', 'Automa\u00e7\u00f5es de confirma\u00e7\u00e3o', 'Treinamento da recep\u00e7\u00e3o'] },
-    { icon: 'instagram', title: 'Redes Sociais', desc: 'Gerenciamos seu Instagram com conte\u00fado que gera autoridade e atrai pacientes — n\u00e3o s\u00f3 likes.', items: ['12-20 posts por m\u00eas', 'Reels e Stories', 'Calend\u00e1rio editorial mensal', 'Gest\u00e3o de coment\u00e1rios e DMs'] },
-    { icon: 'camera', title: 'Criativos (Fotos e V\u00eddeos)', desc: 'Produzimos as pe\u00e7as visuais: posts, an\u00fancios, v\u00eddeos curtos. Tudo pronto para publicar.', items: ['10-20 pe\u00e7as est\u00e1ticas/m\u00eas', '4-8 v\u00eddeos editados/m\u00eas', 'Roteiros para grava\u00e7\u00e3o', 'Banco de criativos organizado'] },
-    { icon: 'sparkles', title: 'Servi\u00e7os Extras', desc: 'Para quem quer ir al\u00e9m: SEO avan\u00e7ado, e-mail marketing, chatbot com IA e gest\u00e3o de reputa\u00e7\u00e3o online.', items: ['SEO org\u00e2nico + blog posts', 'E-mail marketing autom\u00e1tico', 'Chatbot inteligente no WhatsApp', 'Monitoramento de avalia\u00e7\u00f5es'] },
+    { icon: 'clipboard', title: 'Diagnóstico Completo', desc: 'Analisamos tudo: sua clínica, preços, concorrentes, presença digital. Você recebe um raio-X completo de onde está e para onde pode ir.', items: ['Análise comercial (preços, serviços, ocupação)', 'Auditoria digital (Google, Instagram, site)', 'Comparação com concorrentes da região', 'Score de posicionamento 0-100'] },
+    { icon: 'search', title: 'Pesquisa de Mercado', desc: 'Descobrimos quem são seus pacientes ideais, o que pesquisam no Google e como fazer eles chegarem até você.', items: ['Perfil do paciente ideal', 'Volume de buscas na sua região', 'Análise de concorrentes', 'Oportunidades por sazonalidade'] },
+    { icon: 'map', title: 'Google Meu Negócio', desc: 'Colocamos sua clínica no mapa — literalmente. Quando alguém pesquisar "dentista perto de mim", você aparece.', items: ['Perfil otimizado e verificado', 'Fotos profissionais e posts semanais', 'Gestão de avaliações', 'Meta: top 3 no Google Maps'] },
+    { icon: 'globe', title: 'Site Profissional', desc: 'Criamos seu site pensando no celular, rápido, bonito e feito para o paciente agendar — não só para "ter um site".', items: ['Design mobile-first', 'Botão de WhatsApp e agendamento', 'Otimizado para Google (SEO)', 'Conforme regras do CFM'] },
+    { icon: 'target', title: 'Landing Pages', desc: 'Páginas focadas em um único objetivo: fazer o paciente agendar. Usadas com anúncios para máximo resultado.', items: ['Uma página por campanha', 'Textos persuasivos', 'Formulário ou WhatsApp direto', 'Teste A/B para otimização'] },
+    { icon: 'megaphone', title: 'Anúncios (Tráfego Pago)', desc: 'Gerenciamos seus anúncios no Google e Instagram para atrair pacientes qualificados, não curiosos.', items: ['Google Ads + Meta Ads', 'Otimização 2-3x por semana', 'Relatório mensal de resultados', 'Remarketing inteligente'] },
+    { icon: 'users', title: 'Auditoria Comercial', desc: 'Analisamos como sua equipe atende — do WhatsApp à recepção. De nada adianta traçar pacientes se o atendimento perde a venda.', items: ['Análise do funil de vendas', 'Scripts de atendimento prontos', 'Automações de confirmação', 'Treinamento da recepção'] },
+    { icon: 'instagram', title: 'Redes Sociais', desc: 'Gerenciamos seu Instagram com conteúdo que gera autoridade e atrai pacientes — não só likes.', items: ['12-20 posts por mês', 'Reels e Stories', 'Calendário editorial mensal', 'Gestão de comentários e DMs'] },
+    { icon: 'camera', title: 'Criativos (Fotos e Vídeos)', desc: 'Produzimos as peças visuais: posts, anúncios, vídeos curtos. Tudo pronto para publicar.', items: ['10-20 peças estáticas/mês', '4-8 vídeos editados/mês', 'Roteiros para gravação', 'Banco de criativos organizado'] },
+    { icon: 'sparkles', title: 'Serviços Extras', desc: 'Para quem quer ir além: SEO avançado, e-mail marketing, chatbot com IA e gestão de reputação online.', items: ['SEO orgânico + blog posts', 'E-mail marketing automático', 'Chatbot inteligente no WhatsApp', 'Monitoramento de avaliações'] },
   ]
   return (
     <section id="servicos" className="py-16 sm:py-24 px-4 sm:px-6 bg-surface-alt">
@@ -194,11 +194,11 @@ function Services() {
 
 function HowItWorks() {
   const steps = [
-    { num: '01', title: 'Conversa inicial', desc: 'Entendemos sua cl\u00ednica, objetivos e desafios. Sem compromisso.', time: 'Dia 1' },
-    { num: '02', title: 'Diagn\u00f3stico gratuito', desc: 'Fazemos uma an\u00e1lise completa da sua presen\u00e7a digital e comparamos com concorrentes.', time: 'Semana 1' },
-    { num: '03', title: 'Plano de a\u00e7\u00e3o', desc: 'Apresentamos exatamente o que precisa ser feito, com cronograma e metas claras.', time: 'Semana 2' },
-    { num: '04', title: 'Execu\u00e7\u00e3o', desc: 'Nossa equipe coloca tudo para rodar: site, Google, Instagram, an\u00fancios.', time: 'Semanas 2-4' },
-    { num: '05', title: 'Resultados', desc: 'Voc\u00ea come\u00e7a a receber pacientes novos e acompanha tudo por relat\u00f3rios mensais.', time: 'M\u00eas 2+' },
+    { num: '01', title: 'Conversa inicial', desc: 'Entendemos sua clínica, objetivos e desafios. Sem compromisso.', time: 'Dia 1' },
+    { num: '02', title: 'Diagnóstico gratuito', desc: 'Fazemos uma análise completa da sua presença digital e comparamos com concorrentes.', time: 'Semana 1' },
+    { num: '03', title: 'Plano de ação', desc: 'Apresentamos exatamente o que precisa ser feito, com cronograma e metas claras.', time: 'Semana 2' },
+    { num: '04', title: 'Execução', desc: 'Nossa equipe coloca tudo para rodar: site, Google, Instagram, anúncios.', time: 'Semanas 2-4' },
+    { num: '05', title: 'Resultados', desc: 'Você começa a receber pacientes novos e acompanha tudo por relatórios mensais.', time: 'Mês 2+' },
   ]
   return (
     <section id="como-funciona" className="py-16 sm:py-24 px-4 sm:px-6">
@@ -231,100 +231,100 @@ function Plans() {
   const [tab, setTab] = useState('individual')
   const individual = [
     {
-      name: 'Tr\u00e1fego Pago',
+      name: 'Tráfego Pago',
       icon: 'megaphone',
-      subtitle: 'An\u00fancios que trazem pacientes',
-      desc: 'Gerenciamos seus an\u00fancios no Google e Instagram para atrair pacientes qualificados direto para sua agenda.',
+      subtitle: 'Anúncios que trazem pacientes',
+      desc: 'Gerenciamos seus anúncios no Google e Instagram para atrair pacientes qualificados direto para sua agenda.',
       features: [
-        'Configura\u00e7\u00e3o de Google Ads + Meta Ads',
-        'Cria\u00e7\u00e3o de 1 landing page por campanha',
-        'Otimiza\u00e7\u00e3o 2-3x por semana',
-        '4-8 criativos de an\u00fancio por m\u00eas',
+        'Configuração de Google Ads + Meta Ads',
+        'Criação de 1 landing page por campanha',
+        'Otimização 2-3x por semana',
+        '4-8 criativos de anúncio por mês',
         'Remarketing para quem visitou o site',
-        'Relat\u00f3rio mensal (CPL, CPA, ROAS)',
-        'Reuni\u00e3o mensal de resultados',
+        'Relatório mensal (CPL, CPA, ROAS)',
+        'Reunião mensal de resultados',
       ],
-      ideal: 'Ideal para quem j\u00e1 tem site e Instagram, mas n\u00e3o recebe pacientes pelo digital.',
+      ideal: 'Ideal para quem já tem site e Instagram, mas não recebe pacientes pelo digital.',
     },
     {
       name: 'Social Media',
       icon: 'instagram',
-      subtitle: 'Presen\u00e7a que gera autoridade',
-      desc: 'Cuidamos do seu Instagram por completo: conte\u00fado, visuais, Reels, Stories e intera\u00e7\u00e3o com seguidores.',
+      subtitle: 'Presença que gera autoridade',
+      desc: 'Cuidamos do seu Instagram por completo: conteúdo, visuais, Reels, Stories e interação com seguidores.',
       features: [
-        'Otimiza\u00e7\u00e3o do perfil e bio',
-        '12-16 posts/m\u00eas (feed + carross\u00e9is)',
-        '4-8 Reels editados por m\u00eas',
-        '15-20 Stories/m\u00eas',
-        'Calend\u00e1rio editorial mensal',
-        'Resposta a coment\u00e1rios e DMs',
-        'Relat\u00f3rio mensal de m\u00e9tricas',
+        'Otimização do perfil e bio',
+        '12-16 posts/mês (feed + carrosséis)',
+        '4-8 Reels editados por mês',
+        '15-20 Stories/mês',
+        'Calendário editorial mensal',
+        'Resposta a comentários e DMs',
+        'Relatório mensal de métricas',
       ],
       ideal: 'Ideal para quem quer construir autoridade e atrair pacientes pelo Instagram.',
     },
     {
-      name: 'Site + Manuten\u00e7\u00e3o',
+      name: 'Site + Manutenção',
       icon: 'globe',
-      subtitle: 'Sua cl\u00ednica 24h no ar',
-      desc: 'Criamos seu site profissional e cuidamos da manuten\u00e7\u00e3o mensal: atualiza\u00e7\u00f5es, seguran\u00e7a e novos conte\u00fados.',
+      subtitle: 'Sua clínica 24h no ar',
+      desc: 'Criamos seu site profissional e cuidamos da manutenção mensal: atualizações, segurança e novos conteúdos.',
       features: [
-        'Site institucional completo (6-8 p\u00e1ginas)',
-        'Design mobile-first e r\u00e1pido',
-        'Bot\u00e3o de WhatsApp + agendamento',
-        'SEO b\u00e1sico (Google Search Console + GA4)',
-        'Manuten\u00e7\u00e3o mensal (atualiza\u00e7\u00f5es e corre\u00e7\u00f5es)',
-        '1-2 blog posts/m\u00eas (SEO)',
+        'Site institucional completo (6-8 páginas)',
+        'Design mobile-first e rápido',
+        'Botão de WhatsApp + agendamento',
+        'SEO básico (Google Search Console + GA4)',
+        'Manutenção mensal (atualizações e correções)',
+        '1-2 blog posts/mês (SEO)',
         'Certificado SSL + conformidade CFM',
       ],
-      ideal: 'Ideal para quem n\u00e3o tem site ou tem um site antigo que n\u00e3o gera resultado.',
+      ideal: 'Ideal para quem não tem site ou tem um site antigo que não gera resultado.',
     },
     {
-      name: 'Google Meu Neg\u00f3cio',
+      name: 'Google Meu Negócio',
       icon: 'map',
-      subtitle: 'Apare\u00e7a no Google Maps',
-      desc: 'Otimizamos e mantemos seu perfil no Google para voc\u00ea aparecer quando pacientes pesquisarem perto de voc\u00ea.',
+      subtitle: 'Apareça no Google Maps',
+      desc: 'Otimizamos e mantemos seu perfil no Google para você aparecer quando pacientes pesquisarem perto de você.',
       features: [
-        'Cria\u00e7\u00e3o ou otimiza\u00e7\u00e3o do perfil',
+        'Criação ou otimização do perfil',
         'Upload de fotos profissionais',
         'Posts semanais no Google',
-        'Gest\u00e3o de avalia\u00e7\u00f5es (resposta em 24h)',
-        'Cadastro de todos os servi\u00e7os',
-        'Relat\u00f3rio mensal de insights',
+        'Gestão de avaliações (resposta em 24h)',
+        'Cadastro de todos os serviços',
+        'Relatório mensal de insights',
         'Meta: top 3 no Google Maps',
       ],
       ideal: 'Ideal para quem depende de busca local ("perto de mim") para atrair pacientes.',
     },
     {
-      name: 'Criativos + V\u00eddeos',
+      name: 'Criativos + Vídeos',
       icon: 'camera',
-      subtitle: 'Conte\u00fado visual profissional',
-      desc: 'Produzimos as pe\u00e7as visuais e v\u00eddeos que alimentam suas redes e an\u00fancios.',
+      subtitle: 'Conteúdo visual profissional',
+      desc: 'Produzimos as peças visuais e vídeos que alimentam suas redes e anúncios.',
       features: [
-        '10-20 pe\u00e7as est\u00e1ticas/m\u00eas',
-        '4-8 v\u00eddeos editados (Reels, an\u00fancios)',
-        'Roteiros para grava\u00e7\u00e3o pelo m\u00e9dico',
-        'Dire\u00e7\u00e3o de grava\u00e7\u00e3o (remota ou presencial)',
-        'Legendas em todos os v\u00eddeos',
+        '10-20 peças estáticas/mês',
+        '4-8 vídeos editados (Reels, anúncios)',
+        'Roteiros para gravação pelo médico',
+        'Direção de gravação (remota ou presencial)',
+        'Legendas em todos os vídeos',
         'Banco de criativos organizado',
         'Teste A/B de criativos em campanhas',
       ],
-      ideal: 'Ideal como complemento para quem j\u00e1 tem gest\u00e3o de redes, mas precisa de material visual.',
+      ideal: 'Ideal como complemento para quem já tem gestão de redes, mas precisa de material visual.',
     },
     {
       name: 'Auditoria + Consultoria',
       icon: 'clipboard',
-      subtitle: 'Diagn\u00f3stico + plano de a\u00e7\u00e3o',
-      desc: 'Analisamos tudo (digital + comercial) e entregamos um plano claro do que precisa ser feito — voc\u00ea executa ou contrata a gente.',
+      subtitle: 'Diagnóstico + plano de ação',
+      desc: 'Analisamos tudo (digital + comercial) e entregamos um plano claro do que precisa ser feito — você executa ou contrata a gente.',
       features: [
-        'Diagn\u00f3stico digital completo (score 0-100)',
-        'Diagn\u00f3stico comercial (funil de vendas)',
-        'An\u00e1lise de 5-10 concorrentes',
+        'Diagnóstico digital completo (score 0-100)',
+        'Diagnóstico comercial (funil de vendas)',
+        'Análise de 5-10 concorrentes',
         'Pesquisa de keywords + volume de busca',
         'Scripts de atendimento prontos',
-        'Plano de a\u00e7\u00e3o priorizado (90 dias)',
-        'Apresenta\u00e7\u00e3o executiva para o m\u00e9dico',
+        'Plano de ação priorizado (90 dias)',
+        'Apresentação executiva para o médico',
       ],
-      ideal: 'Ideal para quem quer entender a situa\u00e7\u00e3o antes de investir em marketing cont\u00ednuo.',
+      ideal: 'Ideal para quem quer entender a situação antes de investir em marketing contínuo.',
     },
   ]
   const bundles = [
@@ -483,9 +483,9 @@ function Plans() {
 function Results() {
   const metrics = [
     { value: '+30%', label: 'Mais leads em 90 dias' },
-    { value: '85%', label: 'Ocupa\u00e7\u00e3o da agenda' },
+    { value: '85%', label: 'Ocupação da agenda' },
     { value: 'Top 3', label: 'No Google Maps' },
-    { value: '5x', label: 'Retorno sobre an\u00fancios' },
+    { value: '5x', label: 'Retorno sobre anúncios' },
   ]
   return (
     <section id="resultados" className="py-16 sm:py-24 px-4 sm:px-6">
@@ -531,12 +531,12 @@ function Results() {
 
 function Differentials() {
   const items = [
-    { icon: 'shield', title: 'Conformidade com o CFM', desc: 'Conhecemos as regras de publicidade m\u00e9dica. Seu marketing \u00e9 eficaz E legal.' },
-    { icon: 'chart', title: 'Foco na agenda, n\u00e3o em m\u00e9tricas', desc: 'Nosso KPI principal \u00e9 pacientes agendados — n\u00e3o likes, seguidores ou cliques.' },
-    { icon: 'zap', title: 'Sistema, n\u00e3o campanha', desc: 'Criamos uma m\u00e1quina de atra\u00e7\u00e3o que funciona 24/7, n\u00e3o a\u00e7\u00f5es pontuais.' },
-    { icon: 'heart', title: 'Especialistas em sa\u00fade', desc: 'S\u00f3 trabalhamos com cl\u00ednicas m\u00e9dicas. Entendemos o mercado de dentro.' },
-    { icon: 'calendar', title: 'Contrato com compromisso', desc: 'M\u00ednimo 6 meses porque resultado consistente leva 60-90 dias. Sem atalhos.' },
-    { icon: 'sparkles', title: 'Intelig\u00eancia artificial', desc: 'Usamos IA para qualificar leads, gerar conte\u00fado e otimizar campanhas.' },
+    { icon: 'shield', title: 'Conformidade com o CFM', desc: 'Conhecemos as regras de publicidade médica. Seu marketing é eficaz E legal.' },
+    { icon: 'chart', title: 'Foco na agenda, não em métricas', desc: 'Nosso KPI principal é pacientes agendados — não likes, seguidores ou cliques.' },
+    { icon: 'zap', title: 'Sistema, não campanha', desc: 'Criamos uma máquina de atração que funciona 24/7, não ações pontuais.' },
+    { icon: 'heart', title: 'Especialistas em saúde', desc: 'Só trabalhamos com clínicas médicas. Entendemos o mercado de dentro.' },
+    { icon: 'calendar', title: 'Contrato com compromisso', desc: 'Mínimo 6 meses porque resultado consistente leva 60-90 dias. Sem atalhos.' },
+    { icon: 'sparkles', title: 'Inteligência artificial', desc: 'Usamos IA para qualificar leads, gerar conteúdo e otimizar campanhas.' },
   ]
   return (
     <section className="py-16 sm:py-24 px-4 sm:px-6 bg-surface-alt">
@@ -565,14 +565,14 @@ function Differentials() {
 function FAQ() {
   const [openIdx, setOpenIdx] = useState(null)
   const faqs = [
-    { q: 'Preciso entender de marketing para contratar?', a: 'N\u00e3o. Nosso trabalho \u00e9 justamente cuidar de tudo para voc\u00ea. Explicamos cada passo em linguagem simples e enviamos relat\u00f3rios claros todo m\u00eas mostrando quantos pacientes novos chegaram.' },
-    { q: 'Quanto tempo demora para ver resultado?', a: 'Os primeiros leads come\u00e7am a aparecer nas primeiras semanas ap\u00f3s as campanhas entrarem no ar. Resultados consistentes e previs\u00edveis levam de 60 a 90 dias. Por isso trabalhamos com contrato m\u00ednimo de 6 meses.' },
-    { q: 'O investimento em an\u00fancios est\u00e1 incluso no plano?', a: 'N\u00e3o. O valor do plano cobre todo o nosso trabalho (estrat\u00e9gia, cria\u00e7\u00e3o, gest\u00e3o). O investimento em an\u00fancios (Google e Instagram) \u00e9 pago por voc\u00ea diretamente \u00e0s plataformas. Recomendamos a partir de R$1.000/m\u00eas para come\u00e7ar.' },
-    { q: 'E se eu j\u00e1 tenho ag\u00eancia ou fa\u00e7o marketing sozinho?', a: 'Podemos come\u00e7ar pelo diagn\u00f3stico gratuito. Ele mostra exatamente onde est\u00e3o os gaps e o que pode ser melhorado. Se voc\u00ea est\u00e1 satisfeito com o resultado atual, \u00f3timo. Se n\u00e3o, mostramos o caminho.' },
-    { q: 'Voc\u00eas trabalham com qual especialidade?', a: 'Trabalhamos com todas as especialidades m\u00e9dicas: est\u00e9tica, odontologia, dermatologia, ortopedia, oftalmologia, cardiologia e demais. Adaptamos a estrat\u00e9gia para cada \u00e1rea.' },
-    { q: 'O marketing \u00e9 feito dentro das regras do CFM?', a: 'Sim, sempre. Conhecemos as normas de publicidade m\u00e9dica (Resolu\u00e7\u00e3o CFM 2.336/2023) e garantimos que todo conte\u00fado est\u00e1 em conformidade. Isso inclui restri\u00e7\u00f5es sobre pre\u00e7os, antes/depois e depoimentos.' },
-    { q: 'Posso cancelar a qualquer momento?', a: 'O contrato m\u00ednimo \u00e9 de 6 meses. Isso existe porque marketing \u00e9 constru\u00e7\u00e3o, n\u00e3o m\u00e1gica. Ap\u00f3s os 6 meses, a renova\u00e7\u00e3o \u00e9 mensal e voc\u00ea pode cancelar a qualquer momento.' },
-    { q: 'Como acompanho os resultados?', a: 'Enviamos relat\u00f3rios mensais com linguagem simples: quantos pacientes ligaram, quantos agendaram, quanto custou cada lead, como est\u00e1 o Google e o Instagram. Al\u00e9m disso, temos reuni\u00f5es peri\u00f3dicas para alinhar estrat\u00e9gia.' },
+    { q: 'Preciso entender de marketing para contratar?', a: 'Não. Nosso trabalho é justamente cuidar de tudo para você. Explicamos cada passo em linguagem simples e enviamos relatórios claros todo mês mostrando quantos pacientes novos chegaram.' },
+    { q: 'Quanto tempo demora para ver resultado?', a: 'Os primeiros leads começam a aparecer nas primeiras semanas após as campanhas entrarem no ar. Resultados consistentes e previsíveis levam de 60 a 90 dias. Por isso trabalhamos com contrato mínimo de 6 meses.' },
+    { q: 'O investimento em anúncios está incluso no plano?', a: 'Não. O valor do plano cobre todo o nosso trabalho (estratégia, criação, gestão). O investimento em anúncios (Google e Instagram) é pago por você diretamente às plataformas. Recomendamos a partir de R$1.000/mês para começar.' },
+    { q: 'E se eu já tenho agência ou faço marketing sozinho?', a: 'Podemos começar pelo diagnóstico gratuito. Ele mostra exatamente onde estão os gaps e o que pode ser melhorado. Se você está satisfeito com o resultado atual, ótimo. Se não, mostramos o caminho.' },
+    { q: 'Vocês trabalham com qual especialidade?', a: 'Trabalhamos com todas as especialidades médicas: estética, odontologia, dermatologia, ortopedia, oftalmologia, cardiologia e demais. Adaptamos a estratégia para cada área.' },
+    { q: 'O marketing é feito dentro das regras do CFM?', a: 'Sim, sempre. Conhecemos as normas de publicidade médica (Resolução CFM 2.336/2023) e garantimos que todo conteúdo está em conformidade. Isso inclui restrições sobre preços, antes/depois e depoimentos.' },
+    { q: 'Posso cancelar a qualquer momento?', a: 'O contrato mínimo é de 6 meses. Isso existe porque marketing é construção, não mágica. Após os 6 meses, a renovação é mensal e você pode cancelar a qualquer momento.' },
+    { q: 'Como acompanho os resultados?', a: 'Enviamos relatórios mensais com linguagem simples: quantos pacientes ligaram, quantos agendaram, quanto custou cada lead, como está o Google e o Instagram. Além disso, temos reuniões periódicas para alinhar estratégia.' },
   ]
   return (
     <section id="faq" className="py-16 sm:py-24 px-4 sm:px-6">

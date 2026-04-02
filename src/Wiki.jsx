@@ -470,10 +470,10 @@ function CategoryIcon({ type }) {
 function BaselineCard({ item }) {
   const [expanded, setExpanded] = useState(false)
   return (
-    <div id={item.id} className="bg-[#f5f0ff] rounded-xl border border-[#e9e0f5] p-5 sm:p-6 scroll-mt-24">
+    <div id={item.id} className="bg-white rounded-xl border border-[#e9e0f5] p-5 sm:p-6 scroll-mt-20">
       <h3 className="font-bold text-[#272757] text-lg mb-2">{item.title}</h3>
       <p className="text-[#5a4a6b] text-sm leading-relaxed mb-4">{item.executive}</p>
-      <div className="bg-white rounded-lg p-4 mb-4">
+      <div className="bg-[#faf8ff] rounded-lg p-4 mb-4">
         <h4 className="text-xs font-bold text-[#7B2CBF] uppercase tracking-wide mb-2">Proposta de valor</h4>
         <p className="text-[#120326] text-sm leading-relaxed">{item.value}</p>
       </div>
@@ -517,13 +517,13 @@ function BaselineCard({ item }) {
 function SubserviceCard({ item, depth = 0 }) {
   const [expanded, setExpanded] = useState(false)
   return (
-    <div id={item.id} className={`bg-white rounded-xl border border-[#e9e0f5] p-5 sm:p-6 scroll-mt-24 ${depth > 0 ? 'ml-4 sm:ml-6' : ''}`}>
+    <div id={item.id} className={`bg-white rounded-xl border border-[#e9e0f5] p-5 sm:p-6 scroll-mt-20 ${depth > 0 ? 'ml-4 sm:ml-6' : ''}`}>
       <div className="flex items-center gap-3 mb-3">
         <h3 className="font-bold text-[#272757] text-base sm:text-lg">{item.title}</h3>
-        {item.tag && <span className="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">{item.tag}</span>}
+        {item.tag && <span className="text-xs font-semibold text-[#5a4a6b] bg-gray-100 px-2 py-0.5 rounded-full">{item.tag}</span>}
       </div>
       <p className="text-[#5a4a6b] text-sm leading-relaxed mb-4">{item.executive}</p>
-      <div className="bg-[#f5f0ff] rounded-lg p-4 mb-4">
+      <div className="bg-[#faf8ff] rounded-lg p-4 mb-4">
         <h4 className="text-xs font-bold text-[#7B2CBF] uppercase tracking-wide mb-2">Proposta de valor</h4>
         <p className="text-[#120326] text-sm leading-relaxed">{item.value}</p>
       </div>
@@ -567,7 +567,7 @@ function SubserviceCard({ item, depth = 0 }) {
 function CategorySection({ category }) {
   const [expanded, setExpanded] = useState(false)
   return (
-    <section id={category.id} className="scroll-mt-24">
+    <section id={category.id} className="scroll-mt-20">
       <div className="bg-white rounded-2xl border border-[#e9e0f5] overflow-hidden">
         <div className="p-6 sm:p-8">
           <div className="flex items-center gap-3 mb-2">
@@ -576,13 +576,13 @@ function CategorySection({ category }) {
             </div>
             <div className="flex items-center gap-3 flex-wrap">
               <h2 className="text-xl sm:text-2xl font-extrabold text-[#272757]">{category.title}</h2>
-              {category.tag && <span className="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full">{category.tag}</span>}
+              {category.tag && <span className="text-xs font-semibold text-[#5a4a6b] bg-gray-100 px-2.5 py-1 rounded-full">{category.tag}</span>}
             </div>
           </div>
 
           <p className="text-[#5a4a6b] leading-relaxed mb-5 mt-4">{category.executive}</p>
 
-          <div className="bg-[#f5f0ff] rounded-xl p-5 mb-5">
+          <div className="bg-[#faf8ff] rounded-xl p-5 mb-5">
             <h3 className="text-xs font-bold text-[#7B2CBF] uppercase tracking-wide mb-2">Proposta de valor</h3>
             <p className="text-[#120326] leading-relaxed">{category.value}</p>
           </div>
@@ -642,7 +642,7 @@ function CategorySection({ category }) {
 
 function WikiNav() {
   return (
-    <nav className="hidden lg:block sticky top-20 w-64 shrink-0 self-start">
+    <nav className="hidden lg:block sticky top-[4.5rem] w-64 shrink-0 self-start max-h-[calc(100vh-5rem)] overflow-y-auto">
       <div className="bg-white rounded-2xl border border-[#e9e0f5] p-4">
         <h3 className="font-bold text-[#272757] text-sm mb-3">Índice</h3>
         <div className="mb-2 pb-2 border-b border-[#e9e0f5]">
@@ -657,7 +657,7 @@ function WikiNav() {
               <a href={`#${c.id}`} className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#5a4a6b] hover:bg-[#f5f0ff] hover:text-[#7B2CBF] transition-colors">
                 <CategoryIcon type={c.icon} />
                 <span>{c.title}</span>
-                {c.tag && <span className="ml-auto text-[10px] text-amber-600 font-semibold">{c.tag}</span>}
+                {c.tag && <span className="ml-auto text-[10px] text-[#5a4a6b] font-medium">{c.tag}</span>}
               </a>
               {c.subservices && c.subservices.length > 0 && (
                 <ul className="ml-8 mt-1 space-y-0.5">
@@ -679,52 +679,66 @@ function WikiNav() {
 }
 
 function MobileNav() {
-  const [open, setOpen] = useState(false)
+  return null
+}
+
+function WikiTopNav() {
+  const [menuOpen, setMenuOpen] = useState(false)
   useEffect(() => {
-    if (open) {
+    if (menuOpen) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
     }
     return () => { document.body.style.overflow = '' }
-  }, [open])
+  }, [menuOpen])
   return (
-    <div className="lg:hidden">
-      <button
-        onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#7B2CBF] text-white shadow-lg flex items-center justify-center hover:bg-[#5A1D8E] transition-colors"
-        aria-label="Navegar"
-      >
-        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-      </button>
-      {open && (
-        <div className="fixed inset-0 z-50">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} />
-          <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[75vh] overflow-y-auto p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-[#272757] text-lg">Navegar</h3>
-              <button onClick={() => setOpen(false)} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200">
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-              </button>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-b border-[#e9e0f5]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
+        <div className="flex items-center gap-2">
+          <a href="#" className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-[#7B2CBF] flex items-center justify-center">
+              <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             </div>
-            <div className="mb-4">
-              <a href="#diagnostico" onClick={() => setOpen(false)} className="block px-3 py-2 rounded-lg text-sm text-[#5a4a6b] hover:bg-[#f5f0ff]">Base: Diagnóstico Completo</a>
-              <a href="#pesquisa" onClick={() => setOpen(false)} className="block px-3 py-2 rounded-lg text-sm text-[#5a4a6b] hover:bg-[#f5f0ff]">Base: Pesquisa de Marketing</a>
+            <span className="text-lg font-bold text-[#272757]">Pulso</span>
+          </a>
+          <span className="text-sm text-[#5a4a6b] hidden sm:inline">/ Wiki</span>
+        </div>
+        <div className="hidden lg:flex items-center gap-6 text-sm">
+          <a href="#diagnostico" className="text-[#5a4a6b] hover:text-[#7B2CBF] transition-colors">Base</a>
+          {categories.map(c => (
+            <a key={c.id} href={`#${c.id}`} className="text-[#5a4a6b] hover:text-[#7B2CBF] transition-colors">{c.title}</a>
+          ))}
+        </div>
+        <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-2 text-[#5a4a6b]" aria-label="Menu">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            {menuOpen ? <path d="M6 18L18 6M6 6l12 12"/> : <path d="M4 6h16M4 12h16M4 18h16"/>}
+          </svg>
+        </button>
+      </div>
+      {menuOpen && (
+        <div className="lg:hidden fixed inset-0 top-14 z-40">
+          <div className="absolute inset-0 bg-black/30" onClick={() => setMenuOpen(false)} />
+          <div className="relative bg-white border-b border-[#e9e0f5] max-h-[80vh] overflow-y-auto shadow-xl">
+            <div className="px-4 py-3">
+              <p className="text-[10px] text-[#7B2CBF] font-bold uppercase tracking-wide px-3 mb-1">Base</p>
+              {baseline.map(b => (
+                <a key={b.id} href={`#${b.id}`} onClick={() => setMenuOpen(false)} className="block px-3 py-2 rounded-lg text-sm text-[#5a4a6b] hover:bg-[#faf8ff]">{b.title}</a>
+              ))}
             </div>
-            <div className="border-t border-[#e9e0f5] pt-3">
+            <div className="border-t border-[#e9e0f5] px-4 py-3">
+              <p className="text-[10px] text-[#7B2CBF] font-bold uppercase tracking-wide px-3 mb-1">Categorias</p>
               {categories.map(c => (
-                <div key={c.id} className="mb-2">
-                  <a href={`#${c.id}`} onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-[#272757] hover:bg-[#f5f0ff]">
-                    <div className="w-7 h-7 rounded-lg bg-[#7B2CBF]/10 flex items-center justify-center">
-                      <CategoryIcon type={c.icon} />
-                    </div>
+                <div key={c.id} className="mb-1">
+                  <a href={`#${c.id}`} onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-[#272757] hover:bg-[#faf8ff]">
+                    <CategoryIcon type={c.icon} />
                     <span>{c.title}</span>
-                    {c.tag && <span className="ml-auto text-[10px] text-amber-600 font-semibold bg-amber-50 px-2 py-0.5 rounded-full">{c.tag}</span>}
+                    {c.tag && <span className="ml-auto text-[10px] text-[#5a4a6b] bg-gray-100 px-2 py-0.5 rounded-full">{c.tag}</span>}
                   </a>
                   {c.subservices && c.subservices.length > 0 && (
-                    <div className="ml-9">
+                    <div className="ml-8">
                       {c.subservices.map(sub => (
-                        <a key={sub.id} href={`#${sub.id}`} onClick={() => setOpen(false)} className="block px-3 py-1.5 rounded text-xs text-[#5a4a6b] hover:text-[#7B2CBF] hover:bg-[#f5f0ff]">
+                        <a key={sub.id} href={`#${sub.id}`} onClick={() => setMenuOpen(false)} className="block px-3 py-1.5 rounded text-xs text-[#5a4a6b] hover:text-[#7B2CBF] hover:bg-[#faf8ff]">
                           {sub.title}
                         </a>
                       ))}
@@ -736,27 +750,16 @@ function MobileNav() {
           </div>
         </div>
       )}
-    </div>
+    </nav>
   )
 }
 
 export default function Wiki() {
   return (
     <div className="min-h-screen bg-[#faf8ff]">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-[#e9e0f5]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-[#7B2CBF] flex items-center justify-center">
-              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            </div>
-            <span className="text-xl font-bold text-[#272757]">Pulso</span>
-            <span className="text-sm text-[#5a4a6b] hidden sm:inline">/ Wiki de Serviços</span>
-          </div>
-          <span className="text-xs text-[#5a4a6b] bg-[#f5f0ff] px-3 py-1 rounded-full font-medium">Documento interno</span>
-        </div>
-      </nav>
+      <WikiTopNav />
 
-      <div className="pt-24 pb-16 px-4 sm:px-6">
+      <div className="pt-20 pb-16 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 bg-[#7B2CBF]/10 text-[#7B2CBF] text-xs font-semibold px-3 py-1 rounded-full mb-4">WIKI DE SERVIÇOS</div>
@@ -804,8 +807,6 @@ export default function Wiki() {
           <p className="text-[#5a4a6b] text-sm">Documento interno — uso restrito</p>
         </div>
       </footer>
-
-      <MobileNav />
     </div>
   )
 }
