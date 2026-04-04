@@ -327,6 +327,121 @@ function Plans() {
       ideal: 'Ideal para quem quer entender a situação antes de investir em marketing contínuo.',
     },
   ]
+  const combos = [
+    {
+      name: 'Só Tráfego',
+      icon: 'megaphone',
+      subtitle: 'Máquina de leads no piloto automático',
+      desc: 'Focado 100% em anúncios pagos. Criamos, otimizamos e escalamos campanhas no Google e Instagram para encher sua agenda.',
+      popular: false,
+      features: [
+        'Google Ads + Meta Ads (setup + gestão)',
+        '1-2 landing pages por campanha',
+        '8-12 criativos de anúncio/mês',
+        'Otimização 2-3x por semana',
+        'Remarketing para visitantes do site',
+        'Teste A/B contínuo',
+        'Relatório mensal (CPL, CPA, ROAS)',
+        'Reunião mensal de resultados',
+      ],
+      ideal: 'Para quem já tem site e Instagram, e quer investir em anúncios para atrair pacientes agora.',
+    },
+    {
+      name: 'Só Social Media',
+      icon: 'instagram',
+      subtitle: 'Instagram completo sem dor de cabeça',
+      desc: 'Gestão completa do Instagram: conteúdo, visuais, vídeos, interação. Você só grava e a gente faz o resto.',
+      popular: false,
+      features: [
+        'Otimização do perfil e bio',
+        '16 posts/mês (feed + carrosséis)',
+        '8 Reels editados por mês',
+        '20 Stories/mês',
+        'Calendário editorial mensal',
+        '16 peças visuais + 8 vídeos editados',
+        'Resposta a comentários e DMs',
+        'Roteiros para gravação pelo médico',
+        'Relatório mensal de métricas',
+      ],
+      ideal: 'Para quem quer presença forte no Instagram sem precisar pensar no que postar.',
+    },
+    {
+      name: 'Site + Presença Digital',
+      icon: 'globe',
+      subtitle: 'Fundação digital completa',
+      desc: 'Site profissional + Google Meu Negócio + SEO. A base que toda clínica precisa antes de investir em anúncios.',
+      popular: true,
+      features: [
+        'Site institucional (6-8 páginas, mobile-first)',
+        'Botão WhatsApp + agendamento online',
+        'Google Meu Negócio (criação + manutenção)',
+        'Gestão de avaliações no Google',
+        'SEO básico (Search Console + GA4)',
+        '2 blog posts/mês',
+        'Certificado SSL + conformidade CFM',
+        'Manutenção mensal (atualizações + correções)',
+        'Relatório mensal de tráfego e posição',
+      ],
+      ideal: 'Para quem ainda não tem site, ou tem um site antigo que não aparece no Google.',
+    },
+    {
+      name: 'Captação Total',
+      icon: 'target',
+      subtitle: 'Tráfego pago + social media + criativos',
+      desc: 'Combinação de anúncios + conteúdo orgânico + produção visual. O pacote mais completo para quem quer resultado rápido e sustentável.',
+      popular: false,
+      features: [
+        'Google Ads + Meta Ads (gestão completa)',
+        '16 posts + 8 Reels + 20 stories/mês',
+        '20 peças visuais + 8 vídeos editados/mês',
+        '1-2 landing pages por campanha',
+        'Calendário editorial integrado (ads + orgânico)',
+        'Remarketing + público lookalike',
+        'Roteiros + direção de gravação',
+        'Dashboard integrado (orgânico + pago)',
+        'Reunião mensal estratégica',
+      ],
+      ideal: 'Para quem quer atacar em todas as frentes: busca, redes e anúncios ao mesmo tempo.',
+    },
+    {
+      name: 'Autoridade + Conteúdo',
+      icon: 'heart',
+      subtitle: 'Social media + criativos + vídeos',
+      desc: 'Para médicos que querem virar referência na especialidade. Conteúdo educativo, visual profissional e presença constante.',
+      popular: false,
+      features: [
+        'Gestão completa do Instagram',
+        '16 posts + 8 Reels + 20 stories/mês',
+        '20 peças visuais profissionais/mês',
+        '8 vídeos editados/mês',
+        'Roteiros para o médico gravar',
+        'Legendas em todos os vídeos',
+        'Calendário editorial mensal',
+        'Gestão de comentários e DMs',
+        'Relatório mensal de crescimento',
+      ],
+      ideal: 'Para médicos que querem construir nome e atrair pacientes pela autoridade online.',
+    },
+    {
+      name: 'Consultoria + Implementação',
+      icon: 'clipboard',
+      subtitle: 'Diagnóstico completo + execução do plano',
+      desc: 'Analisamos tudo, montamos o plano e colocamos para rodar. Auditoria comercial + digital com execução nos primeiros 90 dias.',
+      popular: false,
+      features: [
+        'Diagnóstico digital completo (score 0-100)',
+        'Diagnóstico comercial (funil de vendas)',
+        'Pesquisa de mercado e concorrentes',
+        'Scripts de atendimento prontos',
+        'Implementação do plano em 90 dias',
+        'Google Meu Negócio configurado',
+        'Site básico ou landing page entregue',
+        'Setup de campanhas iniciais',
+        'Apresentação executiva para o médico',
+      ],
+      ideal: 'Para quem quer entender o cenário E já sair com tudo funcionando.',
+    },
+  ]
   const bundles = [
     {
       name: 'Pulso Starter',
@@ -383,12 +498,15 @@ function Plans() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">PLANOS E SERVIÇOS</div>
           <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Monte o plano ideal para sua clínica</h2>
-          <p className="text-text-muted text-lg max-w-2xl mx-auto">Contrate serviços individuais ou escolha um pacote completo. Sem surpresas, sem letras miúdas.</p>
+          <p className="text-text-muted text-lg max-w-2xl mx-auto">Contrate serviços individuais, combos focados ou pacotes completos. Sem surpresas, sem letras miúdas.</p>
         </div>
 
-        <div className="flex items-center justify-center gap-2 mb-10">
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
           <button onClick={() => setTab('individual')} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${tab === 'individual' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-surface text-text-muted border border-border hover:border-primary/30'}`}>
-            Serviços Individuais
+            Serviços Avulsos
+          </button>
+          <button onClick={() => setTab('combos')} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${tab === 'combos' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-surface text-text-muted border border-border hover:border-primary/30'}`}>
+            Combos Focados
           </button>
           <button onClick={() => setTab('pacotes')} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${tab === 'pacotes' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-surface text-text-muted border border-border hover:border-primary/30'}`}>
             Pacotes Completos
@@ -424,6 +542,45 @@ function Plans() {
                   </div>
                   <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="block text-center font-bold py-3 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary transition-all text-sm">
                     Saber mais
+                  </a>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {tab === 'combos' && (
+          <>
+            <p className="text-center text-text-muted text-sm mb-8 max-w-xl mx-auto">Combos pensados para objetivos específicos. Cada um resolve um problema diferente — escolha pelo que faz mais sentido para sua clínica hoje.</p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {combos.map((p, i) => (
+                <div key={i} className={`bg-surface rounded-2xl border ${p.popular ? 'border-primary shadow-lg shadow-primary/10' : 'border-border'} p-6 flex flex-col hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all relative`}>
+                  {p.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-4 py-1 rounded-full">RECOMENDADO</div>
+                  )}
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className={`w-10 h-10 rounded-xl ${p.popular ? 'bg-primary' : 'bg-primary/10'} flex items-center justify-center`}>
+                      <Icon name={p.icon} className={`w-5 h-5 ${p.popular ? 'text-white' : 'text-primary'}`} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-midnight text-lg leading-tight">{p.name}</h3>
+                      <p className="text-xs text-primary font-semibold">{p.subtitle}</p>
+                    </div>
+                  </div>
+                  <p className="text-text-muted text-sm leading-relaxed mb-4">{p.desc}</p>
+                  <ul className="space-y-2 mb-4 flex-1">
+                    {p.features.map((f, j) => (
+                      <li key={j} className="flex items-start gap-2 text-sm text-text">
+                        <Icon name="check" className="w-4 h-4 text-green shrink-0 mt-0.5" />
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="bg-surface-alt rounded-lg p-3 mb-4">
+                    <p className="text-xs text-text-muted">{p.ideal}</p>
+                  </div>
+                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className={`block text-center font-bold py-3 rounded-xl transition-all text-sm ${p.popular ? 'bg-primary hover:bg-primary-dark text-white shadow-lg shadow-primary/20' : 'bg-primary/10 hover:bg-primary/20 text-primary'}`}>
+                    Quero esse combo
                   </a>
                 </div>
               ))}
