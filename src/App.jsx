@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './index.css'
-import Wiki from './Wiki.jsx'
+import Wiki, { isWikiSection } from './Wiki.jsx'
 
 const WHATSAPP_LINK = 'https://wa.me/5561999999999?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20a%20Pulso'
 
@@ -637,11 +637,10 @@ function Footer() {
 }
 
 function App() {
-  const isWikiHash = (hash) => hash.startsWith('#/wiki')
-  const [page, setPage] = useState(isWikiHash(window.location.hash) ? 'wiki' : 'home')
+  const [page, setPage] = useState(isWikiSection(window.location.hash) ? 'wiki' : 'home')
 
   useEffect(() => {
-    const onHash = () => setPage(isWikiHash(window.location.hash) ? 'wiki' : 'home')
+    const onHash = () => setPage(isWikiSection(window.location.hash) ? 'wiki' : 'home')
     window.addEventListener('hashchange', onHash)
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
