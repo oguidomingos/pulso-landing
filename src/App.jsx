@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import './index.css'
 import Wiki from './Wiki.jsx'
+import heartbeatSrc from '/heartbeat.mp3?url'
 
 const WHATSAPP_LINK = 'https://wa.me/5561999999999?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20a%20Pulso'
 
@@ -42,7 +43,7 @@ function EEGCanvas() {
     const CYCLE = 380
 
     // ── Audio: heartbeat MP3, played on each wave reset ──────────────────────
-    const audio = new Audio(import.meta.env.BASE_URL + 'heartbeat.mp3')
+    const audio = new Audio(heartbeatSrc)
     audio.volume = 0.6
     let audioUnlocked = false
 
@@ -239,9 +240,8 @@ function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0D1B2A]/80 backdrop-blur-md border-b border-[#00BFA5]/10">
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
-        <a href="#" className="flex items-center gap-2.5">
-          <img src={import.meta.env.BASE_URL + 'pulso-icon.svg'} alt="Pulso" className="w-8 h-8" style={{ filter: 'brightness(0) invert(1)' }} />
-          <span className="text-base font-semibold text-[#F0E9DC] tracking-tight">Pulso</span>
+        <a href="#" className="flex items-center">
+          <img src={import.meta.env.BASE_URL + 'pulso-logo.svg'} alt="Pulso" className="h-7" />
         </a>
         <div className="hidden md:flex items-center gap-7">
           {links.map(([label, href]) => (
