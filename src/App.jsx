@@ -893,8 +893,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2.5 mb-2">
-            <img src={import.meta.env.BASE_URL + 'pulso-icon.svg'} alt="Pulso" className="w-8 h-8" style={{ filter: 'brightness(0) invert(1)' }} />
-            <span className="font-bold text-[#F0E9DC] text-lg tracking-tight">Pulso</span>
+            <img src={import.meta.env.BASE_URL + 'pulso-logo.svg'} alt="Pulso" className="h-7" />
             <span className="text-[#8096A7] text-sm">Assessoria de Marketing para Clínicas</span>
           </div>
           <p className="text-[#8096A7] text-xs">Do diagnóstico à escala em 90 dias.</p>
