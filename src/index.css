@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #00D4B8;
-  --color-primary-dark: #00B8A0;
-  --color-primary-light: #33DEC6;
-  --color-midnight: #060E0C;
-  --color-lilac: #00D4B8;
-  --color-lilac-light: #33DEC6;
-  --color-green: #00D4B8;
-  --color-green-light: rgba(0, 212, 184, 0.15);
-  --color-blue: #00D4B8;
-  --color-text: #FFFFFF;
-  --color-text-muted: #6B8A85;
-  --color-bg: #060E0C;
-  --color-surface: rgba(6, 18, 15, 0.85);
-  --color-surface-alt: rgba(4, 14, 12, 0.9);
-  --color-border: rgba(0, 212, 184, 0.12);
+  --color-primary: #00BFA5;
+  --color-primary-dark: #00A88E;
+  --color-primary-light: #33D4B5;
+  --color-midnight: #0D1B2A;
+  --color-lilac: #00BFA5;
+  --color-lilac-light: #33D4B5;
+  --color-green: #00BFA5;
+  --color-green-light: rgba(0, 191, 165, 0.15);
+  --color-blue: #00BFA5;
+  --color-text: #F0E9DC;
+  --color-text-muted: #8096A7;
+  --color-bg: #0D1B2A;
+  --color-surface: rgba(13, 27, 42, 0.85);
+  --color-surface-alt: rgba(10, 22, 36, 0.9);
+  --color-border: rgba(0, 191, 165, 0.12);
 }
 
 html {
@@ -25,15 +25,15 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: 'DM Sans', system-ui, sans-serif;
   color: var(--color-text);
-  background: #060E0C;
+  background: #0D1B2A;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: 'DM Serif Display', serif;
 }
 
 #eeg-canvas {
@@ -47,30 +47,30 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glass-card {
-  background: rgba(6, 18, 15, 0.7);
+  background: rgba(13, 27, 42, 0.7);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 212, 184, 0.12);
+  border: 1px solid rgba(0, 191, 165, 0.12);
   border-radius: 12px;
 }
 
 .glass-card:hover {
-  border-color: rgba(0, 212, 184, 0.3);
+  border-color: rgba(0, 191, 165, 0.3);
 }
 
 .section-label {
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #00D4B8;
+  color: #00BFA5;
 }
 
 .btn-primary {
-  background: #00D4B8;
-  color: #060E0C;
-  box-shadow: 0 0 24px rgba(0, 212, 184, 0.5);
+  background: #00BFA5;
+  color: #0D1B2A;
+  box-shadow: 0 0 24px rgba(0, 191, 165, 0.5);
 }
 
 .btn-primary:hover {
-  background: #00B8A0;
-  box-shadow: 0 0 32px rgba(0, 212, 184, 0.7);
+  background: #00A88E;
+  box-shadow: 0 0 32px rgba(0, 191, 165, 0.7);
 }
