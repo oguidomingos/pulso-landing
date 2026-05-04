@@ -1,36 +1,76 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #7B2CBF;
-  --color-primary-dark: #5A1D8E;
-  --color-primary-light: #9b59d6;
-  --color-midnight: #272757;
-  --color-lilac: #c084fc;
-  --color-lilac-light: #e0c3ff;
-  --color-green: #15803d;
-  --color-green-light: #dcfce7;
-  --color-blue: #0369a1;
-  --color-text: #120326;
-  --color-text-muted: #5a4a6b;
-  --color-bg: #faf8ff;
-  --color-surface: #ffffff;
-  --color-surface-alt: #f5f0ff;
-  --color-border: #e9e0f5;
+  --color-primary: #00D4B8;
+  --color-primary-dark: #00B8A0;
+  --color-primary-light: #33DEC6;
+  --color-midnight: #060E0C;
+  --color-lilac: #00D4B8;
+  --color-lilac-light: #33DEC6;
+  --color-green: #00D4B8;
+  --color-green-light: rgba(0, 212, 184, 0.15);
+  --color-blue: #00D4B8;
+  --color-text: #FFFFFF;
+  --color-text-muted: #6B8A85;
+  --color-bg: #060E0C;
+  --color-surface: rgba(6, 18, 15, 0.85);
+  --color-surface-alt: rgba(4, 14, 12, 0.9);
+  --color-border: rgba(0, 212, 184, 0.12);
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
 }
 
 body {
   margin: 0;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
   color: var(--color-text);
-  background: var(--color-bg);
+  background: #060E0C;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+#eeg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.glass-card {
+  background: rgba(6, 18, 15, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 212, 184, 0.12);
+  border-radius: 12px;
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 212, 184, 0.3);
+}
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #00D4B8;
+}
+
+.btn-primary {
+  background: #00D4B8;
+  color: #060E0C;
+  box-shadow: 0 0 24px rgba(0, 212, 184, 0.5);
+}
+
+.btn-primary:hover {
+  background: #00B8A0;
+  box-shadow: 0 0 32px rgba(0, 212, 184, 0.7);
 }

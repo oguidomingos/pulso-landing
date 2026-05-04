@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './index.css'
 import Wiki from './Wiki.jsx'
 
@@ -29,115 +29,389 @@ function Icon({ name, className = '' }) {
   return icons[name] || null
 }
 
+function EEGCanvas() {
+  const canvasRef = useRef(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext('2d')
+    let animId
+    let sweepX = 0
+    const SPEED = 1.6
+    const CYCLE = 380
+
+    // ── Audio: lazy AudioContext, unlocked on first user gesture ──────────────
+    let audioCtx = null
+    const getAudio = () => {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+      if (audioCtx.state === 'suspended') audioCtx.resume()
+      return audioCtx
+    }
+    const unlock = () => { getAudio(); document.removeEventListener('pointerdown', unlock) }
+    document.addEventListener('pointerdown', unlock)
+
+    // Synthesise a cardiac "lub-dub" using two filtered noise bursts
+    const playHeartbeat = () => {
+      try {
+        const ac  = getAudio()
+        if (ac.state !== 'running') return
+        const now = ac.currentTime
+
+        const beat = (t, freq, gain, dur) => {
+          const osc  = ac.createOscillator()
+          const bpf  = ac.createBiquadFilter()
+          const env  = ac.createGain()
+          bpf.type = 'bandpass'
+          bpf.frequency.value = freq
+          bpf.Q.value = 0.8
+          osc.type = 'sawtooth'
+          osc.frequency.value = freq * 0.5
+          osc.connect(bpf)
+          bpf.connect(env)
+          env.connect(ac.destination)
+          env.gain.setValueAtTime(0, t)
+          env.gain.linearRampToValueAtTime(gain, t + 0.012)
+          env.gain.exponentialRampToValueAtTime(0.0001, t + dur)
+          osc.start(t)
+          osc.stop(t + dur + 0.01)
+        }
+
+        beat(now,        55, 0.22, 0.11)  // lub  — low thump
+        beat(now + 0.19, 70, 0.15, 0.09)  // dub  — slightly higher, quieter
+      } catch (_) {}
+    }
+
+    const resize = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+      ctx.fillStyle = '#060E0C'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      sweepX = 0
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    // ECG waveform — clean clinical shape
+    const ecgY = (x, baseline) => {
+      const c = ((x % CYCLE) + CYCLE) % CYCLE
+      if (c < 110) return baseline
+      if (c < 122) return baseline - (c - 110) * 1.4         // P wave up
+      if (c < 134) return baseline - 17 + (c - 122) * 1.4    // P wave down
+      if (c < 155) return baseline
+      if (c < 163) return baseline + (c - 155) * 3.5         // Q dip
+      if (c < 169) return baseline + 28 - (c - 163) * 26     // R spike up
+      if (c < 175) return baseline - 128 + (c - 169) * 23    // R spike down
+      if (c < 185) return baseline + 10 - (c - 175) * 1.0    // S recovery
+      if (c < 210) return baseline
+      if (c < 230) return baseline - (c - 210) * 0.65        // T wave up
+      if (c < 250) return baseline - 13 + (c - 230) * 0.65   // T wave down
+      return baseline
+    }
+
+    const draw = () => {
+      const W = canvas.width
+      const H = canvas.height
+      const baseline = H * 0.5
+
+      // Phosphor decay — each frame paint a thin layer of background over old line
+      ctx.fillStyle = 'rgba(6, 14, 12, 0.018)'
+      ctx.fillRect(0, 0, W, H)
+
+      const x = sweepX % W
+      const prevSweepX = sweepX - SPEED
+      const prevX = prevSweepX % W
+      const wrapped = x < prevX
+      if (wrapped) playHeartbeat()
+
+      // Erase band ahead of sweep head (blank region, like a real scope)
+      const ERASE = 44
+      ctx.fillStyle = '#060E0C'
+      const eraseEnd = x + ERASE
+      if (eraseEnd <= W) {
+        ctx.fillRect(x, 0, ERASE, H)
+      } else {
+        ctx.fillRect(x, 0, W - x, H)
+        ctx.fillRect(0, 0, eraseEnd - W, H)
+      }
+
+      // Draw new ECG segment (skip on wrap to avoid diagonal artifacts)
+      if (!wrapped) {
+        const y    = ecgY(sweepX, baseline)
+        const py   = ecgY(prevSweepX, baseline)
+
+        ctx.beginPath()
+        ctx.moveTo(prevX, py)
+        ctx.lineTo(x, y)
+        ctx.strokeStyle = '#00D4B8'
+        ctx.lineWidth = 1.5
+        ctx.shadowBlur = 14
+        ctx.shadowColor = '#00D4B8'
+        ctx.stroke()
+        ctx.shadowBlur = 0
+
+      }
+
+      sweepX += SPEED
+      animId = requestAnimationFrame(draw)
+    }
+
+    draw()
+    return () => {
+      cancelAnimationFrame(animId)
+      window.removeEventListener('resize', resize)
+      document.removeEventListener('pointerdown', unlock)
+      audioCtx?.close()
+    }
+  }, [])
+
+  return <canvas ref={canvasRef} id="eeg-canvas" />
+}
+
+// Variants: 'up' | 'blur' | 'flip' | 'zoom' | 'left' | 'right'
+const VARIANTS = {
+  up: {
+    hidden: { opacity: 0, transform: 'translateY(52px)' },
+    shown:  { opacity: 1, transform: 'translateY(0px)' },
+    ease: 'cubic-bezier(.22,.68,0,1.05)', dur: '0.8s',
+  },
+  blur: {
+    hidden: { opacity: 0, transform: 'scale(0.96)', filter: 'blur(14px)' },
+    shown:  { opacity: 1, transform: 'scale(1)',    filter: 'blur(0px)' },
+    ease: 'cubic-bezier(.4,0,.2,1)', dur: '0.9s',
+  },
+  flip: {
+    hidden: { opacity: 0, transform: 'perspective(900px) rotateX(18deg) translateY(28px)' },
+    shown:  { opacity: 1, transform: 'perspective(900px) rotateX(0deg)  translateY(0px)' },
+    ease: 'cubic-bezier(.22,.68,0,1.05)', dur: '0.85s',
+  },
+  zoom: {
+    hidden: { opacity: 0, transform: 'scale(0.86)' },
+    shown:  { opacity: 1, transform: 'scale(1)' },
+    ease: 'cubic-bezier(.34,1.4,.64,1)', dur: '0.75s',
+  },
+  left: {
+    hidden: { opacity: 0, transform: 'translateX(-52px)' },
+    shown:  { opacity: 1, transform: 'translateX(0px)' },
+    ease: 'cubic-bezier(.22,.68,0,1.05)', dur: '0.75s',
+  },
+  right: {
+    hidden: { opacity: 0, transform: 'translateX(52px)' },
+    shown:  { opacity: 1, transform: 'translateX(0px)' },
+    ease: 'cubic-bezier(.22,.68,0,1.05)', dur: '0.75s',
+  },
+}
+
+function FadeIn({ children, from = 'up', delay = 0, className = '' }) {
+  const ref = useRef(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect() } },
+      { threshold: 0.18, rootMargin: '0px 0px -80px 0px' }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  const v = VARIANTS[from] ?? VARIANTS.up
+  const needsFilter = from === 'blur'
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        scrollSnapAlign: 'start',
+        ...(visible ? v.shown : v.hidden),
+        transition: [
+          `opacity ${v.dur} ${v.ease} ${delay}ms`,
+          `transform ${v.dur} ${v.ease} ${delay}ms`,
+          needsFilter ? `filter ${v.dur} ${v.ease} ${delay}ms` : '',
+        ].filter(Boolean).join(', '),
+        willChange: 'opacity, transform',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+
+// ─── NAVBAR ──────────────────────────────────────────────────────────────────
 function Navbar() {
   const [open, setOpen] = useState(false)
+  const links = [['Serviços','#servicos'],['Como Funciona','#como-funciona'],['Planos','#planos'],['Resultados','#resultados'],['Dúvidas','#faq']]
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-border">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-        <a href="#" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-            <Icon name="zap" className="w-5 h-5 text-white" />
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#060E0C]/80 backdrop-blur-md border-b border-[#00D4B8]/10">
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+        <a href="#" className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-md bg-[#00D4B8] flex items-center justify-center">
+            <Icon name="zap" className="w-4 h-4 text-[#060E0C]" />
           </div>
-          <span className="text-xl font-bold text-midnight">Pulso</span>
+          <span className="text-base font-semibold text-white tracking-tight">Pulso</span>
         </a>
-        <div className="hidden md:flex items-center gap-8">
-          <a href="#servicos" className="text-sm text-text-muted hover:text-primary transition-colors">Serviços</a>
-          <a href="#como-funciona" className="text-sm text-text-muted hover:text-primary transition-colors">Como Funciona</a>
-          <a href="#planos" className="text-sm text-text-muted hover:text-primary transition-colors">Planos</a>
-          <a href="#resultados" className="text-sm text-text-muted hover:text-primary transition-colors">Resultados</a>
-          <a href="#faq" className="text-sm text-text-muted hover:text-primary transition-colors">Dúvidas</a>
-          <a href="#/wiki" className="text-sm font-semibold text-primary hover:text-primary-dark transition-colors">Wiki</a>
+        <div className="hidden md:flex items-center gap-7">
+          {links.map(([label, href]) => (
+            <a key={href} href={href} className="text-sm text-[#6B8A85] hover:text-white transition-colors font-medium">{label}</a>
+          ))}
+          <a href="#/wiki" className="text-sm text-[#00D4B8] hover:text-[#33DEC6] transition-colors font-medium">Wiki</a>
         </div>
-        <div className="hidden md:block">
-          <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors">
-            Falar com Especialista
+        <div className="hidden md:flex items-center gap-3">
+          <a href="#como-funciona" className="text-sm text-[#6B8A85] hover:text-white transition-colors font-medium px-4 py-2">Saiba mais</a>
+          <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
+             className="inline-flex items-center gap-1.5 bg-white hover:bg-gray-100 text-[#060E0C] text-sm font-semibold px-5 py-2 rounded-full transition-colors">
+            Falar agora
           </a>
         </div>
-        <button onClick={() => setOpen(!open)} className="md:hidden p-2 text-text-muted">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <button onClick={() => setOpen(!open)} className="md:hidden p-2 text-[#6B8A85]">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             {open ? <path d="M6 18L18 6M6 6l12 12"/> : <path d="M4 6h16M4 12h16M4 18h16"/>}
           </svg>
         </button>
       </div>
       {open && (
-        <div className="md:hidden bg-white border-t border-border px-4 py-4 space-y-3">
-          <a href="#servicos" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">Serviços</a>
-          <a href="#como-funciona" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">Como Funciona</a>
-          <a href="#planos" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">Planos</a>
-          <a href="#resultados" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">Resultados</a>
-          <a href="#faq" onClick={() => setOpen(false)} className="block text-sm text-text-muted hover:text-primary">Dúvidas</a>
-          <a href="#/wiki" onClick={() => setOpen(false)} className="block text-sm font-semibold text-primary hover:text-primary-dark">Wiki de Serviços</a>
-          <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="block text-center bg-primary text-white text-sm font-semibold px-5 py-2.5 rounded-xl">Falar com Especialista</a>
+        <div className="md:hidden bg-[#060E0C]/98 backdrop-blur-md border-t border-[#00D4B8]/10 px-6 py-5 space-y-4">
+          {links.map(([label, href]) => (
+            <a key={href} href={href} onClick={() => setOpen(false)} className="block text-sm text-[#6B8A85] hover:text-white">{label}</a>
+          ))}
+          <a href="#/wiki" onClick={() => setOpen(false)} className="block text-sm text-[#00D4B8]">Wiki de Serviços</a>
+          <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
+             className="block text-center bg-white text-[#060E0C] text-sm font-semibold py-2.5 rounded-full">Falar agora</a>
         </div>
       )}
     </nav>
   )
 }
 
+// ─── HERO ─────────────────────────────────────────────────────────────────────
 function Hero() {
   return (
-    <section className="pt-28 pb-16 sm:pt-36 sm:pb-24 px-4 sm:px-6 text-center bg-gradient-to-b from-surface-alt to-bg">
-      <div className="max-w-4xl mx-auto">
-        <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
-          <Icon name="shield" className="w-4 h-4" />
-          Marketing especializado para clínicas médicas
-        </div>
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-midnight leading-tight mb-6">
-          Sua clínica merece uma <span className="text-primary">agenda cheia</span> todos os dias
-        </h1>
-        <p className="text-lg sm:text-xl text-text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
-          A Pulso transforma o marketing da sua clínica em um <strong>sistema previsível</strong> de atração de pacientes — com estratégia, dados e resultados que você consegue medir.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white font-bold px-8 py-4 rounded-2xl text-lg transition-all hover:scale-105 shadow-lg shadow-primary/20">
-            <Icon name="phone" className="w-5 h-5" />
-            Quero mais pacientes
-          </a>
-          <a href="#como-funciona" className="inline-flex items-center gap-2 text-primary font-semibold px-6 py-4 rounded-2xl hover:bg-primary/5 transition-colors">
-            Ver como funciona
-            <Icon name="arrowRight" className="w-5 h-5" />
-          </a>
-        </div>
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-sm text-text-muted">
-          <div className="flex items-center gap-2">
-            <Icon name="shield" className="w-5 h-5 text-green" />
-            Conforme CFM/CRM
+    <section className="min-h-screen flex items-center pt-16 px-6 sm:px-8">
+      <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-[1fr_400px] gap-16 items-center py-20">
+
+        {/* ── Left ── */}
+        <div>
+          <div className="inline-flex items-center gap-2.5 border border-[#00D4B8]/20 bg-[#00D4B8]/5 rounded-full px-4 py-1.5 mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00D4B8]" style={{ boxShadow: '0 0 8px #00D4B8' }} />
+            <span className="section-label">Diagnóstico gratuito disponível</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Icon name="chart" className="w-5 h-5 text-primary" />
-            Resultados em 90 dias
+          <h1 className="text-5xl sm:text-6xl lg:text-[72px] font-bold text-white leading-[1.02] tracking-tight mb-6">
+            Sua clínica<br />
+            merece uma<br />
+            <span style={{ color: '#00D4B8', textShadow: '0 0 60px rgba(0,212,184,0.25)' }}>agenda cheia.</span>
+          </h1>
+          <p className="text-[#6B8A85] text-lg max-w-lg mb-10 leading-relaxed">
+            Transformamos o marketing da sua clínica em um sistema previsível de captação de pacientes — estratégia, dados e resultados mensuráveis.
+          </p>
+          <div className="flex flex-wrap gap-3 mb-12">
+            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
+               className="btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold transition-all hover:scale-105">
+              <Icon name="phone" className="w-4 h-4" />
+              Falar com especialista
+            </a>
+            <a href="#como-funciona"
+               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-[#6B8A85] border border-white/10 hover:border-[#00D4B8]/30 hover:text-white transition-all">
+              Ver como funciona
+              <Icon name="arrowRight" className="w-4 h-4" />
+            </a>
           </div>
-          <div className="flex items-center gap-2">
-            <Icon name="users" className="w-5 h-5 text-blue" />
-            Especialistas em saúde
+          <div className="flex flex-wrap gap-6 text-sm text-[#6B8A85]">
+            {[['shield','Conforme CFM/CRM'],['chart','Resultados em 90 dias'],['users','Especialistas em saúde']].map(([icon, label]) => (
+              <div key={label} className="flex items-center gap-2">
+                <Icon name={icon} className="w-4 h-4 text-[#00D4B8]" />
+                {label}
+              </div>
+            ))}
           </div>
         </div>
+
+        {/* ── Right: Dashboard card ── */}
+        <div className="hidden lg:flex flex-col glass-card p-5 gap-4" style={{ borderColor: 'rgba(0,212,184,0.18)' }}>
+          <div className="flex items-center justify-between">
+            <span className="section-label">PAINEL PULSO</span>
+            <div className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00D4B8]" style={{ boxShadow: '0 0 6px #00D4B8', animation: 'pulse 2s infinite' }} />
+              <span className="text-[11px] text-[#00D4B8] font-medium">Ao vivo</span>
+            </div>
+          </div>
+          {/* Mini ECG */}
+          <div className="h-14 bg-[#060E0C]/60 rounded-xl border border-[#00D4B8]/10 flex items-center px-3 overflow-hidden">
+            <svg viewBox="0 0 400 40" className="w-full h-9" fill="none">
+              <polyline
+                points="0,20 30,20 38,20 42,14 46,26 50,20 80,20 88,20 92,14 96,26 100,20 130,20 134,17 137,20 141,4 145,34 149,20 153,17 158,20 185,20 189,17 192,20 196,4 200,34 204,20 208,17 213,20 240,20 244,17 247,20 251,4 255,34 259,20 263,17 268,20 295,20 299,17 302,20 306,4 310,34 314,20 318,17 323,20 360,20 380,20 400,20"
+                stroke="#00D4B8" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round"
+                style={{ filter: 'drop-shadow(0 0 3px rgba(0,212,184,0.7))' }}
+              />
+            </svg>
+          </div>
+          {/* 2×2 metrics */}
+          <div className="grid grid-cols-2 gap-2.5">
+            {[
+              { label: 'Novos pacientes', value: '+34', trend: '↑ 12% vs mês ant.' },
+              { label: 'Taxa de conv.', value: '8,2%', trend: '↑ 3,1% vs mês ant.' },
+              { label: 'Custo por lead', value: 'R$ 28', trend: '↓ 5% vs mês ant.' },
+              { label: 'Agendamentos', value: '127', trend: '↑ 18% vs mês ant.' },
+            ].map((m, i) => (
+              <div key={i} className="bg-[#00D4B8]/5 border border-[#00D4B8]/10 rounded-xl p-3.5">
+                <div className="text-[11px] text-[#6B8A85] mb-1.5 font-medium">{m.label}</div>
+                <div className="text-white font-bold text-2xl leading-none mb-1">{m.value}</div>
+                <div className="text-[11px] text-[#00D4B8]">{m.trend}</div>
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center justify-between pt-1 border-t border-[#00D4B8]/10">
+            <span className="text-[11px] text-[#6B8A85]">Clínica Derma São Paulo</span>
+            <span className="text-[11px] text-[#00D4B8] font-medium">Maio 2025</span>
+          </div>
+        </div>
+
       </div>
     </section>
   )
 }
 
+// ─── PAIN POINTS ──────────────────────────────────────────────────────────────
 function PainPoints() {
   const points = [
-    { title: 'Agenda com horários vagos', desc: 'Você tem capacidade para atender mais pacientes, mas eles não chegam.' },
-    { title: 'Dependência de indicações', desc: 'Quando as indicações param, a receita cai. Não há previsibilidade.' },
-    { title: 'Marketing que não dá resultado', desc: 'Já gastou com agência ou posts no Instagram, mas não viu retorno.' },
-    { title: 'Não aparece no Google', desc: 'Pacientes pesquisam "é perto de mim", e sua clínica não aparece.' },
+    { title: 'Agenda com horários vagos', desc: 'Você tem capacidade para atender mais, mas os pacientes não chegam. Raramente é a qualidade do serviço — é visibilidade.', subs: ['Subutilização de até 40% da capacidade', 'Receita imprevisível sem fluxo constante'] },
+    { title: 'Dependência de indicações', desc: 'Quando as indicações param, a receita cai. Impossível escalar ou planejar crescimento dependendo de algo fora do seu controle.', subs: ['Sem indicação, sem paciente novo', 'Impossível planejar expansão'] },
+    { title: 'Marketing sem retorno mensurável', desc: 'Já investiu em agência, posts, impulsionamento. O resultado? Likes, mas não pacientes. Falta estratégia orientada a conversão.', subs: ['Investimento sem ROI claro', 'Conteúdo que não gera agendamentos'] },
+    { title: 'Invisível no Google', desc: 'Pacientes pesquisam "clínica perto de mim" e seus concorrentes aparecem. Você investe em estrutura mas não em encontrabilidade.', subs: ['Fora do top 10 do Google Maps', 'Zero tráfego orgânico local'] },
   ]
   return (
-    <section className="py-16 sm:py-24 px-4 sm:px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Você se identifica com isso?</h2>
-          <p className="text-text-muted text-lg max-w-2xl mx-auto">A maioria das clínicas enfrenta esses problemas. A diferença é que agora existe uma solução.</p>
+    <section className="py-24 px-6 sm:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-14">
+          <div className="section-label mb-4">Você se identifica?</div>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+            <h2 className="text-4xl sm:text-5xl font-bold text-white leading-tight max-w-xl">
+              A maioria das clínicas<br />enfrenta os mesmos problemas.
+            </h2>
+            <p className="text-[#6B8A85] max-w-xs leading-relaxed text-sm">
+              A diferença é que agora existe uma solução especializada para o mercado médico.
+            </p>
+          </div>
         </div>
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-4">
           {points.map((p, i) => (
-            <div key={i} className="flex gap-4 bg-surface rounded-2xl border border-border p-6 hover:border-primary/30 transition-colors">
-              <div className="shrink-0 w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-500 text-xl font-bold">!</div>
-              <div>
-                <h3 className="font-bold text-midnight text-lg mb-1">{p.title}</h3>
-                <p className="text-text-muted text-sm leading-relaxed">{p.desc}</p>
+            <div key={i} className="glass-card p-7 flex flex-col gap-4 hover:border-[#00D4B8]/25 transition-all">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="text-red-400 text-sm font-bold">!</span>
+                </div>
+                <h3 className="font-semibold text-white text-xl leading-snug">{p.title}</h3>
+              </div>
+              <p className="text-[#6B8A85] text-sm leading-relaxed">{p.desc}</p>
+              <div className="border-t border-white/5 pt-4 space-y-2">
+                {p.subs.map((s, j) => (
+                  <div key={j} className="flex items-center gap-2 text-xs text-[#6B8A85]">
+                    <span className="w-1 h-1 rounded-full bg-red-400/50 shrink-0" />
+                    {s}
+                  </div>
+                ))}
               </div>
             </div>
           ))}
@@ -147,413 +421,390 @@ function PainPoints() {
   )
 }
 
+// ─── SERVICES ─────────────────────────────────────────────────────────────────
 function Services() {
   const services = [
-    { icon: 'clipboard', title: 'Diagnóstico Completo', desc: 'Analisamos tudo: sua clínica, preços, concorrentes, presença digital. Você recebe um raio-X completo de onde está e para onde pode ir.', items: ['Análise comercial (preços, serviços, ocupação)', 'Auditoria digital (Google, Instagram, site)', 'Comparação com concorrentes da região', 'Score de posicionamento 0-100'] },
-    { icon: 'search', title: 'Pesquisa de Mercado', desc: 'Descobrimos quem são seus pacientes ideais, o que pesquisam no Google e como fazer eles chegarem até você.', items: ['Perfil do paciente ideal', 'Volume de buscas na sua região', 'Análise de concorrentes', 'Oportunidades por sazonalidade'] },
-    { icon: 'map', title: 'Google Meu Negócio', desc: 'Colocamos sua clínica no mapa — literalmente. Quando alguém pesquisar "dentista perto de mim", você aparece.', items: ['Perfil otimizado e verificado', 'Fotos profissionais e posts semanais', 'Gestão de avaliações', 'Meta: top 3 no Google Maps'] },
-    { icon: 'globe', title: 'Site Profissional', desc: 'Criamos seu site pensando no celular, rápido, bonito e feito para o paciente agendar — não só para "ter um site".', items: ['Design mobile-first', 'Botão de WhatsApp e agendamento', 'Otimizado para Google (SEO)', 'Conforme regras do CFM'] },
-    { icon: 'target', title: 'Landing Pages', desc: 'Páginas focadas em um único objetivo: fazer o paciente agendar. Usadas com anúncios para máximo resultado.', items: ['Uma página por campanha', 'Textos persuasivos', 'Formulário ou WhatsApp direto', 'Teste A/B para otimização'] },
-    { icon: 'megaphone', title: 'Anúncios (Tráfego Pago)', desc: 'Gerenciamos seus anúncios no Google e Instagram para atrair pacientes qualificados, não curiosos.', items: ['Google Ads + Meta Ads', 'Otimização 2-3x por semana', 'Relatório mensal de resultados', 'Remarketing inteligente'] },
-    { icon: 'users', title: 'Auditoria Comercial', desc: 'Analisamos como sua equipe atende — do WhatsApp à recepção. De nada adianta traçar pacientes se o atendimento perde a venda.', items: ['Análise do funil de vendas', 'Scripts de atendimento prontos', 'Automações de confirmação', 'Treinamento da recepção'] },
-    { icon: 'instagram', title: 'Redes Sociais', desc: 'Gerenciamos seu Instagram com conteúdo que gera autoridade e atrai pacientes — não só likes.', items: ['12-20 posts por mês', 'Reels e Stories', 'Calendário editorial mensal', 'Gestão de comentários e DMs'] },
-    { icon: 'camera', title: 'Criativos (Fotos e Vídeos)', desc: 'Produzimos as peças visuais: posts, anúncios, vídeos curtos. Tudo pronto para publicar.', items: ['10-20 peças estáticas/mês', '4-8 vídeos editados/mês', 'Roteiros para gravação', 'Banco de criativos organizado'] },
-    { icon: 'sparkles', title: 'Serviços Extras', desc: 'Para quem quer ir além: SEO avançado, e-mail marketing, chatbot com IA e gestão de reputação online.', items: ['SEO orgânico + blog posts', 'E-mail marketing automático', 'Chatbot inteligente no WhatsApp', 'Monitoramento de avaliações'] },
+    { icon: 'clipboard', name: 'Diagnóstico Completo', sub: 'Ponto de partida', desc: 'Score 0-100 da sua clínica: digital, comercial e competitivo.', badge: 'Incluso', tags: ['Score digital', 'Análise competidores', 'Auditoria completa'] },
+    { icon: 'search', name: 'Pesquisa de Mercado', sub: 'Inteligência local', desc: 'Volume de busca, sazonalidade e perfil do paciente ideal na sua região.', badge: 'Disponível', tags: ['Keywords locais', 'Perfil do paciente', 'Sazonalidade'] },
+    { icon: 'map', name: 'Google Meu Negócio', sub: 'Presença local', desc: 'Top 3 no Maps quando o paciente pesquisar especialidade perto de você.', badge: 'Disponível', tags: ['Perfil verificado', 'Posts semanais', 'Avaliações'] },
+    { icon: 'globe', name: 'Site Profissional', sub: 'Sua clínica 24h', desc: 'Site rápido, mobile-first, feito para converter visitante em agendamento.', badge: 'Disponível', tags: ['Mobile-first', 'SEO técnico', 'CFM compliant'] },
+    { icon: 'megaphone', name: 'Tráfego Pago', sub: 'Google Ads + Meta Ads', desc: 'Anúncios que atraem pacientes qualificados, não curiosos.', badge: 'Alta demanda', tags: ['Google + Meta', 'Otimização 3×/sem', 'ROAS mensurado'] },
+    { icon: 'instagram', name: 'Redes Sociais', sub: 'Autoridade digital', desc: 'Instagram que gera autoridade e atrai pacientes — não só seguidores.', badge: 'Disponível', tags: ['12–20 posts/mês', 'Reels + Stories', 'Gestão DMs'] },
+    { icon: 'target', name: 'Landing Pages', sub: 'Conversão máxima', desc: 'Uma página, um objetivo: transformar clique em consulta agendada.', badge: 'Disponível', tags: ['Por campanha', 'A/B testing', 'Formulário direto'] },
+    { icon: 'camera', name: 'Criativos & Vídeos', sub: 'Produção visual', desc: 'Peças, Reels e anúncios prontos para publicar toda semana.', badge: 'Disponível', tags: ['10–20 peças/mês', '4–8 vídeos', 'Banco organizado'] },
+    { icon: 'sparkles', name: 'IA & Automação', sub: 'Escala inteligente', desc: 'Chatbot no WhatsApp, e-mail automático e qualificação de leads 24h.', badge: 'Premium', tags: ['Chatbot 24h', 'E-mail automation', 'Lead scoring'] },
   ]
+  const badgeStyle = b => {
+    if (b === 'Incluso')      return { bg: 'rgba(0,212,184,0.12)',   color: '#00D4B8',  border: 'rgba(0,212,184,0.3)' }
+    if (b === 'Alta demanda') return { bg: 'rgba(251,146,60,0.1)',   color: '#fb923c',  border: 'rgba(251,146,60,0.3)' }
+    if (b === 'Premium')      return { bg: 'rgba(168,85,247,0.1)',   color: '#a855f7',  border: 'rgba(168,85,247,0.3)' }
+    return                           { bg: 'rgba(107,138,133,0.08)', color: '#6B8A85',  border: 'rgba(107,138,133,0.2)' }
+  }
   return (
-    <section id="servicos" className="py-16 sm:py-24 px-4 sm:px-6 bg-surface-alt">
-      <div className="max-w-6xl mx-auto">
+    <section id="servicos" className="py-24 px-6 sm:px-8">
+      <div className="max-w-7xl mx-auto">
         <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">NOSSOS SERVIÇOS</div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Tudo que sua clínica precisa para crescer</h2>
-          <p className="text-text-muted text-lg max-w-2xl mx-auto">Cada serviço foi pensado para resolver um problema específico. Você não precisa entender de marketing — é para isso que estamos aqui.</p>
+          <div className="inline-flex items-center gap-2 border border-[#00D4B8]/20 bg-[#00D4B8]/5 rounded-full px-4 py-1.5 mb-6">
+            <Icon name="zap" className="w-3 h-3 text-[#00D4B8]" />
+            <span className="section-label">Serviços</span>
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">
+            Tudo que sua clínica<br />precisa para crescer
+          </h2>
+          <p className="text-[#6B8A85] text-lg max-w-xl mx-auto">
+            Cada serviço resolve um problema específico. Contrate individualmente ou combine no plano ideal.
+          </p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((s, i) => (
-            <div key={i} className="bg-surface rounded-2xl border border-border p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all group">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                <Icon name={s.icon} className="w-6 h-6 text-primary" />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {services.map((s, i) => {
+            const bs = badgeStyle(s.badge)
+            return (
+              <div key={i} className="glass-card p-6 flex flex-col gap-4 hover:border-[#00D4B8]/25 transition-all group">
+                <div className="flex items-start justify-between">
+                  <div className="w-10 h-10 rounded-xl bg-[#00D4B8]/8 border border-[#00D4B8]/15 flex items-center justify-center group-hover:bg-[#00D4B8]/15 transition-colors">
+                    <Icon name={s.icon} className="w-5 h-5 text-[#00D4B8]" />
+                  </div>
+                  <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full border"
+                        style={{ background: bs.bg, color: bs.color, borderColor: bs.border }}>
+                    {s.badge}
+                  </span>
+                </div>
+                <div>
+                  <div className="text-[11px] text-[#6B8A85] font-medium mb-1">{s.sub}</div>
+                  <h3 className="font-semibold text-white text-base leading-snug">{s.name}</h3>
+                </div>
+                <p className="text-[#6B8A85] text-sm leading-relaxed flex-1">{s.desc}</p>
+                <div className="border-t border-white/5 pt-3 flex flex-wrap gap-1.5">
+                  {s.tags.map((t, j) => (
+                    <span key={j} className="text-[11px] text-[#6B8A85] bg-white/4 border border-white/8 px-2 py-0.5 rounded-full">{t}</span>
+                  ))}
+                </div>
               </div>
-              <h3 className="font-bold text-midnight text-lg mb-2">{s.title}</h3>
-              <p className="text-text-muted text-sm leading-relaxed mb-4">{s.desc}</p>
-              <ul className="space-y-2">
-                {s.items.map((item, j) => (
-                  <li key={j} className="flex items-start gap-2 text-sm text-text-muted">
-                    <Icon name="check" className="w-4 h-4 text-green shrink-0 mt-0.5" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
   )
 }
 
+// ─── HOW IT WORKS ─────────────────────────────────────────────────────────────
 function HowItWorks() {
   const steps = [
     { num: '01', title: 'Conversa inicial', desc: 'Entendemos sua clínica, objetivos e desafios. Sem compromisso.', time: 'Dia 1' },
-    { num: '02', title: 'Diagnóstico gratuito', desc: 'Fazemos uma análise completa da sua presença digital e comparamos com concorrentes.', time: 'Semana 1' },
-    { num: '03', title: 'Plano de ação', desc: 'Apresentamos exatamente o que precisa ser feito, com cronograma e metas claras.', time: 'Semana 2' },
-    { num: '04', title: 'Execução', desc: 'Nossa equipe coloca tudo para rodar: site, Google, Instagram, anúncios.', time: 'Semanas 2-4' },
-    { num: '05', title: 'Resultados', desc: 'Você começa a receber pacientes novos e acompanha tudo por relatórios mensais.', time: 'Mês 2+' },
+    { num: '02', title: 'Diagnóstico gratuito', desc: 'Análise completa da presença digital e comparativo com concorrentes.', time: 'Semana 1' },
+    { num: '03', title: 'Plano de ação', desc: 'Cronograma detalhado com metas claras e responsáveis definidos.', time: 'Semana 2' },
+    { num: '04', title: 'Execução', desc: 'Equipe coloca tudo no ar: site, Google, anúncios, redes sociais.', time: 'Semanas 2–4' },
+    { num: '05', title: 'Crescimento contínuo', desc: 'Pacientes chegando e relatórios mensais mostrando cada resultado.', time: 'Mês 2+' },
+  ]
+  const milestones = [
+    { label: 'Diagnóstico digital', pct: 100, status: 'Concluído' },
+    { label: 'Google Meu Negócio', pct: 100, status: 'Ativo' },
+    { label: 'Site profissional',   pct: 100, status: 'No ar' },
+    { label: 'Campanhas de anúncio', pct: 85, status: 'Rodando' },
+    { label: 'Redes sociais',        pct: 70, status: 'Em produção' },
   ]
   return (
-    <section id="como-funciona" className="py-16 sm:py-24 px-4 sm:px-6">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">COMO FUNCIONA</div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Do diagnóstico ao resultado em 5 passos</h2>
-          <p className="text-text-muted text-lg max-w-xl mx-auto">Você cuida dos pacientes. Nós cuidamos de trazer eles até você.</p>
-        </div>
-        <div className="space-y-6">
-          {steps.map((s, i) => (
-            <div key={i} className="flex gap-4 sm:gap-6 items-start bg-surface rounded-2xl border border-border p-5 sm:p-6 hover:border-primary/30 transition-colors">
-              <div className="shrink-0 w-12 h-12 rounded-xl bg-primary text-white flex items-center justify-center font-extrabold text-lg">{s.num}</div>
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-1">
-                  <h3 className="font-bold text-midnight text-lg">{s.title}</h3>
-                  <span className="text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full font-semibold">{s.time}</span>
-                </div>
-                <p className="text-text-muted text-sm leading-relaxed">{s.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Plans() {
-  const [tab, setTab] = useState('individual')
-  const individual = [
-    {
-      name: 'Tráfego Pago',
-      icon: 'megaphone',
-      subtitle: 'Anúncios que trazem pacientes',
-      desc: 'Gerenciamos seus anúncios no Google e Instagram para atrair pacientes qualificados direto para sua agenda.',
-      features: [
-        'Configuração de Google Ads + Meta Ads',
-        'Criação de 1 landing page por campanha',
-        'Otimização 2-3x por semana',
-        '4-8 criativos de anúncio por mês',
-        'Remarketing para quem visitou o site',
-        'Relatório mensal (CPL, CPA, ROAS)',
-        'Reunião mensal de resultados',
-      ],
-      ideal: 'Ideal para quem já tem site e Instagram, mas não recebe pacientes pelo digital.',
-    },
-    {
-      name: 'Social Media',
-      icon: 'instagram',
-      subtitle: 'Presença que gera autoridade',
-      desc: 'Cuidamos do seu Instagram por completo: conteúdo, visuais, Reels, Stories e interação com seguidores.',
-      features: [
-        'Otimização do perfil e bio',
-        '12-16 posts/mês (feed + carrosséis)',
-        '4-8 Reels editados por mês',
-        '15-20 Stories/mês',
-        'Calendário editorial mensal',
-        'Resposta a comentários e DMs',
-        'Relatório mensal de métricas',
-      ],
-      ideal: 'Ideal para quem quer construir autoridade e atrair pacientes pelo Instagram.',
-    },
-    {
-      name: 'Site + Manutenção',
-      icon: 'globe',
-      subtitle: 'Sua clínica 24h no ar',
-      desc: 'Criamos seu site profissional e cuidamos da manutenção mensal: atualizações, segurança e novos conteúdos.',
-      features: [
-        'Site institucional completo (6-8 páginas)',
-        'Design mobile-first e rápido',
-        'Botão de WhatsApp + agendamento',
-        'SEO básico (Google Search Console + GA4)',
-        'Manutenção mensal (atualizações e correções)',
-        '1-2 blog posts/mês (SEO)',
-        'Certificado SSL + conformidade CFM',
-      ],
-      ideal: 'Ideal para quem não tem site ou tem um site antigo que não gera resultado.',
-    },
-    {
-      name: 'Google Meu Negócio',
-      icon: 'map',
-      subtitle: 'Apareça no Google Maps',
-      desc: 'Otimizamos e mantemos seu perfil no Google para você aparecer quando pacientes pesquisarem perto de você.',
-      features: [
-        'Criação ou otimização do perfil',
-        'Upload de fotos profissionais',
-        'Posts semanais no Google',
-        'Gestão de avaliações (resposta em 24h)',
-        'Cadastro de todos os serviços',
-        'Relatório mensal de insights',
-        'Meta: top 3 no Google Maps',
-      ],
-      ideal: 'Ideal para quem depende de busca local ("perto de mim") para atrair pacientes.',
-    },
-    {
-      name: 'Criativos + Vídeos',
-      icon: 'camera',
-      subtitle: 'Conteúdo visual profissional',
-      desc: 'Produzimos as peças visuais e vídeos que alimentam suas redes e anúncios.',
-      features: [
-        '10-20 peças estáticas/mês',
-        '4-8 vídeos editados (Reels, anúncios)',
-        'Roteiros para gravação pelo médico',
-        'Direção de gravação (remota ou presencial)',
-        'Legendas em todos os vídeos',
-        'Banco de criativos organizado',
-        'Teste A/B de criativos em campanhas',
-      ],
-      ideal: 'Ideal como complemento para quem já tem gestão de redes, mas precisa de material visual.',
-    },
-    {
-      name: 'Auditoria + Consultoria',
-      icon: 'clipboard',
-      subtitle: 'Diagnóstico + plano de ação',
-      desc: 'Analisamos tudo (digital + comercial) e entregamos um plano claro do que precisa ser feito — você executa ou contrata a gente.',
-      features: [
-        'Diagnóstico digital completo (score 0-100)',
-        'Diagnóstico comercial (funil de vendas)',
-        'Análise de 5-10 concorrentes',
-        'Pesquisa de keywords + volume de busca',
-        'Scripts de atendimento prontos',
-        'Plano de ação priorizado (90 dias)',
-        'Apresentação executiva para o médico',
-      ],
-      ideal: 'Ideal para quem quer entender a situação antes de investir em marketing contínuo.',
-    },
-  ]
-  const bundles = [
-    {
-      name: 'Pulso Starter',
-      subtitle: 'Para quem está começando',
-      desc: 'Ideal para clínicas que ainda não têm presença digital ou estão no início.',
-      popular: false,
-      features: [
-        'Diagnóstico completo (comercial + digital)',
-        'Google Meu Negócio (criação + manutenção)',
-        '12 posts/mês no Instagram',
-        '10 stories/mês',
-        '12 peças visuais por mês',
-        'Relatório mensal de resultados',
-      ],
-    },
-    {
-      name: 'Pulso Growth',
-      subtitle: 'Para quem quer crescer rápido',
-      desc: 'Para clínicas que querem acelerar a captação de pacientes com anúncios e site.',
-      popular: true,
-      features: [
-        'Tudo do Starter +',
-        'Pesquisa de mercado completa',
-        'Site institucional profissional',
-        '1 landing page por campanha',
-        'Gestão de Google Ads + Meta Ads',
-        '16 posts + 8 Reels + 20 stories/mês',
-        '16 peças + 4 vídeos editados/mês',
-        'Auditoria comercial + scripts',
-        'Reunião mensal de alinhamento',
-      ],
-    },
-    {
-      name: 'Pulso Pro',
-      subtitle: 'Para quem quer dominar',
-      desc: 'Para clínicas que querem ser referência absoluta na região.',
-      popular: false,
-      features: [
-        'Tudo do Growth +',
-        'SEO avançado + 4 blog posts/mês',
-        'E-mail marketing + CRM',
-        'Gestão de reputação online',
-        'Chatbot inteligente no WhatsApp',
-        'Multi-plataforma (IG + TikTok + YouTube)',
-        '20 peças + 8 vídeos editados/mês',
-        'Dashboard em tempo real',
-        'Reunião quinzenal estratégica',
-      ],
-    },
-  ]
-  return (
-    <section id="planos" className="py-16 sm:py-24 px-4 sm:px-6 bg-surface-alt">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">PLANOS E SERVIÇOS</div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Monte o plano ideal para sua clínica</h2>
-          <p className="text-text-muted text-lg max-w-2xl mx-auto">Contrate serviços individuais ou escolha um pacote completo. Sem surpresas, sem letras miúdas.</p>
-        </div>
-
-        <div className="flex items-center justify-center gap-2 mb-10">
-          <button onClick={() => setTab('individual')} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${tab === 'individual' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-surface text-text-muted border border-border hover:border-primary/30'}`}>
-            Serviços Individuais
-          </button>
-          <button onClick={() => setTab('pacotes')} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${tab === 'pacotes' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-surface text-text-muted border border-border hover:border-primary/30'}`}>
-            Pacotes Completos
-          </button>
-        </div>
-
-        {tab === 'individual' && (
-          <>
-            <p className="text-center text-text-muted text-sm mb-8 max-w-xl mx-auto">Precisa de apenas um serviço? Escolha o que faz sentido para o momento da sua clínica. Todos incluem relatório mensal.</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {individual.map((p, i) => (
-                <div key={i} className="bg-surface rounded-2xl border border-border p-6 flex flex-col hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                      <Icon name={p.icon} className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-midnight text-lg leading-tight">{p.name}</h3>
-                      <p className="text-xs text-primary font-semibold">{p.subtitle}</p>
-                    </div>
+    <section id="como-funciona" className="py-24 px-6 sm:px-8">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
+        {/* Left: timeline */}
+        <div>
+          <div className="section-label mb-4">Como funciona</div>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-4">
+            Do diagnóstico<br />ao resultado.
+          </h2>
+          <p className="text-[#6B8A85] text-base leading-relaxed mb-12 max-w-md">
+            Você cuida dos pacientes. Nós cuidamos de trazer eles até você — processo estruturado do dia 1.
+          </p>
+          <div className="space-y-0">
+            {steps.map((s, i) => (
+              <div key={i} className="flex gap-5 group">
+                <div className="flex flex-col items-center">
+                  <div className="w-9 h-9 rounded-full bg-[#00D4B8]/10 border border-[#00D4B8]/25 flex items-center justify-center shrink-0 group-hover:bg-[#00D4B8]/20 group-hover:border-[#00D4B8]/50 transition-all">
+                    <span className="text-[#00D4B8] text-xs font-bold">{s.num}</span>
                   </div>
-                  <p className="text-text-muted text-sm leading-relaxed mb-4">{p.desc}</p>
-                  <ul className="space-y-2 mb-4 flex-1">
-                    {p.features.map((f, j) => (
-                      <li key={j} className="flex items-start gap-2 text-sm text-text">
-                        <Icon name="check" className="w-4 h-4 text-green shrink-0 mt-0.5" />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="bg-surface-alt rounded-lg p-3 mb-4">
-                    <p className="text-xs text-text-muted">{p.ideal}</p>
-                  </div>
-                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="block text-center font-bold py-3 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary transition-all text-sm">
-                    Saber mais
-                  </a>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-
-        {tab === 'pacotes' && (
-          <>
-            <p className="text-center text-text-muted text-sm mb-8 max-w-xl mx-auto">Quer tudo integrado? Nossos pacotes combinam múltiplos serviços com desconto e estratégia unificada.</p>
-            <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-              {bundles.map((p, i) => (
-                <div key={i} className={`relative bg-surface rounded-2xl border ${p.popular ? 'border-primary shadow-xl shadow-primary/10 scale-[1.02]' : 'border-border'} p-6 sm:p-8 flex flex-col`}>
-                  {p.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-4 py-1 rounded-full">MAIS POPULAR</div>
+                  {i < steps.length - 1 && (
+                    <div className="w-px flex-1 my-1" style={{ background: 'linear-gradient(to bottom, rgba(0,212,184,0.3), rgba(0,212,184,0.04))' }} />
                   )}
-                  <div className="mb-6">
-                    <h3 className="text-xl font-extrabold text-midnight mb-1">{p.name}</h3>
-                    <p className="text-sm text-primary font-semibold mb-2">{p.subtitle}</p>
-                    <p className="text-text-muted text-sm leading-relaxed">{p.desc}</p>
-                  </div>
-                  <div className="mb-6">
-                    <div className="text-text-muted text-sm mb-1">Investimento mensal</div>
-                    <div className="text-midnight font-extrabold text-lg">Consulte valores</div>
-                    <div className="text-xs text-text-muted">Contrato mínimo: 6 meses</div>
-                  </div>
-                  <ul className="space-y-3 mb-8 flex-1">
-                    {p.features.map((f, j) => (
-                      <li key={j} className="flex items-start gap-2.5 text-sm text-text">
-                        <Icon name="check" className="w-4 h-4 text-green shrink-0 mt-0.5" />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className={`block text-center font-bold py-3.5 rounded-xl transition-all ${p.popular ? 'bg-primary hover:bg-primary-dark text-white shadow-lg shadow-primary/20' : 'bg-primary/10 hover:bg-primary/20 text-primary'}`}>
-                    Quero esse pacote
-                  </a>
                 </div>
-              ))}
-            </div>
-          </>
-        )}
-
-        <div className="text-center mt-10 space-y-2">
-          <p className="text-text-muted text-sm">
-            <strong>Não sabe qual escolher?</strong> Comece pelo diagnóstico gratuito — nós recomendamos o melhor caminho.
-          </p>
-          <p className="text-text-muted text-sm">
-            <strong>Importante:</strong> o investimento em anúncios (Google/Meta Ads) é pago pela clínica diretamente às plataformas, não faz parte da mensalidade.
-          </p>
+                <div className="pb-8">
+                  <div className="flex items-center gap-2.5 mb-1.5">
+                    <h3 className="font-semibold text-white">{s.title}</h3>
+                    <span className="text-[11px] text-[#00D4B8] bg-[#00D4B8]/8 border border-[#00D4B8]/15 px-2 py-0.5 rounded-full">{s.time}</span>
+                  </div>
+                  <p className="text-[#6B8A85] text-sm leading-relaxed">{s.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  )
-}
-
-function Results() {
-  const metrics = [
-    { value: '+30%', label: 'Mais leads em 90 dias' },
-    { value: '85%', label: 'Ocupação da agenda' },
-    { value: 'Top 3', label: 'No Google Maps' },
-    { value: '5x', label: 'Retorno sobre anúncios' },
-  ]
-  return (
-    <section id="resultados" className="py-16 sm:py-24 px-4 sm:px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">RESULTADOS</div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Números que importam para você</h2>
-          <p className="text-text-muted text-lg max-w-xl mx-auto">Não falamos de curtidas ou seguidores. Falamos de pacientes na agenda.</p>
-        </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {metrics.map((m, i) => (
-            <div key={i} className="bg-surface rounded-2xl border border-border p-6 text-center hover:border-primary/30 transition-colors">
-              <div className="text-3xl sm:text-4xl font-extrabold text-primary mb-2">{m.value}</div>
-              <div className="text-sm text-text-muted">{m.label}</div>
+        {/* Right: progress card */}
+        <div className="glass-card p-8" style={{ borderColor: 'rgba(0,212,184,0.15)' }}>
+          <div className="section-label mb-6">Sua clínica em 30 dias</div>
+          <div className="space-y-5">
+            {milestones.map((m, i) => (
+              <div key={i}>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-white font-medium">{m.label}</span>
+                  <span className="text-xs text-[#00D4B8]">{m.status}</span>
+                </div>
+                <div className="h-1.5 rounded-full bg-[#00D4B8]/10 overflow-hidden">
+                  <div className="h-full rounded-full transition-all"
+                       style={{ width: `${m.pct}%`, background: 'linear-gradient(to right, #00B8A0, #00D4B8)', boxShadow: '0 0 8px rgba(0,212,184,0.4)' }} />
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 pt-6 border-t border-[#00D4B8]/10 grid grid-cols-2 gap-4">
+            <div>
+              <div className="text-3xl font-bold text-[#00D4B8]" style={{ textShadow: '0 0 20px rgba(0,212,184,0.3)' }}>+34</div>
+              <div className="text-xs text-[#6B8A85] mt-1">Novos pacientes no mês</div>
             </div>
-          ))}
-        </div>
-        <div className="mt-12 bg-midnight rounded-2xl p-8 sm:p-10 text-center">
-          <h3 className="text-white text-xl sm:text-2xl font-bold mb-3">Investimento em anúncios: quanto custa trazer pacientes?</h3>
-          <div className="grid sm:grid-cols-3 gap-6 mt-8">
-            <div className="bg-white/10 rounded-xl p-5">
-              <div className="text-lilac text-sm font-semibold mb-1">Básico</div>
-              <div className="text-white text-2xl font-bold">R$1-2 mil/mês</div>
-              <div className="text-white/60 text-sm mt-1">30-60 leads/mês</div>
-            </div>
-            <div className="bg-white/10 rounded-xl p-5">
-              <div className="text-lilac text-sm font-semibold mb-1">Intermediário</div>
-              <div className="text-white text-2xl font-bold">R$2-5 mil/mês</div>
-              <div className="text-white/60 text-sm mt-1">60-150 leads/mês</div>
-            </div>
-            <div className="bg-white/10 rounded-xl p-5">
-              <div className="text-lilac text-sm font-semibold mb-1">Avançado</div>
-              <div className="text-white text-2xl font-bold">R$5-15 mil/mês</div>
-              <div className="text-white/60 text-sm mt-1">150-400+ leads/mês</div>
+            <div>
+              <div className="text-3xl font-bold text-[#00D4B8]" style={{ textShadow: '0 0 20px rgba(0,212,184,0.3)' }}>R$ 28</div>
+              <div className="text-xs text-[#6B8A85] mt-1">Custo por paciente captado</div>
             </div>
           </div>
-          <p className="text-white/50 text-xs mt-6">Valores baseados em CPC médio de R$3-8 na área de saúde e taxa de conversão de 5-15%</p>
         </div>
       </div>
     </section>
   )
 }
 
-function Differentials() {
-  const items = [
-    { icon: 'shield', title: 'Conformidade com o CFM', desc: 'Conhecemos as regras de publicidade médica. Seu marketing é eficaz E legal.' },
-    { icon: 'chart', title: 'Foco na agenda, não em métricas', desc: 'Nosso KPI principal é pacientes agendados — não likes, seguidores ou cliques.' },
-    { icon: 'zap', title: 'Sistema, não campanha', desc: 'Criamos uma máquina de atração que funciona 24/7, não ações pontuais.' },
-    { icon: 'heart', title: 'Especialistas em saúde', desc: 'Só trabalhamos com clínicas médicas. Entendemos o mercado de dentro.' },
-    { icon: 'calendar', title: 'Contrato com compromisso', desc: 'Mínimo 6 meses porque resultado consistente leva 60-90 dias. Sem atalhos.' },
-    { icon: 'sparkles', title: 'Inteligência artificial', desc: 'Usamos IA para qualificar leads, gerar conteúdo e otimizar campanhas.' },
+// ─── PLANS ────────────────────────────────────────────────────────────────────
+function Plans() {
+  const [tab, setTab] = useState('pacotes')
+  const individual = [
+    { icon: 'megaphone', name: 'Tráfego Pago', sub: 'Anúncios que convertem', desc: 'Google Ads + Meta Ads gerenciados para atrair pacientes qualificados.', features: ['Configuração Google + Meta Ads','1 landing page por campanha','Otimização 3× por semana','4–8 criativos de anúncio/mês','Remarketing inteligente','Relatório mensal (CPL, CPA, ROAS)'], ideal: 'Para quem já tem site, mas não recebe pacientes pelo digital.' },
+    { icon: 'instagram', name: 'Social Media', sub: 'Presença que gera autoridade', desc: 'Instagram completo: conteúdo, visuais, Reels, Stories e interações.', features: ['Otimização do perfil','12–16 posts/mês','4–8 Reels editados/mês','15–20 Stories/mês','Calendário editorial','Relatório mensal'], ideal: 'Para quem quer construir autoridade e atrair pelo Instagram.' },
+    { icon: 'globe', name: 'Site + Manutenção', sub: 'Sua clínica 24h no ar', desc: 'Site profissional e manutenção mensal: segurança, atualizações e SEO.', features: ['Site institucional (6–8 páginas)','Design mobile-first','Botão WhatsApp + agendamento','SEO básico (GSC + GA4)','Manutenção mensal','1–2 blog posts/mês (SEO)'], ideal: 'Para quem não tem site ou tem um site antigo sem resultado.' },
+    { icon: 'map', name: 'Google Meu Negócio', sub: 'Apareça no Google Maps', desc: 'Top 3 no Maps quando pacientes pesquisarem perto de você.', features: ['Criação/otimização do perfil','Upload de fotos profissionais','Posts semanais','Gestão de avaliações (24h)','Cadastro completo de serviços','Relatório mensal'], ideal: 'Para clínicas que dependem de busca local.' },
+    { icon: 'camera', name: 'Criativos + Vídeos', sub: 'Conteúdo visual profissional', desc: 'Peças visuais e vídeos que alimentam redes sociais e anúncios.', features: ['10–20 peças estáticas/mês','4–8 vídeos editados/mês','Roteiros para gravação','Legendas em todos os vídeos','Banco de criativos organizado','Teste A/B de criativos'], ideal: 'Complemento para quem já tem gestão de redes.' },
+    { icon: 'clipboard', name: 'Auditoria + Consultoria', sub: 'Diagnóstico + plano de ação', desc: 'Análise completa (digital + comercial) com plano de ação detalhado.', features: ['Diagnóstico digital (score 0–100)','Diagnóstico comercial','Análise de 5–10 concorrentes','Pesquisa de keywords','Scripts de atendimento','Plano de ação (90 dias)'], ideal: 'Para quem quer entender antes de investir.' },
+  ]
+  const bundles = [
+    { name: 'Starter', sub: 'Para quem está começando', desc: 'Presença digital básica para clínicas sem marketing ativo.', popular: false, features: ['Diagnóstico completo','Google Meu Negócio','12 posts/mês no Instagram','10 stories/mês','12 peças visuais/mês','Relatório mensal'] },
+    { name: 'Growth', sub: 'Para crescer rápido', desc: 'Captação acelerada de pacientes com anúncios, site e conteúdo.', popular: true, features: ['Tudo do Starter +','Site institucional profissional','1 landing page por campanha','Google Ads + Meta Ads','16 posts + 8 Reels + 20 stories/mês','16 peças + 4 vídeos/mês','Auditoria comercial + scripts','Reunião mensal'] },
+    { name: 'Pro', sub: 'Para dominar a região', desc: 'Para clínicas que querem ser referência absoluta na especialidade.', popular: false, features: ['Tudo do Growth +','SEO avançado + 4 blog posts/mês','E-mail marketing + CRM','Chatbot IA no WhatsApp','TikTok + YouTube','20 peças + 8 vídeos/mês','Dashboard em tempo real','Reunião quinzenal estratégica'] },
   ]
   return (
-    <section className="py-16 sm:py-24 px-4 sm:px-6 bg-surface-alt">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">POR QUE A PULSO</div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Não somos uma agência genérica</h2>
-          <p className="text-text-muted text-lg max-w-xl mx-auto">Somos especialistas em marketing para clínicas médicas. Isso faz toda a diferença.</p>
+    <section id="planos" className="py-24 px-6 sm:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-10">
+          <div className="section-label mb-4">Planos e serviços</div>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">Monte o plano<br />ideal para sua clínica</h2>
+          <p className="text-[#6B8A85] text-lg max-w-xl mx-auto">Contrate individualmente ou escolha um pacote. Sem surpresas.</p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map((item, i) => (
-            <div key={i} className="bg-surface rounded-2xl border border-border p-6 hover:border-primary/30 transition-colors">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                <Icon name={item.icon} className="w-5 h-5 text-primary" />
+        {/* Tabs */}
+        <div className="flex justify-center gap-2 mb-10">
+          {[['pacotes','Pacotes Completos'],['individual','Serviços Individuais']].map(([val, label]) => (
+            <button key={val} onClick={() => setTab(val)}
+              className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${tab === val ? 'bg-[#00D4B8] text-[#060E0C] shadow-lg shadow-[#00D4B8]/20' : 'glass-card text-[#6B8A85] hover:text-white'}`}>
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {tab === 'pacotes' && (
+          <div className="grid md:grid-cols-3 gap-5">
+            {bundles.map((p, i) => (
+              <div key={i} className={`relative glass-card p-8 flex flex-col ${p.popular ? 'border-[#00D4B8]/35' : ''}`}
+                   style={p.popular ? { boxShadow: '0 0 40px rgba(0,212,184,0.08)' } : {}}>
+                {p.popular && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#00D4B8] text-[#060E0C] text-[11px] font-bold px-4 py-1 rounded-full"
+                       style={{ boxShadow: '0 0 16px rgba(0,212,184,0.5)' }}>
+                    MAIS POPULAR
+                  </div>
+                )}
+                <div className="mb-6">
+                  <h3 className="text-2xl font-bold text-white mb-1">Pulso {p.name}</h3>
+                  <p className="text-sm text-[#00D4B8] font-medium mb-3">{p.sub}</p>
+                  <p className="text-[#6B8A85] text-sm leading-relaxed">{p.desc}</p>
+                </div>
+                <div className="mb-6 pb-6 border-b border-white/5">
+                  <div className="text-[#6B8A85] text-xs mb-1">Investimento mensal</div>
+                  <div className="text-white font-bold text-lg">Consulte valores</div>
+                  <div className="text-[#6B8A85] text-xs mt-0.5">Contrato mínimo: 6 meses</div>
+                </div>
+                <ul className="space-y-2.5 flex-1 mb-8">
+                  {p.features.map((f, j) => (
+                    <li key={j} className="flex items-start gap-2.5 text-sm text-[#6B8A85]">
+                      <Icon name="check" className="w-4 h-4 text-[#00D4B8] shrink-0 mt-0.5" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
+                   className={`block text-center font-semibold py-3.5 rounded-full transition-all text-sm ${p.popular ? 'btn-primary' : 'text-[#00D4B8] border border-[#00D4B8]/25 hover:border-[#00D4B8]/50 hover:bg-[#00D4B8]/5'}`}>
+                  Quero esse plano
+                </a>
               </div>
-              <h3 className="font-bold text-midnight mb-2">{item.title}</h3>
-              <p className="text-text-muted text-sm leading-relaxed">{item.desc}</p>
+            ))}
+          </div>
+        )}
+
+        {tab === 'individual' && (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {individual.map((p, i) => (
+              <div key={i} className="glass-card p-6 flex flex-col hover:border-[#00D4B8]/25 transition-all">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-[#00D4B8]/8 border border-[#00D4B8]/15 flex items-center justify-center">
+                    <Icon name={p.icon} className="w-5 h-5 text-[#00D4B8]" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white text-sm leading-tight">{p.name}</h3>
+                    <p className="text-xs text-[#00D4B8]">{p.sub}</p>
+                  </div>
+                </div>
+                <p className="text-[#6B8A85] text-sm leading-relaxed mb-4">{p.desc}</p>
+                <ul className="space-y-1.5 mb-4 flex-1">
+                  {p.features.map((f, j) => (
+                    <li key={j} className="flex items-start gap-2 text-xs text-[#6B8A85]">
+                      <Icon name="check" className="w-3.5 h-3.5 text-[#00D4B8] shrink-0 mt-0.5" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <div className="bg-[#00D4B8]/5 border border-[#00D4B8]/10 rounded-lg p-2.5 mb-4">
+                  <p className="text-[11px] text-[#6B8A85]">{p.ideal}</p>
+                </div>
+                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
+                   className="block text-center text-sm font-semibold py-2.5 rounded-full text-[#00D4B8] border border-[#00D4B8]/25 hover:border-[#00D4B8]/50 hover:bg-[#00D4B8]/5 transition-all">
+                  Saber mais
+                </a>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <p className="text-center text-[#6B8A85] text-sm mt-8">
+          O investimento em anúncios (Google/Meta) é pago diretamente às plataformas, separado da mensalidade.
+        </p>
+      </div>
+    </section>
+  )
+}
+
+// ─── RESULTS ──────────────────────────────────────────────────────────────────
+function Results() {
+  return (
+    <section id="resultados" className="py-24 px-6 sm:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-14">
+          <div className="section-label mb-4">Resultados</div>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+            <h2 className="text-4xl sm:text-5xl font-bold text-white leading-tight max-w-xl">
+              Números que importam<br />para você.
+            </h2>
+            <p className="text-[#6B8A85] max-w-xs leading-relaxed text-sm">
+              Não falamos de likes ou seguidores. Falamos de pacientes na agenda e crescimento mensurável.
+            </p>
+          </div>
+        </div>
+
+        {/* Bento grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+          {[
+            { value: '+30%', label: 'Mais leads em 90 dias', desc: 'Média das clínicas no 3º mês de contrato' },
+            { value: '85%', label: 'Ocupação da agenda', desc: 'Meta atingida por 80% dos clientes' },
+            { value: 'Top 3', label: 'No Google Maps', desc: 'Em até 60 dias após otimização' },
+            { value: '5×', label: 'Retorno sobre anúncio', desc: 'ROAS médio nas campanhas Pulso' },
+          ].map((m, i) => (
+            <div key={i} className="glass-card p-6 flex flex-col justify-between hover:border-[#00D4B8]/25 transition-all">
+              <div className="text-4xl sm:text-5xl font-bold text-[#00D4B8] mb-2 leading-none"
+                   style={{ textShadow: '0 0 30px rgba(0,212,184,0.3)' }}>
+                {m.value}
+              </div>
+              <div>
+                <div className="text-white text-sm font-semibold mb-1">{m.label}</div>
+                <div className="text-[#6B8A85] text-xs leading-snug">{m.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Ad investment guide */}
+        <div className="glass-card p-8" style={{ borderColor: 'rgba(0,212,184,0.12)' }}>
+          <div className="section-label mb-2">Guia de investimento em anúncios</div>
+          <h3 className="text-white text-xl font-bold mb-6">Quanto custa trazer pacientes pelo digital?</h3>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {[
+              { tier: 'Básico', budget: 'R$ 1–2 mil/mês', leads: '30–60 leads/mês', color: 'rgba(0,212,184,0.8)' },
+              { tier: 'Intermediário', budget: 'R$ 2–5 mil/mês', leads: '60–150 leads/mês', color: '#00D4B8' },
+              { tier: 'Avançado', budget: 'R$ 5–15 mil/mês', leads: '150–400+ leads/mês', color: '#33DEC6' },
+            ].map((t, i) => (
+              <div key={i} className="bg-[#00D4B8]/5 border border-[#00D4B8]/10 rounded-xl p-5">
+                <div className="section-label mb-2" style={{ color: t.color }}>{t.tier}</div>
+                <div className="text-white text-xl font-bold mb-1">{t.budget}</div>
+                <div className="text-[#6B8A85] text-sm">{t.leads}</div>
+              </div>
+            ))}
+          </div>
+          <p className="text-[#6B8A85] text-xs mt-5">
+            Estimativas baseadas em CPC médio de R$ 3–8 na área de saúde e taxa de conversão de 5–15%.
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── DIFFERENTIALS ────────────────────────────────────────────────────────────
+function Differentials() {
+  const big = [
+    {
+      icon: 'shield', title: 'Conformidade com o CFM', desc: 'Conhecemos as normas de publicidade médica (Res. 2.336/2023). Seu marketing é eficaz e 100% legal.',
+      features: ['Nenhum post ou anúncio fora das normas', 'Restrições de antes/depois respeitadas', 'Depoimentos dentro das regras do Conselho'],
+    },
+    {
+      icon: 'chart', title: 'Foco em pacientes, não métricas de vaidade', desc: 'Nosso único KPI é agendamento. Não comemoramos likes, seguidores ou impressões sem conversão.',
+      features: ['Dashboard com custo real por paciente', 'Relatório mensal orientado a negócio', 'Metas claras de ocupação da agenda'],
+    },
+  ]
+  const small = [
+    { icon: 'zap', title: 'Sistema, não campanha', desc: 'Construímos uma máquina de atração que funciona 24/7, não ações pontuais que somem.' },
+    { icon: 'heart', title: 'Só o setor médico', desc: 'Atendemos exclusivamente clínicas. Entendemos o mercado, o paciente e as regulamentações de dentro.' },
+    { icon: 'calendar', title: 'Contrato com compromisso', desc: 'Mínimo 6 meses porque resultado sustentável leva 60–90 dias. Sem promessas de milagre.' },
+    { icon: 'sparkles', title: 'IA aplicada ao marketing médico', desc: 'Usamos inteligência artificial para qualificar leads, gerar conteúdo e otimizar campanhas.' },
+  ]
+  return (
+    <section className="py-24 px-6 sm:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-14">
+          <div className="section-label mb-4">Por que a Pulso</div>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white leading-tight max-w-2xl">
+            Não somos uma agência genérica.
+          </h2>
+        </div>
+        {/* Two large feature cards */}
+        <div className="grid md:grid-cols-2 gap-4 mb-4">
+          {big.map((item, i) => (
+            <div key={i} className="glass-card p-8 hover:border-[#00D4B8]/25 transition-all">
+              <div className="w-12 h-12 rounded-xl bg-[#00D4B8]/10 border border-[#00D4B8]/20 flex items-center justify-center mb-5">
+                <Icon name={item.icon} className="w-6 h-6 text-[#00D4B8]" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+              <p className="text-[#6B8A85] text-sm leading-relaxed mb-6">{item.desc}</p>
+              <div className="space-y-2.5">
+                {item.features.map((f, j) => (
+                  <div key={j} className="flex items-center gap-2.5 text-sm text-[#6B8A85]">
+                    <Icon name="check" className="w-4 h-4 text-[#00D4B8] shrink-0" />
+                    {f}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Four smaller cards */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {small.map((item, i) => (
+            <div key={i} className="glass-card p-6 hover:border-[#00D4B8]/25 transition-all">
+              <div className="w-9 h-9 rounded-lg bg-[#00D4B8]/8 border border-[#00D4B8]/15 flex items-center justify-center mb-4">
+                <Icon name={item.icon} className="w-4 h-4 text-[#00D4B8]" />
+              </div>
+              <h3 className="font-semibold text-white text-sm mb-2">{item.title}</h3>
+              <p className="text-[#6B8A85] text-xs leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -562,35 +813,42 @@ function Differentials() {
   )
 }
 
+// ─── FAQ ──────────────────────────────────────────────────────────────────────
 function FAQ() {
   const [openIdx, setOpenIdx] = useState(null)
   const faqs = [
-    { q: 'Preciso entender de marketing para contratar?', a: 'Não. Nosso trabalho é justamente cuidar de tudo para você. Explicamos cada passo em linguagem simples e enviamos relatórios claros todo mês mostrando quantos pacientes novos chegaram.' },
-    { q: 'Quanto tempo demora para ver resultado?', a: 'Os primeiros leads começam a aparecer nas primeiras semanas após as campanhas entrarem no ar. Resultados consistentes e previsíveis levam de 60 a 90 dias. Por isso trabalhamos com contrato mínimo de 6 meses.' },
-    { q: 'O investimento em anúncios está incluso no plano?', a: 'Não. O valor do plano cobre todo o nosso trabalho (estratégia, criação, gestão). O investimento em anúncios (Google e Instagram) é pago por você diretamente às plataformas. Recomendamos a partir de R$1.000/mês para começar.' },
-    { q: 'E se eu já tenho agência ou faço marketing sozinho?', a: 'Podemos começar pelo diagnóstico gratuito. Ele mostra exatamente onde estão os gaps e o que pode ser melhorado. Se você está satisfeito com o resultado atual, ótimo. Se não, mostramos o caminho.' },
-    { q: 'Vocês trabalham com qual especialidade?', a: 'Trabalhamos com todas as especialidades médicas: estética, odontologia, dermatologia, ortopedia, oftalmologia, cardiologia e demais. Adaptamos a estratégia para cada área.' },
-    { q: 'O marketing é feito dentro das regras do CFM?', a: 'Sim, sempre. Conhecemos as normas de publicidade médica (Resolução CFM 2.336/2023) e garantimos que todo conteúdo está em conformidade. Isso inclui restrições sobre preços, antes/depois e depoimentos.' },
-    { q: 'Posso cancelar a qualquer momento?', a: 'O contrato mínimo é de 6 meses. Isso existe porque marketing é construção, não mágica. Após os 6 meses, a renovação é mensal e você pode cancelar a qualquer momento.' },
-    { q: 'Como acompanho os resultados?', a: 'Enviamos relatórios mensais com linguagem simples: quantos pacientes ligaram, quantos agendaram, quanto custou cada lead, como está o Google e o Instagram. Além disso, temos reuniões periódicas para alinhar estratégia.' },
+    { q: 'Preciso entender de marketing para contratar?', a: 'Não. Nosso trabalho é cuidar de tudo para você. Explicamos cada etapa em linguagem simples e enviamos relatórios claros todo mês mostrando quantos pacientes chegaram e quanto custou cada um.' },
+    { q: 'Quanto tempo para ver resultado?', a: 'Os primeiros leads aparecem nas primeiras semanas após as campanhas entrarem no ar. Resultados consistentes levam 60–90 dias — por isso trabalhamos com contrato mínimo de 6 meses.' },
+    { q: 'O investimento em anúncios está incluso?', a: 'Não. A mensalidade cobre estratégia, criação e gestão. O valor dos anúncios (Google/Meta) é pago por você diretamente às plataformas. Recomendamos a partir de R$ 1.000/mês para começar.' },
+    { q: 'E se já tenho agência ou faço marketing sozinho?', a: 'Começamos pelo diagnóstico gratuito — ele mostra exatamente os gaps. Se está satisfeito com o resultado atual, ótimo. Se não, mostramos o caminho.' },
+    { q: 'Vocês trabalham com qual especialidade?', a: 'Todas: estética, odontologia, dermatologia, ortopedia, oftalmologia, cardiologia e demais. Adaptamos a estratégia para cada área e cada região.' },
+    { q: 'O marketing segue as regras do CFM?', a: 'Sim, sempre. Conhecemos as normas (Resolução CFM 2.336/2023) e garantimos conformidade em todo conteúdo — incluindo restrições sobre preços, antes/depois e depoimentos.' },
+    { q: 'Posso cancelar antes dos 6 meses?', a: 'O contrato mínimo existe porque marketing é construção, não mágica. Após os 6 meses, a renovação é mensal e você cancela quando quiser.' },
+    { q: 'Como acompanho os resultados?', a: 'Relatórios mensais com linguagem simples: pacientes que ligaram, que agendaram, custo por lead, performance no Google e no Instagram. Além de reuniões periódicas de alinhamento.' },
   ]
   return (
-    <section id="faq" className="py-16 sm:py-24 px-4 sm:px-6">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4">DÚVIDAS FREQUENTES</div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-midnight mb-4">Perguntas que você pode ter</h2>
+    <section id="faq" className="py-24 px-6 sm:px-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="mb-14">
+          <div className="section-label mb-4">Dúvidas frequentes</div>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white leading-tight">
+            Perguntas que você<br />provavelmente tem.
+          </h2>
         </div>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {faqs.map((faq, i) => (
-            <div key={i} className="bg-surface rounded-xl border border-border overflow-hidden">
-              <button onClick={() => setOpenIdx(openIdx === i ? null : i)} className="w-full flex items-center justify-between p-5 text-left hover:bg-surface-alt transition-colors">
-                <span className="font-semibold text-midnight text-sm sm:text-base pr-4">{faq.q}</span>
-                <svg className={`w-5 h-5 text-primary shrink-0 transition-transform ${openIdx === i ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+            <div key={i} className="glass-card overflow-hidden">
+              <button onClick={() => setOpenIdx(openIdx === i ? null : i)}
+                      className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-[#00D4B8]/3 transition-colors">
+                <span className="font-medium text-white text-sm sm:text-base pr-8 leading-snug">{faq.q}</span>
+                <svg className={`w-4 h-4 text-[#00D4B8] shrink-0 transition-transform duration-300 ${openIdx === i ? 'rotate-180' : ''}`}
+                     fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
               </button>
               {openIdx === i && (
-                <div className="px-5 pb-5">
-                  <p className="text-text-muted text-sm leading-relaxed">{faq.a}</p>
+                <div className="px-6 pb-5 border-t border-[#00D4B8]/8 pt-4">
+                  <p className="text-[#6B8A85] text-sm leading-relaxed">{faq.a}</p>
                 </div>
               )}
             </div>
@@ -601,66 +859,96 @@ function FAQ() {
   )
 }
 
+// ─── CTA ──────────────────────────────────────────────────────────────────────
 function CTA() {
   return (
-    <section className="py-16 sm:py-24 px-4 sm:px-6">
-      <div className="max-w-4xl mx-auto bg-gradient-to-br from-primary to-midnight rounded-3xl p-8 sm:p-14 text-center">
-        <h2 className="text-2xl sm:text-4xl font-extrabold text-white mb-4">Pronto para lotar sua agenda?</h2>
-        <p className="text-white/80 text-lg max-w-xl mx-auto mb-8 leading-relaxed">
-          Comece com um diagnóstico gratuito da sua presença digital. Sem compromisso, sem enrolação.
-        </p>
-        <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-primary font-bold px-10 py-4 rounded-2xl text-lg transition-all hover:scale-105 shadow-xl">
-          <Icon name="phone" className="w-5 h-5" />
-          Falar com Especialista
-        </a>
-        <p className="text-white/50 text-sm mt-6">Diagnóstico gratuito • Resposta em até 2h • Sem compromisso</p>
+    <section className="py-24 px-6 sm:px-8">
+      <div className="max-w-5xl mx-auto glass-card overflow-hidden" style={{ borderColor: 'rgba(0,212,184,0.2)', boxShadow: '0 0 80px rgba(0,212,184,0.06)' }}>
+        <div className="p-10 sm:p-16">
+          <div className="section-label mb-6">Próximo passo</div>
+          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.0] tracking-tight mb-10">
+            <span className="text-white">Pronto para lotar</span><br />
+            <span style={{ color: 'rgba(0,212,184,0.45)' }}>sua agenda.</span>
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-8 pt-8 border-t border-[#00D4B8]/10">
+            <div>
+              <div className="text-xs text-[#6B8A85] uppercase tracking-widest mb-3">WhatsApp</div>
+              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
+                 className="inline-flex items-center gap-2 btn-primary px-6 py-3 rounded-full text-sm font-semibold transition-all hover:scale-105">
+                <Icon name="phone" className="w-4 h-4" />
+                Falar agora
+              </a>
+            </div>
+            <div>
+              <div className="text-xs text-[#6B8A85] uppercase tracking-widest mb-3">Diagnóstico</div>
+              <div className="text-white font-semibold mb-1">Gratuito</div>
+              <div className="text-[#6B8A85] text-sm">Análise completa sem compromisso</div>
+            </div>
+            <div>
+              <div className="text-xs text-[#6B8A85] uppercase tracking-widest mb-3">Resposta</div>
+              <div className="text-white font-semibold mb-1">Em até 2h</div>
+              <div className="text-[#6B8A85] text-sm">Atendimento de seg–sex, 8h–18h</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )
 }
 
+// ─── FOOTER ───────────────────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer className="border-t border-border py-8 px-4 sm:px-6 bg-surface">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
-            <Icon name="zap" className="w-4 h-4 text-white" />
+    <footer className="px-6 sm:px-8 pb-12 pt-8 border-t border-[#00D4B8]/8">
+      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div>
+          <div className="flex items-center gap-2.5 mb-2">
+            <div className="w-7 h-7 rounded-md bg-[#00D4B8] flex items-center justify-center">
+              <Icon name="zap" className="w-4 h-4 text-[#060E0C]" />
+            </div>
+            <span className="font-bold text-white text-lg tracking-tight">Pulso</span>
+            <span className="text-[#6B8A85] text-sm">por Trion Marketing</span>
           </div>
-          <span className="font-bold text-midnight">Pulso</span>
-          <span className="text-text-muted text-sm">por Trion Marketing</span>
+          <p className="text-[#6B8A85] text-xs">Marketing especializado para clínicas médicas.</p>
         </div>
-        <p className="text-text-muted text-sm">&copy; {new Date().getFullYear()} Trion Marketing. Todos os direitos reservados.</p>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 text-sm text-[#6B8A85]">
+          <a href="#servicos" className="hover:text-white transition-colors section-label">Serviços</a>
+          <a href="#planos" className="hover:text-white transition-colors section-label">Planos</a>
+          <a href="#faq" className="hover:text-white transition-colors section-label">FAQ</a>
+          <a href="#/wiki" className="hover:text-[#00D4B8] transition-colors section-label text-[#00D4B8]">Wiki</a>
+          <span className="text-[#6B8A85] text-xs">© {new Date().getFullYear()} Trion Marketing</span>
+        </div>
       </div>
     </footer>
   )
 }
 
+// ─── APP ──────────────────────────────────────────────────────────────────────
 function App() {
   const isWikiHash = (hash) => hash.startsWith('#/wiki')
   const [page, setPage] = useState(isWikiHash(window.location.hash) ? 'wiki' : 'home')
-
   useEffect(() => {
     const onHash = () => setPage(isWikiHash(window.location.hash) ? 'wiki' : 'home')
     window.addEventListener('hashchange', onHash)
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
-
   if (page === 'wiki') return <Wiki />
-
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      <Hero />
-      <PainPoints />
-      <Services />
-      <HowItWorks />
-      <Plans />
-      <Results />
-      <Differentials />
-      <FAQ />
-      <CTA />
-      <Footer />
+    <div style={{ background: '#060E0C', minHeight: '100vh', position: 'relative', overflowX: 'hidden' }}>
+      <EEGCanvas />
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <Navbar />
+        <FadeIn from="blur" ><Hero /></FadeIn>
+        <FadeIn from="flip" ><PainPoints /></FadeIn>
+        <FadeIn from="left" ><Services /></FadeIn>
+        <FadeIn from="right"><HowItWorks /></FadeIn>
+        <FadeIn from="zoom" ><Plans /></FadeIn>
+        <FadeIn from="flip" ><Results /></FadeIn>
+        <FadeIn from="left" ><Differentials /></FadeIn>
+        <FadeIn from="blur" ><FAQ /></FadeIn>
+        <FadeIn from="zoom" ><CTA /></FadeIn>
+        <FadeIn from="up"   ><Footer /></FadeIn>
+      </div>
     </div>
   )
 }
