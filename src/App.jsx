@@ -240,9 +240,7 @@ function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0D1B2A]/80 backdrop-blur-md border-b border-[#00BFA5]/10">
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
         <a href="#" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-[#00BFA5] flex items-center justify-center">
-            <span className="text-[#0D1B2A] font-bold text-lg leading-none" style={{ fontFamily: "'DM Serif Display', serif" }}>P</span>
-          </div>
+          <img src={import.meta.env.BASE_URL + 'pulso-icon.svg'} alt="Pulso" className="w-8 h-8" style={{ filter: 'brightness(0) invert(1)' }} />
           <span className="text-base font-semibold text-[#F0E9DC] tracking-tight">Pulso</span>
         </a>
         <div className="hidden md:flex items-center gap-7">
@@ -895,9 +893,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2.5 mb-2">
-            <div className="w-8 h-8 rounded-lg bg-[#00BFA5] flex items-center justify-center">
-              <span className="text-[#0D1B2A] font-bold text-lg leading-none" style={{ fontFamily: "'DM Serif Display', serif" }}>P</span>
-            </div>
+            <img src={import.meta.env.BASE_URL + 'pulso-icon.svg'} alt="Pulso" className="w-8 h-8" style={{ filter: 'brightness(0) invert(1)' }} />
             <span className="font-bold text-[#F0E9DC] text-lg tracking-tight">Pulso</span>
             <span className="text-[#8096A7] text-sm">Assessoria de Marketing para Clínicas</span>
           </div>
