@@ -40,45 +40,29 @@ function EEGCanvas() {
     const SPEED = 1.6
     const CYCLE = 380
 
-    // ── Audio: lazy AudioContext, unlocked on first user gesture ──────────────
-    let audioCtx = null
-    const getAudio = () => {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)()
-      if (audioCtx.state === 'suspended') audioCtx.resume()
-      return audioCtx
+    // ── Audio: heartbeat MP3, played on each wave reset ──────────────────────
+    const audio = new Audio('/heartbeat.mp3')
+    audio.volume = 0.6
+    let audioUnlocked = false
+
+    const UNLOCK_EVENTS = ['click', 'touchstart', 'pointerdown', 'keydown']
+    const onUnlock = () => {
+      // Play + immediately pause to unlock autoplay policy
+      audio.play().then(() => { audio.pause(); audio.currentTime = 0; audioUnlocked = true }).catch(() => {})
+      UNLOCK_EVENTS.forEach(e => document.removeEventListener(e, onUnlock))
     }
-    const unlock = () => { getAudio(); document.removeEventListener('pointerdown', unlock) }
-    document.addEventListener('pointerdown', unlock)
+    UNLOCK_EVENTS.forEach(e => document.addEventListener(e, onUnlock, { once: true }))
 
-    // Synthesise a cardiac "lub-dub" using two filtered noise bursts
+    let lastBeat = -Infinity
+    const COOLDOWN_MS = 30_000
+
     const playHeartbeat = () => {
-      try {
-        const ac  = getAudio()
-        if (ac.state !== 'running') return
-        const now = ac.currentTime
-
-        const beat = (t, freq, gain, dur) => {
-          const osc  = ac.createOscillator()
-          const bpf  = ac.createBiquadFilter()
-          const env  = ac.createGain()
-          bpf.type = 'bandpass'
-          bpf.frequency.value = freq
-          bpf.Q.value = 0.8
-          osc.type = 'sawtooth'
-          osc.frequency.value = freq * 0.5
-          osc.connect(bpf)
-          bpf.connect(env)
-          env.connect(ac.destination)
-          env.gain.setValueAtTime(0, t)
-          env.gain.linearRampToValueAtTime(gain, t + 0.012)
-          env.gain.exponentialRampToValueAtTime(0.0001, t + dur)
-          osc.start(t)
-          osc.stop(t + dur + 0.01)
-        }
-
-        beat(now,        55, 0.22, 0.11)  // lub  — low thump
-        beat(now + 0.19, 70, 0.15, 0.09)  // dub  — slightly higher, quieter
-      } catch (_) {}
+      if (!audioUnlocked) return
+      const now = Date.now()
+      if (now - lastBeat < COOLDOWN_MS) return
+      lastBeat = now
+      audio.currentTime = 0
+      audio.play().catch(() => {})
     }
 
     const resize = () => {
@@ -117,11 +101,18 @@ function EEGCanvas() {
       ctx.fillStyle = 'rgba(6, 14, 12, 0.018)'
       ctx.fillRect(0, 0, W, H)
 
-      const x = sweepX % W
       const prevSweepX = sweepX - SPEED
+      const x    = sweepX    % W
       const prevX = prevSweepX % W
       const wrapped = x < prevX
-      if (wrapped) playHeartbeat()
+
+      // Fire sound when sweep crosses the R-spike peak (cycle position 169)
+      const R_PEAK = 169
+      const prevC = ((prevSweepX % CYCLE) + CYCLE) % CYCLE
+      const currC = ((sweepX    % CYCLE) + CYCLE) % CYCLE
+      const crossedPeak = (prevC < R_PEAK && currC >= R_PEAK) ||
+                          (prevC > currC  && currC >= R_PEAK)   // cycle wrap edge case
+      if (crossedPeak) playHeartbeat()
 
       // Erase band ahead of sweep head (blank region, like a real scope)
       const ERASE = 44
@@ -159,8 +150,8 @@ function EEGCanvas() {
     return () => {
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', resize)
-      document.removeEventListener('pointerdown', unlock)
-      audioCtx?.close()
+      UNLOCK_EVENTS.forEach(e => document.removeEventListener(e, onUnlock))
+      audio.pause()
     }
   }, [])
 
