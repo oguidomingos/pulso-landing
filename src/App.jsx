@@ -238,7 +238,7 @@ function Navbar() {
   const [open, setOpen] = useState(false)
   const links = [['Serviços','#servicos'],['Como Funciona','#como-funciona'],['Planos','#planos'],['Resultados','#resultados'],['Dúvidas','#faq']]
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0D1B2A]/80 backdrop-blur-md border-b border-[#00BFA5]/10">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#00BFA5]/15" style={{ background: 'linear-gradient(to bottom, rgba(13,27,42,0.95), rgba(13,27,42,0.7))', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
         <a href="#" className="flex items-center">
           <img src={import.meta.env.BASE_URL + 'pulso-logo.svg'} alt="Pulso" className="h-7" />
@@ -279,8 +279,13 @@ function Navbar() {
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 function Hero() {
   return (
-    <section className="min-h-screen flex items-center pt-16 px-6 sm:px-8">
-      <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-[1fr_400px] gap-16 items-center py-20">
+    <section className="min-h-screen flex items-center pt-16 px-6 sm:px-8 relative">
+      {/* Subtle glow gradient behind content */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-20 right-0 w-96 h-96 rounded-full blur-3xl opacity-10" style={{ background: 'radial-gradient(circle, #00BFA5, transparent)' }} />
+        <div className="absolute bottom-40 left-0 w-80 h-80 rounded-full blur-3xl opacity-5" style={{ background: 'radial-gradient(circle, #00BFA5, transparent)' }} />
+      </div>
+      <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-[1fr_400px] gap-16 items-center py-20 relative z-10">
 
         {/* ── Left ── */}
         <div>
@@ -319,7 +324,7 @@ function Hero() {
         </div>
 
         {/* ── Right: Dashboard card ── */}
-        <div className="hidden lg:flex flex-col glass-card p-5 gap-4" style={{ borderColor: 'rgba(0,191,165,0.18)' }}>
+        <div className="hidden lg:flex flex-col glass-card p-5 gap-4 shadow-2xl" style={{ borderColor: 'rgba(0,191,165,0.25)', boxShadow: '0 0 60px rgba(0,191,165,0.2)' }}>
           <div className="flex items-center justify-between">
             <span className="section-label">PAINEL PULSO</span>
             <div className="flex items-center gap-1.5">
@@ -372,8 +377,12 @@ function PainPoints() {
     { title: 'Invisível no Google', desc: 'Pacientes pesquisam "clínica perto de mim" e seus concorrentes aparecem. Você investe em estrutura mas não em encontrabilidade.', subs: ['Fora do top 10 do Google Maps', 'Zero tráfego orgânico local'] },
   ]
   return (
-    <section className="py-24 px-6 sm:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-24 px-6 sm:px-8 relative">
+      {/* Background aura */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-40 left-1/2 w-96 h-96 rounded-full blur-3xl opacity-8" style={{ background: 'radial-gradient(circle, rgba(255,97,106,0.4), transparent)', transform: 'translateX(-50%)' }} />
+      </div>
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="mb-14">
           <div className="section-label mb-4">Você se identifica?</div>
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
@@ -387,7 +396,7 @@ function PainPoints() {
         </div>
         <div className="grid md:grid-cols-2 gap-4">
           {points.map((p, i) => (
-            <div key={i} className="glass-card p-7 flex flex-col gap-4 hover:border-[#00BFA5]/25 transition-all">
+            <div key={i} className="glass-card p-7 flex flex-col gap-4 border-[#FF616A]/20 hover:border-[#FF616A]/40 transition-all" style={{ background: 'linear-gradient(135deg, rgba(13, 27, 42, 0.8), rgba(255, 97, 106, 0.05))' }}>
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0 mt-0.5">
                   <span className="text-red-400 text-sm font-bold">!</span>
@@ -413,6 +422,21 @@ function PainPoints() {
 
 // ─── SERVICES ─────────────────────────────────────────────────────────────────
 function Services() {
+  // Premium gradient for each service icon
+  const getServiceGradient = (i) => {
+    const gradients = [
+      'linear-gradient(135deg, rgba(0,191,165,0.15), rgba(0,191,165,0.05))',
+      'linear-gradient(135deg, rgba(0,191,165,0.12), rgba(0,191,165,0.03))',
+      'linear-gradient(135deg, rgba(0,191,165,0.18), rgba(0,191,165,0.06))',
+      'linear-gradient(135deg, rgba(0,191,165,0.14), rgba(0,191,165,0.04))',
+      'linear-gradient(135deg, rgba(0,191,165,0.16), rgba(0,191,165,0.05))',
+      'linear-gradient(135deg, rgba(0,191,165,0.13), rgba(0,191,165,0.04))',
+      'linear-gradient(135deg, rgba(0,191,165,0.17), rgba(0,191,165,0.06))',
+      'linear-gradient(135deg, rgba(0,191,165,0.15), rgba(0,191,165,0.05))',
+      'linear-gradient(135deg, rgba(0,191,165,0.19), rgba(0,191,165,0.07))',
+    ]
+    return gradients[i % gradients.length]
+  }
   const services = [
     { icon: 'clipboard', name: 'Diagnóstico Completo', sub: 'Ponto de partida', desc: 'Score 0-100 da sua clínica: digital, comercial e competitivo.', badge: 'Incluso', tags: ['Score digital', 'Análise competidores', 'Auditoria completa'] },
     { icon: 'search', name: 'Pesquisa de Mercado', sub: 'Inteligência local', desc: 'Volume de busca, sazonalidade e perfil do paciente ideal na sua região.', badge: 'Disponível', tags: ['Keywords locais', 'Perfil do paciente', 'Sazonalidade'] },
@@ -431,10 +455,14 @@ function Services() {
     return                           { bg: 'rgba(107,138,133,0.08)', color: '#8096A7',  border: 'rgba(107,138,133,0.2)' }
   }
   return (
-    <section id="servicos" className="py-24 px-6 sm:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section id="servicos" className="py-24 px-6 sm:px-8 relative">
+      {/* Aura glow backdrop */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-0 left-1/2 w-[500px] h-[500px] rounded-full blur-3xl opacity-8" style={{ background: 'radial-gradient(circle, #00BFA5, transparent)', transform: 'translateX(-50%)' }} />
+      </div>
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 border border-[#00BFA5]/20 bg-[#00BFA5]/5 rounded-full px-4 py-1.5 mb-6">
+          <div className="inline-flex items-center gap-2 border border-[#00BFA5]/20 bg-[#00BFA5]/8 rounded-full px-4 py-1.5 mb-6 backdrop-blur-sm">
             <Icon name="pulse" className="w-3 h-3 text-[#00BFA5]" />
             <span className="section-label">Serviços</span>
           </div>
@@ -449,9 +477,10 @@ function Services() {
           {services.map((s, i) => {
             const bs = badgeStyle(s.badge)
             return (
-              <div key={i} className="glass-card p-6 flex flex-col gap-4 hover:border-[#00BFA5]/25 transition-all group">
+              <div key={i} className="glass-card p-6 flex flex-col gap-4 hover:border-[#00BFA5]/35 transition-all group" style={{ background: 'linear-gradient(135deg, rgba(13,27,42,0.88), rgba(13,27,42,0.6))' }}>
                 <div className="flex items-start justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-[#00BFA5]/8 border border-[#00BFA5]/15 flex items-center justify-center group-hover:bg-[#00BFA5]/15 transition-colors">
+                  <div className="w-10 h-10 rounded-xl border border-[#00BFA5]/25 flex items-center justify-center group-hover:border-[#00BFA5]/50 transition-all"
+                       style={{ background: getServiceGradient(i), boxShadow: '0 0 16px rgba(0,191,165,0.1)' }}>
                     <Icon name={s.icon} className="w-5 h-5 text-[#00BFA5]" />
                   </div>
                   <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full border"
@@ -495,8 +524,12 @@ function HowItWorks() {
     { label: 'Redes sociais',        pct: 70, status: 'Em produção' },
   ]
   return (
-    <section id="como-funciona" className="py-24 px-6 sm:px-8">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
+    <section id="como-funciona" className="py-24 px-6 sm:px-8 relative">
+      {/* Premium aura glow */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -bottom-40 right-0 w-96 h-96 rounded-full blur-3xl opacity-7" style={{ background: 'radial-gradient(circle, #00BFA5, transparent)' }} />
+      </div>
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-start relative z-10">
         {/* Left: timeline */}
         <div>
           <div className="section-label mb-4">Como funciona</div>
@@ -529,7 +562,7 @@ function HowItWorks() {
           </div>
         </div>
         {/* Right: progress card */}
-        <div className="glass-card p-8" style={{ borderColor: 'rgba(0,191,165,0.15)' }}>
+        <div className="glass-card p-8 shadow-2xl" style={{ borderColor: 'rgba(0,191,165,0.3)', boxShadow: '0 0 50px rgba(0,191,165,0.15)' }}>
           <div className="section-label mb-6">Sua clínica em 30 dias</div>
           <div className="space-y-5">
             {milestones.map((m, i) => (
@@ -578,8 +611,13 @@ function Plans() {
     { name: 'Pro', sub: 'Para dominar a região', desc: 'Para clínicas que querem ser referência absoluta na especialidade.', popular: false, features: ['Tudo do Growth +','SEO avançado + 4 blog posts/mês','E-mail marketing + CRM','Chatbot IA no WhatsApp','TikTok + YouTube','20 peças + 8 vídeos/mês','Dashboard em tempo real','Reunião quinzenal estratégica'] },
   ]
   return (
-    <section id="planos" className="py-24 px-6 sm:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section id="planos" className="py-24 px-6 sm:px-8 relative">
+      {/* Gradient aura */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/3 left-0 w-96 h-96 rounded-full blur-3xl opacity-8" style={{ background: 'radial-gradient(circle, #00BFA5, transparent)' }} />
+        <div className="absolute top-1/3 right-0 w-80 h-80 rounded-full blur-3xl opacity-6" style={{ background: 'radial-gradient(circle, #00BFA5, transparent)' }} />
+      </div>
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-10">
           <div className="section-label mb-4">Planos e serviços</div>
           <h2 className="text-4xl sm:text-5xl font-bold text-[#F0E9DC] mb-4 leading-tight">Monte o plano<br />ideal para sua clínica</h2>
@@ -598,8 +636,8 @@ function Plans() {
         {tab === 'pacotes' && (
           <div className="grid md:grid-cols-3 gap-5">
             {bundles.map((p, i) => (
-              <div key={i} className={`relative glass-card p-8 flex flex-col ${p.popular ? 'border-[#00BFA5]/35' : ''}`}
-                   style={p.popular ? { boxShadow: '0 0 40px rgba(0,191,165,0.08)' } : {}}>
+              <div key={i} className={`relative glass-card p-8 flex flex-col transition-all ${p.popular ? 'border-[#00BFA5]/45 shadow-2xl' : ''}`}
+                   style={p.popular ? { boxShadow: '0 0 60px rgba(0,191,165,0.2)', background: 'linear-gradient(135deg, rgba(13,27,42,0.95), rgba(0,191,165,0.08))' } : { background: 'linear-gradient(135deg, rgba(13,27,42,0.85), rgba(13,27,42,0.6))' }}>
                 {p.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#00BFA5] text-[#0D1B2A] text-[11px] font-bold px-4 py-1 rounded-full"
                        style={{ boxShadow: '0 0 16px rgba(0,191,165,0.5)' }}>
@@ -678,8 +716,12 @@ function Plans() {
 // ─── RESULTS ──────────────────────────────────────────────────────────────────
 function Results() {
   return (
-    <section id="resultados" className="py-24 px-6 sm:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section id="resultados" className="py-24 px-6 sm:px-8 relative">
+      {/* Premium aura glow */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-0 right-1/3 w-96 h-96 rounded-full blur-3xl opacity-9" style={{ background: 'radial-gradient(circle, #00BFA5, transparent)' }} />
+      </div>
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="mb-14">
           <div className="section-label mb-4">Resultados</div>
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
@@ -700,7 +742,7 @@ function Results() {
             { value: 'Top 3', label: 'No Google Maps', desc: 'Em até 60 dias após otimização' },
             { value: '5×', label: 'Retorno sobre anúncio', desc: 'ROAS médio nas campanhas Pulso' },
           ].map((m, i) => (
-            <div key={i} className="glass-card p-6 flex flex-col justify-between hover:border-[#00BFA5]/25 transition-all">
+            <div key={i} className="glass-card p-6 flex flex-col justify-between hover:border-[#00BFA5]/40 hover:shadow-lg transition-all" style={{ background: 'linear-gradient(135deg, rgba(13,27,42,0.9), rgba(0,191,165,0.06))' }}>
               <div className="text-4xl sm:text-5xl font-bold text-[#00BFA5] mb-2 leading-none"
                    style={{ textShadow: '0 0 30px rgba(0,191,165,0.3)' }}>
                 {m.value}
@@ -714,7 +756,7 @@ function Results() {
         </div>
 
         {/* Ad investment guide */}
-        <div className="glass-card p-8" style={{ borderColor: 'rgba(0,191,165,0.12)' }}>
+        <div className="glass-card p-8 shadow-xl" style={{ borderColor: 'rgba(0,191,165,0.25)', boxShadow: '0 0 40px rgba(0,191,165,0.12)' }}>
           <div className="section-label mb-2">Guia de investimento em anúncios</div>
           <h3 className="text-[#F0E9DC] text-xl font-bold mb-6">Quanto custa trazer pacientes pelo digital?</h3>
           <div className="grid sm:grid-cols-3 gap-4">
@@ -758,8 +800,12 @@ function Differentials() {
     { icon: 'sparkles', title: 'IA aplicada ao marketing médico', desc: 'Usamos inteligência artificial para qualificar leads, gerar conteúdo e otimizar campanhas.' },
   ]
   return (
-    <section className="py-24 px-6 sm:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-24 px-6 sm:px-8 relative">
+      {/* Subtle aura backdrop */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute bottom-0 left-1/2 w-[600px] h-[400px] rounded-full blur-3xl opacity-6" style={{ background: 'radial-gradient(circle, #00BFA5, transparent)', transform: 'translateX(-50%)' }} />
+      </div>
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="mb-14">
           <div className="section-label mb-4">Por que a Pulso</div>
           <h2 className="text-4xl sm:text-5xl font-bold text-[#F0E9DC] leading-tight max-w-2xl">
@@ -769,7 +815,7 @@ function Differentials() {
         {/* Two large feature cards */}
         <div className="grid md:grid-cols-2 gap-4 mb-4">
           {big.map((item, i) => (
-            <div key={i} className="glass-card p-8 hover:border-[#00BFA5]/25 transition-all">
+            <div key={i} className="glass-card p-8 hover:border-[#00BFA5]/40 hover:shadow-lg transition-all" style={{ background: 'linear-gradient(135deg, rgba(13,27,42,0.9), rgba(0,191,165,0.07))' }}>
               <div className="w-12 h-12 rounded-xl bg-[#00BFA5]/10 border border-[#00BFA5]/20 flex items-center justify-center mb-5">
                 <Icon name={item.icon} className="w-6 h-6 text-[#00BFA5]" />
               </div>
@@ -789,7 +835,7 @@ function Differentials() {
         {/* Four smaller cards */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {small.map((item, i) => (
-            <div key={i} className="glass-card p-6 hover:border-[#00BFA5]/25 transition-all">
+            <div key={i} className="glass-card p-6 hover:border-[#00BFA5]/40 hover:shadow-lg transition-all" style={{ background: 'linear-gradient(135deg, rgba(13,27,42,0.85), rgba(13,27,42,0.55))' }}>
               <div className="w-9 h-9 rounded-lg bg-[#00BFA5]/8 border border-[#00BFA5]/15 flex items-center justify-center mb-4">
                 <Icon name={item.icon} className="w-4 h-4 text-[#00BFA5]" />
               </div>
@@ -817,8 +863,12 @@ function FAQ() {
     { q: 'Como acompanho os resultados?', a: 'Relatórios mensais com linguagem simples: pacientes que ligaram, que agendaram, custo por lead, performance no Google e no Instagram. Além de reuniões periódicas de alinhamento.' },
   ]
   return (
-    <section id="faq" className="py-24 px-6 sm:px-8">
-      <div className="max-w-4xl mx-auto">
+    <section id="faq" className="py-24 px-6 sm:px-8 relative">
+      {/* Subtle aura */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/2 right-0 w-80 h-80 rounded-full blur-3xl opacity-5" style={{ background: 'radial-gradient(circle, #00BFA5, transparent)' }} />
+      </div>
+      <div className="max-w-4xl mx-auto relative z-10">
         <div className="mb-14">
           <div className="section-label mb-4">Dúvidas frequentes</div>
           <h2 className="text-4xl sm:text-5xl font-bold text-[#F0E9DC] leading-tight">
@@ -827,7 +877,7 @@ function FAQ() {
         </div>
         <div className="space-y-2">
           {faqs.map((faq, i) => (
-            <div key={i} className="glass-card overflow-hidden">
+            <div key={i} className="glass-card overflow-hidden hover:border-[#00BFA5]/35 transition-all" style={{ background: 'linear-gradient(135deg, rgba(13,27,42,0.88), rgba(13,27,42,0.6))' }}>
               <button onClick={() => setOpenIdx(openIdx === i ? null : i)}
                       className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-[#00BFA5]/3 transition-colors">
                 <span className="font-medium text-[#F0E9DC] text-sm sm:text-base pr-8 leading-snug">{faq.q}</span>
@@ -852,8 +902,12 @@ function FAQ() {
 // ─── CTA ──────────────────────────────────────────────────────────────────────
 function CTA() {
   return (
-    <section className="py-24 px-6 sm:px-8">
-      <div className="max-w-5xl mx-auto glass-card overflow-hidden" style={{ borderColor: 'rgba(0,191,165,0.2)', boxShadow: '0 0 80px rgba(0,191,165,0.06)' }}>
+    <section className="py-24 px-6 sm:px-8 relative">
+      {/* Premium aura for CTA */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 rounded-3xl blur-2xl opacity-20" style={{ background: 'radial-gradient(circle at center, #00BFA5, transparent)', pointerEvents: 'none' }} />
+      </div>
+      <div className="max-w-5xl mx-auto glass-card overflow-hidden relative z-10" style={{ borderColor: 'rgba(0,191,165,0.35)', boxShadow: '0 0 100px rgba(0,191,165,0.15)' }}>
         <div className="p-10 sm:p-16">
           <div className="section-label mb-6">Próximo passo</div>
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.0] tracking-tight mb-10">

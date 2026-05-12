@@ -18,6 +18,27 @@
   --color-border: rgba(0, 191, 165, 0.12);
 }
 
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0px); opacity: 0; }
+  100% { transform: translateY(-8px); opacity: 1; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 191, 165, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1); }
+  50% { box-shadow: 0 0 40px rgba(0, 191, 165, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15); }
+}
+
+@keyframes subtleShimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
 html {
   scroll-behavior: smooth;
   scroll-snap-type: y proximity;
@@ -30,6 +51,7 @@ body {
   background: #0D1B2A;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -46,15 +68,43 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
 }
 
+/* Premium glassmorphism */
 .glass-card {
-  background: rgba(13, 27, 42, 0.7);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 191, 165, 0.12);
-  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(13, 27, 42, 0.85) 0%, rgba(13, 27, 42, 0.55) 100%);
+  backdrop-filter: blur(20px) saturate(110%);
+  -webkit-backdrop-filter: blur(20px) saturate(110%);
+  border: 1px solid rgba(0, 191, 165, 0.18);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.22, 0.68, 0, 1.05);
+}
+
+/* Subtle inner border glow */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(0, 191, 165, 0.25), rgba(0, 191, 165, 0.05));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .glass-card:hover {
-  border-color: rgba(0, 191, 165, 0.3);
+  border-color: rgba(0, 191, 165, 0.35);
+  background: linear-gradient(135deg, rgba(13, 27, 42, 0.92) 0%, rgba(13, 27, 42, 0.65) 100%);
+  box-shadow: 0 8px 32px rgba(0, 191, 165, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  transform: translateY(-4px);
+}
+
+.glass-card:hover::before {
+  opacity: 1;
 }
 
 .section-label {
@@ -62,15 +112,33 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #00BFA5;
+  font-weight: 700;
+  text-shadow: 0 0 12px rgba(0, 191, 165, 0.3);
 }
 
 .btn-primary {
-  background: #00BFA5;
+  background: linear-gradient(135deg, #00BFA5 0%, #00A88E 100%);
   color: #0D1B2A;
-  box-shadow: 0 0 24px rgba(0, 191, 165, 0.5);
+  box-shadow: 0 8px 24px rgba(0, 191, 165, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 191, 165, 0.5);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  transition: all 0.3s cubic-bezier(0.22, 0.68, 0, 1.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: translateX(-100%);
+  animation: subtleShimmer 3s infinite;
 }
 
 .btn-primary:hover {
-  background: #00A88E;
-  box-shadow: 0 0 32px rgba(0, 191, 165, 0.7);
+  background: linear-gradient(135deg, #00A88E 0%, #008B7A 100%);
+  box-shadow: 0 12px 40px rgba(0, 191, 165, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
 }
