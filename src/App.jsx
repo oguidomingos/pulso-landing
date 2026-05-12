@@ -70,7 +70,7 @@ function EEGCanvas() {
     const resize = () => {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
-      ctx.fillStyle = '#0D1B2A'
+      ctx.fillStyle = '#F8FAFC'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       sweepX = 0
     }
@@ -100,7 +100,7 @@ function EEGCanvas() {
       const baseline = H * 0.5
 
       // Phosphor decay — each frame paint a thin layer of background over old line
-      ctx.fillStyle = 'rgba(13, 27, 42, 0.018)'
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.018)'
       ctx.fillRect(0, 0, W, H)
 
       const prevSweepX = sweepX - SPEED
@@ -118,7 +118,7 @@ function EEGCanvas() {
 
       // Erase band ahead of sweep head (blank region, like a real scope)
       const ERASE = 44
-      ctx.fillStyle = '#0D1B2A'
+      ctx.fillStyle = '#F8FAFC'
       const eraseEnd = x + ERASE
       if (eraseEnd <= W) {
         ctx.fillRect(x, 0, ERASE, H)
@@ -238,34 +238,34 @@ function Navbar() {
   const [open, setOpen] = useState(false)
   const links = [['Serviços','#servicos'],['Como Funciona','#como-funciona'],['Planos','#planos'],['Resultados','#resultados'],['Dúvidas','#faq']]
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#00BFA5]/15" style={{ background: 'linear-gradient(to bottom, rgba(13,27,42,0.95), rgba(13,27,42,0.7))', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#00BFA5]/12" style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.98), rgba(248,250,252,0.95))', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
         <a href="#" className="flex items-center">
           <img src={import.meta.env.BASE_URL + 'pulso-logo.svg'} alt="Pulso" className="h-7" />
         </a>
         <div className="hidden md:flex items-center gap-7">
           {links.map(([label, href]) => (
-            <a key={href} href={href} className="text-sm text-[#8096A7] hover:text-[#F0E9DC] transition-colors font-medium">{label}</a>
+            <a key={href} href={href} className="text-sm text-[#5A6B7A] hover:text-[#0D1B2A] transition-colors font-medium">{label}</a>
           ))}
           <a href="#/wiki" className="text-sm text-[#00BFA5] hover:text-[#33D4B5] transition-colors font-medium">Wiki</a>
         </div>
         <div className="hidden md:flex items-center gap-3">
-          <a href="#como-funciona" className="text-sm text-[#8096A7] hover:text-[#F0E9DC] transition-colors font-medium px-4 py-2">Saiba mais</a>
+          <a href="#como-funciona" className="text-sm text-[#5A6B7A] hover:text-[#0D1B2A] transition-colors font-medium px-4 py-2">Saiba mais</a>
           <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
              className="inline-flex items-center gap-1.5 bg-white hover:bg-gray-100 text-[#0D1B2A] text-sm font-semibold px-5 py-2 rounded-full transition-colors">
             Falar agora
           </a>
         </div>
-        <button onClick={() => setOpen(!open)} className="md:hidden p-2 text-[#8096A7]">
+        <button onClick={() => setOpen(!open)} className="md:hidden p-2 text-[#5A6B7A]">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             {open ? <path d="M6 18L18 6M6 6l12 12"/> : <path d="M4 6h16M4 12h16M4 18h16"/>}
           </svg>
         </button>
       </div>
       {open && (
-        <div className="md:hidden bg-[#0D1B2A]/98 backdrop-blur-md border-t border-[#00BFA5]/10 px-6 py-5 space-y-4">
+        <div className="md:hidden bg-[#FFFFFF]/98 backdrop-blur-md border-t border-[#00BFA5]/10 px-6 py-5 space-y-4">
           {links.map(([label, href]) => (
-            <a key={href} href={href} onClick={() => setOpen(false)} className="block text-sm text-[#8096A7] hover:text-[#F0E9DC]">{label}</a>
+            <a key={href} href={href} onClick={() => setOpen(false)} className="block text-sm text-[#5A6B7A] hover:text-[#0D1B2A]">{label}</a>
           ))}
           <a href="#/wiki" onClick={() => setOpen(false)} className="block text-sm text-[#00BFA5]">Wiki de Serviços</a>
           <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
@@ -293,12 +293,12 @@ function Hero() {
             <span className="w-1.5 h-1.5 rounded-full bg-[#00BFA5]" style={{ boxShadow: '0 0 8px #00BFA5' }} />
             <span className="section-label">Diagnóstico gratuito disponível</span>
           </div>
-          <h1 className="text-5xl sm:text-6xl lg:text-[72px] font-bold text-[#F0E9DC] leading-[1.02] tracking-tight mb-6">
+          <h1 className="text-5xl sm:text-6xl lg:text-[72px] font-bold text-[#0D1B2A] leading-[1.02] tracking-tight mb-6">
             Sua clínica<br />
             merece uma<br />
-            <span style={{ color: '#00BFA5', textShadow: '0 0 60px rgba(0,191,165,0.25)' }}>agenda cheia.</span>
+            <span style={{ color: '#00BFA5', textShadow: 'none' }}>agenda cheia.</span>
           </h1>
-          <p className="text-[#8096A7] text-lg max-w-lg mb-10 leading-relaxed">
+          <p className="text-[#5A6B7A] text-lg max-w-lg mb-10 leading-relaxed">
             Transformamos o marketing da sua clínica em um sistema previsível de captação de pacientes — estratégia, dados e resultados mensuráveis.
           </p>
           <div className="flex flex-wrap gap-3 mb-12">
@@ -308,12 +308,12 @@ function Hero() {
               Falar com especialista
             </a>
             <a href="#como-funciona"
-               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-[#8096A7] border border-white/10 hover:border-[#00BFA5]/30 hover:text-[#F0E9DC] transition-all">
+               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold text-[#5A6B7A] border border-white/10 hover:border-[#00BFA5]/30 hover:text-[#0D1B2A] transition-all">
               Ver como funciona
               <Icon name="arrowRight" className="w-4 h-4" />
             </a>
           </div>
-          <div className="flex flex-wrap gap-6 text-sm text-[#8096A7]">
+          <div className="flex flex-wrap gap-6 text-sm text-[#5A6B7A]">
             {[['shield','Conforme CFM/CRM'],['chart','Resultados em 90 dias'],['users','Especialistas em saúde']].map(([icon, label]) => (
               <div key={label} className="flex items-center gap-2">
                 <Icon name={icon} className="w-4 h-4 text-[#00BFA5]" />
@@ -333,7 +333,7 @@ function Hero() {
             </div>
           </div>
           {/* Mini ECG */}
-          <div className="h-14 bg-[#0D1B2A]/60 rounded-xl border border-[#00BFA5]/10 flex items-center px-3 overflow-hidden">
+          <div className="h-14 bg-[#FFFFFF]/60 rounded-xl border border-[#00BFA5]/10 flex items-center px-3 overflow-hidden">
             <svg viewBox="0 0 400 40" className="w-full h-9" fill="none">
               <polyline
                 points="0,20 30,20 38,20 42,14 46,26 50,20 80,20 88,20 92,14 96,26 100,20 130,20 134,17 137,20 141,4 145,34 149,20 153,17 158,20 185,20 189,17 192,20 196,4 200,34 204,20 208,17 213,20 240,20 244,17 247,20 251,4 255,34 259,20 263,17 268,20 295,20 299,17 302,20 306,4 310,34 314,20 318,17 323,20 360,20 380,20 400,20"
@@ -351,14 +351,14 @@ function Hero() {
               { label: 'Agendamentos', value: '127', trend: '↑ 18% vs mês ant.' },
             ].map((m, i) => (
               <div key={i} className="bg-[#00BFA5]/5 border border-[#00BFA5]/10 rounded-xl p-3.5">
-                <div className="text-[11px] text-[#8096A7] mb-1.5 font-medium">{m.label}</div>
-                <div className="text-[#F0E9DC] font-bold text-2xl leading-none mb-1">{m.value}</div>
+                <div className="text-[11px] text-[#5A6B7A] mb-1.5 font-medium">{m.label}</div>
+                <div className="text-[#0D1B2A] font-bold text-2xl leading-none mb-1">{m.value}</div>
                 <div className="text-[11px] text-[#00BFA5]">{m.trend}</div>
               </div>
             ))}
           </div>
           <div className="flex items-center justify-between pt-1 border-t border-[#00BFA5]/10">
-            <span className="text-[11px] text-[#8096A7]">Clínica Derma São Paulo</span>
+            <span className="text-[11px] text-[#5A6B7A]">Clínica Derma São Paulo</span>
             <span className="text-[11px] text-[#00BFA5] font-medium">Maio 2025</span>
           </div>
         </div>
@@ -386,27 +386,27 @@ function PainPoints() {
         <div className="mb-14">
           <div className="section-label mb-4">Você se identifica?</div>
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-            <h2 className="text-4xl sm:text-5xl font-bold text-[#F0E9DC] leading-tight max-w-xl">
+            <h2 className="text-4xl sm:text-5xl font-bold text-[#0D1B2A] leading-tight max-w-xl">
               A maioria das clínicas<br />enfrenta os mesmos problemas.
             </h2>
-            <p className="text-[#8096A7] max-w-xs leading-relaxed text-sm">
+            <p className="text-[#5A6B7A] max-w-xs leading-relaxed text-sm">
               A diferença é que agora existe uma solução especializada para o mercado médico.
             </p>
           </div>
         </div>
         <div className="grid md:grid-cols-2 gap-4">
           {points.map((p, i) => (
-            <div key={i} className="glass-card p-7 flex flex-col gap-4 border-[#FF616A]/20 hover:border-[#FF616A]/40 transition-all" style={{ background: 'linear-gradient(135deg, rgba(13, 27, 42, 0.8), rgba(255, 97, 106, 0.05))' }}>
+            <div key={i} className="glass-card p-7 flex flex-col gap-4 border-[#FF616A]/20 hover:border-[#FF616A]/40 transition-all" style={{ background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 97, 106, 0.04))' }}>
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0 mt-0.5">
                   <span className="text-red-400 text-sm font-bold">!</span>
                 </div>
-                <h3 className="font-semibold text-[#F0E9DC] text-xl leading-snug">{p.title}</h3>
+                <h3 className="font-semibold text-[#0D1B2A] text-xl leading-snug">{p.title}</h3>
               </div>
-              <p className="text-[#8096A7] text-sm leading-relaxed">{p.desc}</p>
+              <p className="text-[#5A6B7A] text-sm leading-relaxed">{p.desc}</p>
               <div className="border-t border-white/5 pt-4 space-y-2">
                 {p.subs.map((s, j) => (
-                  <div key={j} className="flex items-center gap-2 text-xs text-[#8096A7]">
+                  <div key={j} className="flex items-center gap-2 text-xs text-[#5A6B7A]">
                     <span className="w-1 h-1 rounded-full bg-red-400/50 shrink-0" />
                     {s}
                   </div>
@@ -466,10 +466,10 @@ function Services() {
             <Icon name="pulse" className="w-3 h-3 text-[#00BFA5]" />
             <span className="section-label">Serviços</span>
           </div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-[#F0E9DC] mb-4 leading-tight">
+          <h2 className="text-4xl sm:text-5xl font-bold text-[#0D1B2A] mb-4 leading-tight">
             Tudo que sua clínica<br />precisa para crescer
           </h2>
-          <p className="text-[#8096A7] text-lg max-w-xl mx-auto">
+          <p className="text-[#5A6B7A] text-lg max-w-xl mx-auto">
             Cada serviço resolve um problema específico. Contrate individualmente ou combine no plano ideal.
           </p>
         </div>
@@ -477,7 +477,7 @@ function Services() {
           {services.map((s, i) => {
             const bs = badgeStyle(s.badge)
             return (
-              <div key={i} className="glass-card p-6 flex flex-col gap-4 hover:border-[#00BFA5]/35 transition-all group" style={{ background: 'linear-gradient(135deg, rgba(13,27,42,0.88), rgba(13,27,42,0.6))' }}>
+              <div key={i} className="glass-card p-6 flex flex-col gap-4 hover:border-[#00BFA5]/35 transition-all group" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.96), rgba(248,250,252,0.9))' }}>
                 <div className="flex items-start justify-between">
                   <div className="w-10 h-10 rounded-xl border border-[#00BFA5]/25 flex items-center justify-center group-hover:border-[#00BFA5]/50 transition-all"
                        style={{ background: getServiceGradient(i), boxShadow: '0 0 16px rgba(0,191,165,0.1)' }}>
@@ -489,13 +489,13 @@ function Services() {
                   </span>
                 </div>
                 <div>
-                  <div className="text-[11px] text-[#8096A7] font-medium mb-1">{s.sub}</div>
-                  <h3 className="font-semibold text-[#F0E9DC] text-base leading-snug">{s.name}</h3>
+                  <div className="text-[11px] text-[#5A6B7A] font-medium mb-1">{s.sub}</div>
+                  <h3 className="font-semibold text-[#0D1B2A] text-base leading-snug">{s.name}</h3>
                 </div>
-                <p className="text-[#8096A7] text-sm leading-relaxed flex-1">{s.desc}</p>
+                <p className="text-[#5A6B7A] text-sm leading-relaxed flex-1">{s.desc}</p>
                 <div className="border-t border-white/5 pt-3 flex flex-wrap gap-1.5">
                   {s.tags.map((t, j) => (
-                    <span key={j} className="text-[11px] text-[#8096A7] bg-white/4 border border-white/8 px-2 py-0.5 rounded-full">{t}</span>
+                    <span key={j} className="text-[11px] text-[#5A6B7A] bg-white/4 border border-white/8 px-2 py-0.5 rounded-full">{t}</span>
                   ))}
                 </div>
               </div>
@@ -533,10 +533,10 @@ function HowItWorks() {
         {/* Left: timeline */}
         <div>
           <div className="section-label mb-4">Como funciona</div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-[#F0E9DC] leading-tight mb-4">
+          <h2 className="text-4xl sm:text-5xl font-bold text-[#0D1B2A] leading-tight mb-4">
             Do diagnóstico<br />ao resultado.
           </h2>
-          <p className="text-[#8096A7] text-base leading-relaxed mb-12 max-w-md">
+          <p className="text-[#5A6B7A] text-base leading-relaxed mb-12 max-w-md">
             Você cuida dos pacientes. Nós cuidamos de trazer eles até você — processo estruturado do dia 1.
           </p>
           <div className="space-y-0">
@@ -552,10 +552,10 @@ function HowItWorks() {
                 </div>
                 <div className="pb-8">
                   <div className="flex items-center gap-2.5 mb-1.5">
-                    <h3 className="font-semibold text-[#F0E9DC]">{s.title}</h3>
+                    <h3 className="font-semibold text-[#0D1B2A]">{s.title}</h3>
                     <span className="text-[11px] text-[#00BFA5] bg-[#00BFA5]/8 border border-[#00BFA5]/15 px-2 py-0.5 rounded-full">{s.time}</span>
                   </div>
-                  <p className="text-[#8096A7] text-sm leading-relaxed">{s.desc}</p>
+                  <p className="text-[#5A6B7A] text-sm leading-relaxed">{s.desc}</p>
                 </div>
               </div>
             ))}
@@ -568,7 +568,7 @@ function HowItWorks() {
             {milestones.map((m, i) => (
               <div key={i}>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-[#F0E9DC] font-medium">{m.label}</span>
+                  <span className="text-sm text-[#0D1B2A] font-medium">{m.label}</span>
                   <span className="text-xs text-[#00BFA5]">{m.status}</span>
                 </div>
                 <div className="h-1.5 rounded-full bg-[#00BFA5]/10 overflow-hidden">
@@ -581,11 +581,11 @@ function HowItWorks() {
           <div className="mt-8 pt-6 border-t border-[#00BFA5]/10 grid grid-cols-2 gap-4">
             <div>
               <div className="text-3xl font-bold text-[#00BFA5]" style={{ textShadow: '0 0 20px rgba(0,191,165,0.3)' }}>+34</div>
-              <div className="text-xs text-[#8096A7] mt-1">Novos pacientes no mês</div>
+              <div className="text-xs text-[#5A6B7A] mt-1">Novos pacientes no mês</div>
             </div>
             <div>
               <div className="text-3xl font-bold text-[#00BFA5]" style={{ textShadow: '0 0 20px rgba(0,191,165,0.3)' }}>R$ 28</div>
-              <div className="text-xs text-[#8096A7] mt-1">Custo por paciente captado</div>
+              <div className="text-xs text-[#5A6B7A] mt-1">Custo por paciente captado</div>
             </div>
           </div>
         </div>
@@ -620,14 +620,14 @@ function Plans() {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-10">
           <div className="section-label mb-4">Planos e serviços</div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-[#F0E9DC] mb-4 leading-tight">Monte o plano<br />ideal para sua clínica</h2>
-          <p className="text-[#8096A7] text-lg max-w-xl mx-auto">Contrate individualmente ou escolha um pacote. Sem surpresas.</p>
+          <h2 className="text-4xl sm:text-5xl font-bold text-[#0D1B2A] mb-4 leading-tight">Monte o plano<br />ideal para sua clínica</h2>
+          <p className="text-[#5A6B7A] text-lg max-w-xl mx-auto">Contrate individualmente ou escolha um pacote. Sem surpresas.</p>
         </div>
         {/* Tabs */}
         <div className="flex justify-center gap-2 mb-10">
           {[['pacotes','Pacotes Completos'],['individual','Serviços Individuais']].map(([val, label]) => (
             <button key={val} onClick={() => setTab(val)}
-              className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${tab === val ? 'bg-[#00BFA5] text-[#0D1B2A] shadow-lg shadow-[#00BFA5]/20' : 'glass-card text-[#8096A7] hover:text-[#F0E9DC]'}`}>
+              className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${tab === val ? 'bg-[#00BFA5] text-[#0D1B2A] shadow-lg shadow-[#00BFA5]/20' : 'glass-card text-[#5A6B7A] hover:text-[#0D1B2A]'}`}>
               {label}
             </button>
           ))}
@@ -637,7 +637,7 @@ function Plans() {
           <div className="grid md:grid-cols-3 gap-5">
             {bundles.map((p, i) => (
               <div key={i} className={`relative glass-card p-8 flex flex-col transition-all ${p.popular ? 'border-[#00BFA5]/45 shadow-2xl' : ''}`}
-                   style={p.popular ? { boxShadow: '0 0 60px rgba(0,191,165,0.2)', background: 'linear-gradient(135deg, rgba(13,27,42,0.95), rgba(0,191,165,0.08))' } : { background: 'linear-gradient(135deg, rgba(13,27,42,0.85), rgba(13,27,42,0.6))' }}>
+                   style={p.popular ? { boxShadow: '0 0 60px rgba(0,191,165,0.15)', background: 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(0,191,165,0.05))' } : { background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,250,252,0.9))' }}>
                 {p.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#00BFA5] text-[#0D1B2A] text-[11px] font-bold px-4 py-1 rounded-full"
                        style={{ boxShadow: '0 0 16px rgba(0,191,165,0.5)' }}>
@@ -645,18 +645,18 @@ function Plans() {
                   </div>
                 )}
                 <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-[#F0E9DC] mb-1">Pulso {p.name}</h3>
+                  <h3 className="text-2xl font-bold text-[#0D1B2A] mb-1">Pulso {p.name}</h3>
                   <p className="text-sm text-[#00BFA5] font-medium mb-3">{p.sub}</p>
-                  <p className="text-[#8096A7] text-sm leading-relaxed">{p.desc}</p>
+                  <p className="text-[#5A6B7A] text-sm leading-relaxed">{p.desc}</p>
                 </div>
                 <div className="mb-6 pb-6 border-b border-white/5">
-                  <div className="text-[#8096A7] text-xs mb-1">Investimento mensal</div>
-                  <div className="text-[#F0E9DC] font-bold text-lg">Consulte valores</div>
-                  <div className="text-[#8096A7] text-xs mt-0.5">Contrato mínimo: 6 meses</div>
+                  <div className="text-[#5A6B7A] text-xs mb-1">Investimento mensal</div>
+                  <div className="text-[#0D1B2A] font-bold text-lg">Consulte valores</div>
+                  <div className="text-[#5A6B7A] text-xs mt-0.5">Contrato mínimo: 6 meses</div>
                 </div>
                 <ul className="space-y-2.5 flex-1 mb-8">
                   {p.features.map((f, j) => (
-                    <li key={j} className="flex items-start gap-2.5 text-sm text-[#8096A7]">
+                    <li key={j} className="flex items-start gap-2.5 text-sm text-[#5A6B7A]">
                       <Icon name="check" className="w-4 h-4 text-[#00BFA5] shrink-0 mt-0.5" />
                       {f}
                     </li>
@@ -680,21 +680,21 @@ function Plans() {
                     <Icon name={p.icon} className="w-5 h-5 text-[#00BFA5]" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-[#F0E9DC] text-sm leading-tight">{p.name}</h3>
+                    <h3 className="font-semibold text-[#0D1B2A] text-sm leading-tight">{p.name}</h3>
                     <p className="text-xs text-[#00BFA5]">{p.sub}</p>
                   </div>
                 </div>
-                <p className="text-[#8096A7] text-sm leading-relaxed mb-4">{p.desc}</p>
+                <p className="text-[#5A6B7A] text-sm leading-relaxed mb-4">{p.desc}</p>
                 <ul className="space-y-1.5 mb-4 flex-1">
                   {p.features.map((f, j) => (
-                    <li key={j} className="flex items-start gap-2 text-xs text-[#8096A7]">
+                    <li key={j} className="flex items-start gap-2 text-xs text-[#5A6B7A]">
                       <Icon name="check" className="w-3.5 h-3.5 text-[#00BFA5] shrink-0 mt-0.5" />
                       {f}
                     </li>
                   ))}
                 </ul>
                 <div className="bg-[#00BFA5]/5 border border-[#00BFA5]/10 rounded-lg p-2.5 mb-4">
-                  <p className="text-[11px] text-[#8096A7]">{p.ideal}</p>
+                  <p className="text-[11px] text-[#5A6B7A]">{p.ideal}</p>
                 </div>
                 <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
                    className="block text-center text-sm font-semibold py-2.5 rounded-full text-[#00BFA5] border border-[#00BFA5]/25 hover:border-[#00BFA5]/50 hover:bg-[#00BFA5]/5 transition-all">
@@ -705,7 +705,7 @@ function Plans() {
           </div>
         )}
 
-        <p className="text-center text-[#8096A7] text-sm mt-8">
+        <p className="text-center text-[#5A6B7A] text-sm mt-8">
           O investimento em anúncios (Google/Meta) é pago diretamente às plataformas, separado da mensalidade.
         </p>
       </div>
@@ -725,10 +725,10 @@ function Results() {
         <div className="mb-14">
           <div className="section-label mb-4">Resultados</div>
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-            <h2 className="text-4xl sm:text-5xl font-bold text-[#F0E9DC] leading-tight max-w-xl">
+            <h2 className="text-4xl sm:text-5xl font-bold text-[#0D1B2A] leading-tight max-w-xl">
               Números que importam<br />para você.
             </h2>
-            <p className="text-[#8096A7] max-w-xs leading-relaxed text-sm">
+            <p className="text-[#5A6B7A] max-w-xs leading-relaxed text-sm">
               Não falamos de likes ou seguidores. Falamos de pacientes na agenda e crescimento mensurável.
             </p>
           </div>
@@ -742,14 +742,14 @@ function Results() {
             { value: 'Top 3', label: 'No Google Maps', desc: 'Em até 60 dias após otimização' },
             { value: '5×', label: 'Retorno sobre anúncio', desc: 'ROAS médio nas campanhas Pulso' },
           ].map((m, i) => (
-            <div key={i} className="glass-card p-6 flex flex-col justify-between hover:border-[#00BFA5]/40 hover:shadow-lg transition-all" style={{ background: 'linear-gradient(135deg, rgba(13,27,42,0.9), rgba(0,191,165,0.06))' }}>
+            <div key={i} className="glass-card p-6 flex flex-col justify-between hover:border-[#00BFA5]/40 hover:shadow-lg transition-all" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.97), rgba(0,191,165,0.04))' }}>
               <div className="text-4xl sm:text-5xl font-bold text-[#00BFA5] mb-2 leading-none"
                    style={{ textShadow: '0 0 30px rgba(0,191,165,0.3)' }}>
                 {m.value}
               </div>
               <div>
-                <div className="text-[#F0E9DC] text-sm font-semibold mb-1">{m.label}</div>
-                <div className="text-[#8096A7] text-xs leading-snug">{m.desc}</div>
+                <div className="text-[#0D1B2A] text-sm font-semibold mb-1">{m.label}</div>
+                <div className="text-[#5A6B7A] text-xs leading-snug">{m.desc}</div>
               </div>
             </div>
           ))}
@@ -758,7 +758,7 @@ function Results() {
         {/* Ad investment guide */}
         <div className="glass-card p-8 shadow-xl" style={{ borderColor: 'rgba(0,191,165,0.25)', boxShadow: '0 0 40px rgba(0,191,165,0.12)' }}>
           <div className="section-label mb-2">Guia de investimento em anúncios</div>
-          <h3 className="text-[#F0E9DC] text-xl font-bold mb-6">Quanto custa trazer pacientes pelo digital?</h3>
+          <h3 className="text-[#0D1B2A] text-xl font-bold mb-6">Quanto custa trazer pacientes pelo digital?</h3>
           <div className="grid sm:grid-cols-3 gap-4">
             {[
               { tier: 'Básico', budget: 'R$ 1–2 mil/mês', leads: '30–60 leads/mês', color: 'rgba(0,191,165,0.8)' },
@@ -767,12 +767,12 @@ function Results() {
             ].map((t, i) => (
               <div key={i} className="bg-[#00BFA5]/5 border border-[#00BFA5]/10 rounded-xl p-5">
                 <div className="section-label mb-2" style={{ color: t.color }}>{t.tier}</div>
-                <div className="text-[#F0E9DC] text-xl font-bold mb-1">{t.budget}</div>
-                <div className="text-[#8096A7] text-sm">{t.leads}</div>
+                <div className="text-[#0D1B2A] text-xl font-bold mb-1">{t.budget}</div>
+                <div className="text-[#5A6B7A] text-sm">{t.leads}</div>
               </div>
             ))}
           </div>
-          <p className="text-[#8096A7] text-xs mt-5">
+          <p className="text-[#5A6B7A] text-xs mt-5">
             Estimativas baseadas em CPC médio de R$ 3–8 na área de saúde e taxa de conversão de 5–15%.
           </p>
         </div>
@@ -808,22 +808,22 @@ function Differentials() {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="mb-14">
           <div className="section-label mb-4">Por que a Pulso</div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-[#F0E9DC] leading-tight max-w-2xl">
+          <h2 className="text-4xl sm:text-5xl font-bold text-[#0D1B2A] leading-tight max-w-2xl">
             Não somos uma agência genérica.
           </h2>
         </div>
         {/* Two large feature cards */}
         <div className="grid md:grid-cols-2 gap-4 mb-4">
           {big.map((item, i) => (
-            <div key={i} className="glass-card p-8 hover:border-[#00BFA5]/40 hover:shadow-lg transition-all" style={{ background: 'linear-gradient(135deg, rgba(13,27,42,0.9), rgba(0,191,165,0.07))' }}>
+            <div key={i} className="glass-card p-8 hover:border-[#00BFA5]/40 hover:shadow-lg transition-all" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.97), rgba(0,191,165,0.04))' }}>
               <div className="w-12 h-12 rounded-xl bg-[#00BFA5]/10 border border-[#00BFA5]/20 flex items-center justify-center mb-5">
                 <Icon name={item.icon} className="w-6 h-6 text-[#00BFA5]" />
               </div>
-              <h3 className="text-xl font-bold text-[#F0E9DC] mb-3">{item.title}</h3>
-              <p className="text-[#8096A7] text-sm leading-relaxed mb-6">{item.desc}</p>
+              <h3 className="text-xl font-bold text-[#0D1B2A] mb-3">{item.title}</h3>
+              <p className="text-[#5A6B7A] text-sm leading-relaxed mb-6">{item.desc}</p>
               <div className="space-y-2.5">
                 {item.features.map((f, j) => (
-                  <div key={j} className="flex items-center gap-2.5 text-sm text-[#8096A7]">
+                  <div key={j} className="flex items-center gap-2.5 text-sm text-[#5A6B7A]">
                     <Icon name="check" className="w-4 h-4 text-[#00BFA5] shrink-0" />
                     {f}
                   </div>
@@ -835,12 +835,12 @@ function Differentials() {
         {/* Four smaller cards */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {small.map((item, i) => (
-            <div key={i} className="glass-card p-6 hover:border-[#00BFA5]/40 hover:shadow-lg transition-all" style={{ background: 'linear-gradient(135deg, rgba(13,27,42,0.85), rgba(13,27,42,0.55))' }}>
+            <div key={i} className="glass-card p-6 hover:border-[#00BFA5]/40 hover:shadow-lg transition-all" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,250,252,0.88))' }}>
               <div className="w-9 h-9 rounded-lg bg-[#00BFA5]/8 border border-[#00BFA5]/15 flex items-center justify-center mb-4">
                 <Icon name={item.icon} className="w-4 h-4 text-[#00BFA5]" />
               </div>
-              <h3 className="font-semibold text-[#F0E9DC] text-sm mb-2">{item.title}</h3>
-              <p className="text-[#8096A7] text-xs leading-relaxed">{item.desc}</p>
+              <h3 className="font-semibold text-[#0D1B2A] text-sm mb-2">{item.title}</h3>
+              <p className="text-[#5A6B7A] text-xs leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -871,16 +871,16 @@ function FAQ() {
       <div className="max-w-4xl mx-auto relative z-10">
         <div className="mb-14">
           <div className="section-label mb-4">Dúvidas frequentes</div>
-          <h2 className="text-4xl sm:text-5xl font-bold text-[#F0E9DC] leading-tight">
+          <h2 className="text-4xl sm:text-5xl font-bold text-[#0D1B2A] leading-tight">
             Perguntas que você<br />provavelmente tem.
           </h2>
         </div>
         <div className="space-y-2">
           {faqs.map((faq, i) => (
-            <div key={i} className="glass-card overflow-hidden hover:border-[#00BFA5]/35 transition-all" style={{ background: 'linear-gradient(135deg, rgba(13,27,42,0.88), rgba(13,27,42,0.6))' }}>
+            <div key={i} className="glass-card overflow-hidden hover:border-[#00BFA5]/35 transition-all" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.96), rgba(248,250,252,0.9))' }}>
               <button onClick={() => setOpenIdx(openIdx === i ? null : i)}
                       className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-[#00BFA5]/3 transition-colors">
-                <span className="font-medium text-[#F0E9DC] text-sm sm:text-base pr-8 leading-snug">{faq.q}</span>
+                <span className="font-medium text-[#0D1B2A] text-sm sm:text-base pr-8 leading-snug">{faq.q}</span>
                 <svg className={`w-4 h-4 text-[#00BFA5] shrink-0 transition-transform duration-300 ${openIdx === i ? 'rotate-180' : ''}`}
                      fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path d="m6 9 6 6 6-6"/>
@@ -888,7 +888,7 @@ function FAQ() {
               </button>
               {openIdx === i && (
                 <div className="px-6 pb-5 border-t border-[#00BFA5]/8 pt-4">
-                  <p className="text-[#8096A7] text-sm leading-relaxed">{faq.a}</p>
+                  <p className="text-[#5A6B7A] text-sm leading-relaxed">{faq.a}</p>
                 </div>
               )}
             </div>
@@ -911,12 +911,12 @@ function CTA() {
         <div className="p-10 sm:p-16">
           <div className="section-label mb-6">Próximo passo</div>
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.0] tracking-tight mb-10">
-            <span className="text-[#F0E9DC]">Pronto para lotar</span><br />
+            <span className="text-[#0D1B2A]">Pronto para lotar</span><br />
             <span style={{ color: 'rgba(0,191,165,0.45)' }}>sua agenda.</span>
           </h2>
           <div className="grid sm:grid-cols-3 gap-8 pt-8 border-t border-[#00BFA5]/10">
             <div>
-              <div className="text-xs text-[#8096A7] uppercase tracking-widest mb-3">WhatsApp</div>
+              <div className="text-xs text-[#5A6B7A] uppercase tracking-widest mb-3">WhatsApp</div>
               <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
                  className="inline-flex items-center gap-2 btn-primary px-6 py-3 rounded-full text-sm font-semibold transition-all hover:scale-105">
                 <Icon name="phone" className="w-4 h-4" />
@@ -924,14 +924,14 @@ function CTA() {
               </a>
             </div>
             <div>
-              <div className="text-xs text-[#8096A7] uppercase tracking-widest mb-3">Diagnóstico</div>
-              <div className="text-[#F0E9DC] font-semibold mb-1">Gratuito</div>
-              <div className="text-[#8096A7] text-sm">Análise completa sem compromisso</div>
+              <div className="text-xs text-[#5A6B7A] uppercase tracking-widest mb-3">Diagnóstico</div>
+              <div className="text-[#0D1B2A] font-semibold mb-1">Gratuito</div>
+              <div className="text-[#5A6B7A] text-sm">Análise completa sem compromisso</div>
             </div>
             <div>
-              <div className="text-xs text-[#8096A7] uppercase tracking-widest mb-3">Resposta</div>
-              <div className="text-[#F0E9DC] font-semibold mb-1">Em até 2h</div>
-              <div className="text-[#8096A7] text-sm">Atendimento de seg–sex, 8h–18h</div>
+              <div className="text-xs text-[#5A6B7A] uppercase tracking-widest mb-3">Resposta</div>
+              <div className="text-[#0D1B2A] font-semibold mb-1">Em até 2h</div>
+              <div className="text-[#5A6B7A] text-sm">Atendimento de seg–sex, 8h–18h</div>
             </div>
           </div>
         </div>
@@ -948,16 +948,16 @@ function Footer() {
         <div>
           <div className="flex items-center gap-2.5 mb-2">
             <img src={import.meta.env.BASE_URL + 'pulso-logo.svg'} alt="Pulso" className="h-7" />
-            <span className="text-[#8096A7] text-sm">Assessoria de Marketing para Clínicas</span>
+            <span className="text-[#5A6B7A] text-sm">Assessoria de Marketing para Clínicas</span>
           </div>
-          <p className="text-[#8096A7] text-xs">Do diagnóstico à escala em 90 dias.</p>
+          <p className="text-[#5A6B7A] text-xs">Do diagnóstico à escala em 90 dias.</p>
         </div>
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 text-sm text-[#8096A7]">
-          <a href="#servicos" className="hover:text-[#F0E9DC] transition-colors section-label">Serviços</a>
-          <a href="#planos" className="hover:text-[#F0E9DC] transition-colors section-label">Planos</a>
-          <a href="#faq" className="hover:text-[#F0E9DC] transition-colors section-label">FAQ</a>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 text-sm text-[#5A6B7A]">
+          <a href="#servicos" className="hover:text-[#0D1B2A] transition-colors section-label">Serviços</a>
+          <a href="#planos" className="hover:text-[#0D1B2A] transition-colors section-label">Planos</a>
+          <a href="#faq" className="hover:text-[#0D1B2A] transition-colors section-label">FAQ</a>
           <a href="#/wiki" className="hover:text-[#00BFA5] transition-colors section-label text-[#00BFA5]">Wiki</a>
-          <span className="text-[#8096A7] text-xs">© {new Date().getFullYear()} Pulso</span>
+          <span className="text-[#5A6B7A] text-xs">© {new Date().getFullYear()} Pulso</span>
         </div>
       </div>
     </footer>
