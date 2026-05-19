@@ -3,7 +3,7 @@ import './index.css'
 import Wiki from './Wiki.jsx'
 import heartbeatSrc from '/heartbeat.mp3?url'
 
-const WHATSAPP_LINK = 'https://wa.me/5561999999999?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20a%20Pulso'
+const WHATSAPP_LINK = 'https://wa.me/5561991465706?text=Vim%20de%20indica%C3%A7%C3%A3o%20do%20Eduardo%20Oliver%2C%20gostaria%20de%20receber%20diagnostico%20completo'
 
 function Icon({ name, className = '' }) {
   const icons = {
