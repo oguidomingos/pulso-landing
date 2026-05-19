@@ -1,30 +1,8 @@
 import { useState, useEffect } from 'react'
 
-// All valid wiki section IDs for routing
-const ALL_WIKI_IDS = new Set([
-  'diagnostico', 'pesquisa',
-  'trafego-pago', 'gmb', 'landing-page', 'auditoria-comercial', 'criativos-anuncios',
-  'social-media', 'criativos-social',
-  'site',
-  'ia-automacoes', 'bot-qualificacao', 'notificacoes', 'crm',
-  'consultoria', 'mapeamento-processo', 'rituais', 'treinamento', 'novos-servicos',
-  'campanhas-gmn', 'pesquisa-clima', 'nps',
-])
-
-export function isWikiSection(hash) {
-  if (hash.startsWith('#/wiki')) return true
-  const bare = hash.replace(/^#/, '')
-  return ALL_WIKI_IDS.has(bare)
-}
-
 function getWikiSectionFromHash(hash) {
-  // Handle #/wiki/gmb format
   const match = hash.match(/^#\/wiki\/(.+)$/)
-  if (match) return decodeURIComponent(match[1])
-  // Handle #gmb format (bare anchor)
-  const bare = hash.replace(/^#/, '')
-  if (ALL_WIKI_IDS.has(bare)) return bare
-  return null
+  return match ? decodeURIComponent(match[1]) : null
 }
 
 const baseline = [
@@ -786,17 +764,10 @@ export default function Wiki() {
     const scrollToSection = () => {
       const sectionId = getWikiSectionFromHash(window.location.hash)
       if (!sectionId) return
-      // Normalize bare anchors (#gmb) to wiki format (#/wiki/gmb)
-      if (!window.location.hash.startsWith('#/wiki') && ALL_WIKI_IDS.has(sectionId)) {
-        window.history.replaceState(null, '', `#/wiki/${sectionId}`)
+      const target = document.getElementById(sectionId)
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' })
       }
-      // Use requestAnimationFrame to ensure DOM is painted
-      requestAnimationFrame(() => {
-        const target = document.getElementById(sectionId)
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }
-      })
     }
 
     scrollToSection()
