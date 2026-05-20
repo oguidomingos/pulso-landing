@@ -646,7 +646,7 @@ function CTA() {
     <section className="py-24 px-6 sm:px-8 relative">
       <div className="max-w-6xl mx-auto glass-card p-16 sm:p-24 text-center relative overflow-hidden bg-[#0D1B2A] border-none shadow-3xl">
         <div className="absolute inset-0 bg-gradient-to-br from-[#00BFA5]/18 via-transparent to-[#1D4ED8]/10 pointer-events-none" />
-        <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white leading-[0.95] tracking-tighter mb-6 relative z-10">
+        <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black text-black leading-[0.95] tracking-tighter mb-6 relative z-10">
           O consultório ao lado
           <br />
           <span className="text-[#7CE9D8]">agradece o seu silêncio digital.</span>
