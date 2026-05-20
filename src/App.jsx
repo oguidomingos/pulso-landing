@@ -3,7 +3,7 @@ import './index.css'
 import Wiki from './Wiki.jsx'
 import heartbeatSrc from '/heartbeat.mp3?url'
 
-const WHATSAPP_LINK = 'https://wa.me/5561999999999?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20a%20Pulso'
+const WHATSAPP_LINK = 'https://wa.me/5561991465706?text=Ol%C3%A1%2C%20quero%20dar%20o%20primeiro%20passo%20para%20a%20previsibilidade%20financeira%20do%20meu%20consult%C3%B3rio.'
 
 function Icon({ name, className = '' }) {
   const icons = {
@@ -645,17 +645,20 @@ function CTA() {
   return (
     <section className="py-24 px-6 sm:px-8 relative">
       <div className="max-w-6xl mx-auto glass-card p-16 sm:p-24 text-center relative overflow-hidden bg-[#0D1B2A] border-none shadow-3xl">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#00BFA5]/20 to-transparent pointer-events-none" />
-        <h2 className="text-5xl sm:text-8xl font-black text-white leading-[0.9] tracking-tighter mb-12 relative z-10">
-          SISTEMA<br />
-          <span className="text-[#00BFA5]">PULSO</span><br />
-          ATIVAR AGORA.
+        <div className="absolute inset-0 bg-gradient-to-br from-[#00BFA5]/18 via-transparent to-[#1D4ED8]/10 pointer-events-none" />
+        <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white leading-[0.95] tracking-tighter mb-6 relative z-10">
+          O consultório ao lado
+          <br />
+          <span className="text-[#7CE9D8]">agradece o seu silêncio digital.</span>
         </h2>
+        <p className="text-base sm:text-xl text-white/72 font-semibold leading-relaxed max-w-3xl mx-auto mb-12 relative z-10">
+          Dê o primeiro passo para previsibilidade financeira agora.
+        </p>
         <div className="flex flex-col sm:flex-row justify-center gap-6 relative z-10">
           <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
-             className="bg-white text-[#0D1B2A] hover:bg-[#00BFA5] hover:text-white px-14 py-6 text-xl font-black rounded-2xl flex items-center justify-center gap-4 transition-all duration-500 shadow-2xl">
+             className="bg-[#00BFA5] text-[#062B2C] hover:bg-[#7CE9D8] hover:text-[#031A1B] px-14 py-6 text-lg sm:text-xl font-black rounded-2xl flex items-center justify-center gap-4 transition-all duration-500 shadow-[0_20px_60px_rgba(0,191,165,0.28)]">
             <Icon name="phone" className="w-7 h-7" />
-            Solicitar Diagnóstico Gratuito
+            Dê o primeiro passo agora
           </a>
         </div>
       </div>
