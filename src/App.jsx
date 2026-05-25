@@ -3,7 +3,7 @@ import './index.css'
 import Wiki from './Wiki.jsx'
 import heartbeatSrc from '/heartbeat.mp3?url'
 
-const WHATSAPP_LINK = 'https://wa.me/5561999999999?text=Ol%C3%A1%2C%20quero%20minha%20auditoria%20gratuita'
+const WHATSAPP_LINK = 'https://wa.me/5561999999999?text=Ol%C3%A1%2C%20quero%20minha%20auditoria%20em%2048h'
 
 function Icon({ name, className = '' }) {
   const icons = {
@@ -179,7 +179,7 @@ function FadeIn({ children, from = 'up' }) {
 
 function Navbar() {
   const [open, setOpen] = useState(false)
-  const links = [['Serviços','#servicos'],['Como Funciona','#como-funciona'],['Planos','#planos'],['Resultados','#resultados'],['Dúvidas','#faq']]
+  const links = [['Mecanismo','#servicos'],['Resultados','#resultados'],['Planos','#planos'],['Dúvidas','#faq']]
   return (
     <nav className="fixed top-6 left-0 right-0 z-50 px-6">
       <div className="max-w-5xl mx-auto glass-card h-16 px-6 flex items-center justify-between" style={{ borderRadius: '100px', background: 'rgba(255, 255, 255, 0.8)', borderColor: 'rgba(0, 191, 165, 0.15)' }}>
@@ -226,7 +226,7 @@ function Hero() {
         <div className="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] rounded-full bg-[#00BFA5]/3 blur-[100px]" />
       </div>
       
-      <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center py-20 relative z-10">
+      <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-[1fr_auto] gap-12 items-center py-20 relative z-10">
         <div className="text-left">
           <div className="mb-8 flex">
             <span className="section-label flex items-center gap-2">
@@ -238,38 +238,22 @@ function Hero() {
             O consultório ao lado agradece o seu <span className="text-[#00BFA5]">silêncio digital.</span>
           </h1>
           <p className="text-[#5A6B7A] text-xl max-w-xl mb-12 leading-relaxed font-medium">
-            Enquanto você confia exclusivamente no boca a boca, médicos menos experientes dominam o Google em Brasília e capturam os pacientes premium que deveriam ser seus. Nós construímos o sistema previsível de captação que corrige essa injustiça.
+            A indicação física hoje termina na pesquisa na internet. E você é invisível, o paciente escolhe o concorrente anunciado. Criamos seu sistema previsível de agendamento em 48 horas. Antes de qualquer contrato.
           </p>
-          <div className="flex flex-wrap gap-5 mb-16">
+          <div className="flex flex-wrap gap-5 mb-8">
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
                className="btn-primary flex items-center gap-3 px-8 py-4 text-base">
-              <Icon name="clipboard" className="w-5 h-5" />
-              Quero Minha Auditoria Gratuita em 48h
-            </a>
-            <a href="#como-funciona"
-               className="glass-card flex items-center gap-3 px-8 py-4 text-base font-bold text-[#0D1B2A] border-rgba(0,191,165,0.2) hover:border-[#00BFA5]/40">
-              Ver metodologia
-              <Icon name="arrowRight" className="w-5 h-5" />
+              QUERO MINHA AUDITORIA EM 48H
             </a>
           </div>
-          <div className="grid grid-cols-3 gap-8">
-            {[
-              { label: 'Conformidade', val: 'CFM 2024', icon: 'shield' },
-              { label: 'Resultados', val: '90 Dias', icon: 'chart' },
-              { label: 'Foco', val: 'Setor Médico', icon: 'users' },
-            ].map((item, i) => (
-              <div key={i} className="flex flex-col gap-2">
-                <div className="flex items-center gap-2 text-[#00BFA5]">
-                  <Icon name={item.icon} className="w-4 h-4" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#5A6B7A]">{item.label}</span>
-                </div>
-                <span className="text-sm font-bold text-[#0D1B2A]">{item.val}</span>
-              </div>
-            ))}
+          <div className="flex flex-wrap items-center gap-6 text-[#5A6B7A] text-xs font-bold uppercase tracking-widest">
+            <span className="flex items-center gap-2"><Icon name="check" className="w-4 h-4 text-[#00BFA5]"/> Adequado ao CFM</span>
+            <span className="flex items-center gap-2"><Icon name="check" className="w-4 h-4 text-[#00BFA5]"/> Setup Zero</span>
+            <span className="flex items-center gap-2"><Icon name="check" className="w-4 h-4 text-[#00BFA5]"/> Exclusividade Regional</span>
           </div>
         </div>
 
-        <div className="hidden lg:block relative">
+        <div className="hidden lg:block relative w-[450px]">
           <div className="absolute inset-0 bg-[#00BFA5]/10 blur-[80px] rounded-full" />
           <div className="glass-card p-8 relative z-10 border-[#00BFA5]/25 bg-white/80">
             <div className="flex items-center justify-between mb-8">
@@ -333,43 +317,30 @@ function Hero() {
 
 function PainPoints() {
   const points = [
-    { title: 'Agenda vulnerável ao acaso.', desc: 'Confiar que o próximo mês se pagará baseado apenas na sorte de novas indicações físicas é um diagnóstico perigoso para a sua estrutura comercial.', subs: ['Subutilização de capacidade', 'Receita imprevisível'] },
-    { title: 'O ralo financeiro do "marketing frufru".', desc: 'Investir milhares de reais em agências tradicionais que entregam posts bonitos e promessas de dancinhas, mas falham em gerar leads qualificados.', subs: ['Sem fluxo constante', 'Crescimento estagnado'] },
-    { title: 'O ciclo incompleto da indicação.', desc: 'A indicação física começa no telefone de um amigo, mas termina invariavelmente em uma busca no Google. Se a sua vitrine digital hesita, o lead esfria.', subs: ['Zero ROI mensurável', 'Conteúdo ineficaz'] },
-    { title: 'Concorrência local dominando a atenção.', desc: 'Assistir passivamente a profissionais recém-formados ou tecnicamente inferiores ocupando o topo das pesquisas e capturando a fatia lucrativa.', subs: ['Fora do Google Maps', 'Zero tráfego local'] },
+    { title: 'Agenda Vulnerável', desc: 'Você tem anos de especialidade, mas sua receita ainda é refém do acaso.' },
+    { title: 'O Ralo do Marketing de Tiktok', desc: 'Agências tradicionais vendem "posts bonitos". Nós geramos leads qualificados.' },
+    { title: 'A Indicação Interrompida', desc: '87,8% dos pacientes buscam avaliações online antes de agendar, mesmo com indicação direta. Se a sua vitrine falha, o lead esfria.' },
+    { title: 'Injustiça de Mercado', desc: 'Médicos com metade da sua experiência dominam a internet e lotam a agenda.' },
   ]
   return (
     <section className="py-24 px-6 sm:px-8 relative">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="mb-16 text-center">
-          <span className="section-label mb-4">Contexto de Mercado</span>
+          <span className="section-label mb-4">O Diagnóstico da Dor</span>
           <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] leading-tight mb-6">
-            O prejuízo silencioso de ser invisível<br />para o mercado de alto ticket.
+            O prejuízo silencioso de ser invisível<br />no digital.
           </h2>
-          <p className="text-[#5A6B7A] max-w-2xl mx-auto text-lg font-medium">
-            A maioria das clínicas trava no mesmo ponto. A diferença é que agora existe uma solução técnica de Engenharia de Captação.
-          </p>
         </div>
         <div className="grid md:grid-cols-2 gap-6">
           {points.map((p, i) => (
-            <div key={i} className="glass-card p-8 flex flex-col gap-6 border-red-500/5 hover:border-red-500/20">
-              <div className="flex items-start gap-5">
-                <div className="w-12 h-12 rounded-xl bg-red-500/5 border border-red-500/10 flex items-center justify-center shrink-0">
-                  <span className="text-red-500 text-xl font-black">!</span>
+            <div key={i} className="glass-card p-8 flex flex-col gap-4 border-red-500/5 hover:border-red-500/20">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-xl bg-red-500/5 border border-red-500/10 flex items-center justify-center shrink-0">
+                  <span className="text-red-500 text-lg font-black">!</span>
                 </div>
-                <div>
-                  <h3 className="font-bold text-[#0D1B2A] text-2xl mb-2">{p.title}</h3>
-                  <p className="text-[#5A6B7A] text-base leading-relaxed">{p.desc}</p>
-                </div>
+                <h3 className="font-bold text-[#0D1B2A] text-xl">{p.title}</h3>
               </div>
-              <div className="pt-6 border-t border-[#0D1B2A]/5 flex flex-wrap gap-3">
-                {p.subs.map((s, j) => (
-                  <div key={j} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#5A6B7A] bg-[#F8FAFC] px-3 py-1.5 rounded-lg border border-[#0D1B2A]/5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
-                    {s}
-                  </div>
-                ))}
-              </div>
+              <p className="text-[#5A6B7A] text-base leading-relaxed pl-14">{p.desc}</p>
             </div>
           ))}
         </div>
@@ -380,193 +351,31 @@ function PainPoints() {
 
 function Services() {
   const services = [
-    { icon: 'clipboard', name: 'Deep Scan', sub: 'Diagnóstico Digital Profundo', desc: 'Raio-X comercial completo da presença da sua clínica em relação aos seus concorrentes diretos na Asa Sul, Lago Sul e regiões de elite.', badge: 'Incluso', tags: ['Auditoria 360', 'Gap Analysis'] },
-    { icon: 'megaphone', name: 'Anúncios Cirúrgicos', sub: 'Performance de Elite', desc: 'Campanhas de alta performance no Google Ads e Meta Ads, desenhadas exclusivamente para atrair pacientes qualificados sem violar as normas éticas.', badge: 'Performance', tags: ['ROI Focus', 'Otimização Diária'] },
-    { icon: 'globe', name: 'Vitrine de Elite', sub: 'Interfaces de Conversão', desc: 'Desenvolvimento de Landing Pages de alta velocidade, totalmente adequadas ao compliance do CFM. Estruturas que geram autoridade imediata.', badge: 'Conversão', tags: ['SEO Técnico', 'Mobile-First'] },
-    { icon: 'sparkles', name: 'Auditoria da Recepção', sub: 'Inteligência Comercial', desc: 'Auditamos o processo de atendimento do seu WhatsApp para garantir que o tráfego qualificado que chega vire consulta paga na agenda.', badge: 'Vendas', tags: ['WhatsApp Audit', 'Scripts'] },
+    { icon: 'search', name: 'Raio-X', desc: 'Raio-X profundo do seu posicionamento local e gaps digitais.' },
+    { icon: 'megaphone', name: 'Anúncios Cirúrgicos', desc: 'Google e Meta (Instagram e Facebook) direcionados exclusivamente para a sua subespecialidade.' },
+    { icon: 'globe', name: 'Vitrine de Elite', desc: 'Páginas limpas, institucionais e 100% adequadas ao CFM. Postagens que aumentam sua autoridade. Zero dancinhas.' },
+    { icon: 'phone', name: 'Auditoria Comercial', desc: 'O volume de contatos chega. Nós treinamos sua recepção para destravar o agendamento no WhatsApp.' },
   ]
 
   return (
     <section id="servicos" className="py-24 px-6 sm:px-8 relative">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <span className="section-label mb-6">Nossas Ferramentas</span>
+          <span className="section-label mb-6">O Mecanismo Único</span>
           <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] mb-6">
-            A Engenharia por trás do resultado:<br />Ferramentas de Precisão Comercial.
+            Engenharia de<br />Precisão Comercial.
           </h2>
-          <p className="text-[#5A6B7A] text-lg max-w-2xl mx-auto font-medium">
-            Cada serviço resolve um gargalo técnico específico do seu funil de pacientes de alto ticket.
-          </p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
+        <div className="grid sm:grid-cols-2 gap-6">
           {services.map((s, i) => (
-            <div key={i} className="glass-card p-10 group flex flex-col gap-6">
-              <div className="flex items-start justify-between">
-                <div className="w-14 h-14 rounded-2xl bg-[#00BFA5]/10 border border-[#00BFA5]/20 flex items-center justify-center group-hover:bg-[#00BFA5] group-hover:text-white transition-all duration-300">
-                  <Icon name={s.icon} className="w-8 h-8" />
-                </div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-[#00BFA5] bg-[#00BFA5]/5 px-3 py-1 rounded-full border border-[#00BFA5]/15">
-                  {s.badge}
-                </span>
+            <div key={i} className="glass-card p-10 group flex items-start gap-6">
+              <div className="w-14 h-14 rounded-2xl bg-[#00BFA5]/10 border border-[#00BFA5]/20 flex items-center justify-center shrink-0 group-hover:bg-[#00BFA5] group-hover:text-white transition-all duration-300">
+                <Icon name={s.icon} className="w-7 h-7" />
               </div>
               <div>
-                <span className="text-[10px] font-bold text-[#5A6B7A] uppercase tracking-widest mb-1 block">{s.sub}</span>
-                <h3 className="font-bold text-[#0D1B2A] text-2xl">{s.name}</h3>
+                <h3 className="font-bold text-[#0D1B2A] text-2xl mb-2">{s.name}</h3>
+                <p className="text-[#5A6B7A] text-base leading-relaxed">{s.desc}</p>
               </div>
-              <p className="text-[#5A6B7A] text-base leading-relaxed flex-1">{s.desc}</p>
-              <div className="flex flex-wrap gap-2 pt-4 border-t border-[#0D1B2A]/5">
-                {s.tags.map((t, j) => (
-                  <span key={j} className="text-[10px] font-black uppercase tracking-tight text-[#5A6B7A]/60 bg-[#F8FAFC] border border-[#0D1B2A]/5 px-2 py-1 rounded-md">{t}</span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function RiskReversal() {
-  return (
-    <section className="py-24 px-6 sm:px-8 relative overflow-hidden">
-      <div className="max-w-5xl mx-auto glass-card p-12 sm:p-20 bg-[#F8FAFC] border-[#00BFA5]/30">
-        <span className="section-label mb-8">Risco Zero Pulso</span>
-        <h2 className="text-4xl sm:text-5xl font-black text-[#0D1B2A] mb-10 leading-tight">
-          Você não paga para imaginar.<br />
-          <span className="text-[#00BFA5]">Você vê primeiro, depois decide.</span>
-        </h2>
-        <div className="space-y-6 text-[#5A6B7A] text-xl font-medium mb-12">
-          <p>Reduzimos o seu risco a zero. Em até <strong className="text-[#0D1B2A]">48 horas</strong>, antes de você assinar qualquer contrato ou realizar qualquer pagamento de setup, a equipe de engenharia da Pulso vai entregar para o seu consultório:</p>
-          <ul className="space-y-4">
-            <li className="flex items-center gap-3"><Icon name="check" className="w-6 h-6 text-[#00BFA5]" /> O design completo da sua nova <strong>Vitrine de Elite</strong> (Landing Page);</li>
-            <li className="flex items-center gap-3"><Icon name="check" className="w-6 h-6 text-[#00BFA5]" /> O planejamento estratégico dos seus <strong>Anúncios Cirúrgicos</strong>;</li>
-            <li className="flex items-center gap-3"><Icon name="check" className="w-6 h-6 text-[#00BFA5]" /> Uma <strong>Auditoria Comercial</strong> da sua presença atual.</li>
-          </ul>
-          <p>Se você olhar para a nossa entrega técnica e não enxergar a engrenagem que vai dar previsibilidade à sua agenda, nós apertamos as mãos e você não nos deve absolutamente nada. O risco do trabalho inicial é 100% nosso.</p>
-        </div>
-        <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex px-12 py-5 text-xl font-black">
-          SOLICITAR MINHA ESTRUTURA EM 48H
-        </a>
-      </div>
-    </section>
-  )
-}
-
-function HowItWorks() {
-  const steps = [
-    { num: '01', title: 'Deep Scan', desc: 'Análise completa da presença digital e benchmark competitivo.', time: 'Fase 1' },
-    { num: '02', title: 'Blueprint', desc: 'Desenho da estratégia personalizada e metas de conversão.', time: 'Fase 2' },
-    { num: '03', title: 'Deployment', desc: 'Setup técnico de anúncios, site e fluxos de atendimento.', time: 'Fase 3' },
-    { num: '04', title: 'Live Growth', desc: 'Otimização contínua baseada em dados reais de pacientes.', time: 'Fase 4' },
-  ]
-  return (
-    <section id="como-funciona" className="py-24 px-6 sm:px-8 relative">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center relative z-10">
-        <div>
-          <span className="section-label mb-6">Engenharia de Captação</span>
-          <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] leading-tight mb-10">
-            A técnica por<br />trás do resultado.
-          </h2>
-          <div className="space-y-10">
-            {steps.map((s, i) => (
-              <div key={i} className="flex gap-6 group">
-                <div className="w-14 h-14 rounded-2xl bg-[#0D1B2A] text-white flex items-center justify-center shrink-0 group-hover:bg-[#00BFA5] transition-all duration-500 font-black text-xl shadow-lg shadow-[#0D1B2A]/20">
-                  {s.num}
-                </div>
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="font-bold text-[#0D1B2A] text-xl">{s.title}</h3>
-                    <span className="text-[10px] font-black text-[#00BFA5] uppercase tracking-widest bg-[#00BFA5]/5 px-2 py-0.5 rounded-full border border-[#00BFA5]/10">{s.time}</span>
-                  </div>
-                  <p className="text-[#5A6B7A] text-base font-medium">{s.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="glass-card p-12 relative bg-white/90 shadow-2xl">
-          <div className="absolute top-0 right-0 p-8">
-            <div className="w-3 h-3 rounded-full bg-[#00BFA5] animate-pulse shadow-[0_0_10px_#00BFA5]" />
-          </div>
-          <h3 className="text-2xl font-black text-[#0D1B2A] mb-10 tracking-tight uppercase">Performance Monitor</h3>
-          <div className="space-y-8">
-            {[
-              { label: 'Conversão de Funil', val: 88, color: '#0D1B2A' },
-              { label: 'Ocupação de Agenda', val: 94, color: '#00BFA5' },
-              { label: 'Retenção de Pacientes', val: 91, color: '#00A88E' },
-            ].map((item, i) => (
-              <div key={i}>
-                <div className="flex justify-between mb-3">
-                  <span className="text-xs font-black text-[#5A6B7A] uppercase tracking-widest">{item.label}</span>
-                  <span className="text-xs font-black text-[#0D1B2A]">{item.val}%</span>
-                </div>
-                <div className="h-2.5 bg-[#F8FAFC] rounded-full overflow-hidden border border-[#0D1B2A]/5">
-                  <div className="h-full rounded-full transition-all duration-1000" style={{ width: `${item.val}%`, backgroundColor: item.color }} />
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-12 pt-10 border-t border-[#0D1B2A]/5 grid grid-cols-2 gap-10 text-center">
-            <div>
-              <div className="text-5xl font-black text-[#0D1B2A]">4.9</div>
-              <div className="text-[10px] font-bold text-[#5A6B7A] uppercase tracking-widest mt-2">Rating Média</div>
-            </div>
-            <div>
-              <div className="text-5xl font-black text-[#00BFA5]">15k+</div>
-              <div className="text-[10px] font-bold text-[#5A6B7A] uppercase tracking-widest mt-2">Leads Gerados</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Plans() {
-  const bundles = [
-    { name: 'Starter', sub: 'Fundação Digital', desc: 'Presença profissional obrigatória para clínicas em fase de estruturação.', features: ['Google Meu Negócio Elite','12 Vitrines de Autoridade/mês','Deep Scan Inicial','Suporte Técnico'] },
-    { name: 'Growth', sub: 'Escala de Agenda', desc: 'Sistema completo de Engenharia de Captação para lotar horários com ticket premium.', popular: true, features: ['Anúncios Cirúrgicos','Vitrine de Elite (Landing Page)','Dashboard de Leads Live','Auditoria de Recepção','Treinamento Comercial'] },
-    { name: 'Authority', sub: 'Soberania Regional', desc: 'Para médicos que buscam o domínio total do mercado e leilão digital da região.', features: ['Estratégia Multicanal','Produção Audiovisual VIP','IA de Atendimento 24h','Consultoria Estratégica','Gestão de Reputação Premium'] },
-  ]
-  return (
-    <section id="planos" className="py-24 px-6 sm:px-8 relative bg-[#F8FAFC]">
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-16">
-          <span className="section-label mb-6">Barreira de Entrada</span>
-          <p className="text-[#0D1B2A] text-lg font-black max-w-3xl mx-auto mb-12">
-            "Para garantir a máxima performance e a soberania dos nossos clientes nos leilões do Google, nós limitamos estritamente a nossa atuação a <span className="text-[#00BFA5]">3 médicos por especialidade por região</span>. Não anunciamos concorrentes diretos no mesmo território."
-          </p>
-          <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] mb-6">Planos de Engenharia.</h2>
-        </div>
-        
-        <div className="grid md:grid-cols-3 gap-8">
-          {bundles.map((p, i) => (
-            <div key={i} className={`glass-card p-12 flex flex-col relative transition-all duration-500 ${p.popular ? 'border-[#00BFA5] border-2 scale-105 z-10 bg-white' : 'bg-white/40'}`}>
-              {p.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#00BFA5] text-white text-[10px] font-black px-5 py-2 rounded-full shadow-xl shadow-[#00BFA5]/20 tracking-widest">
-                  PLATAFORMA RECOMENDADA
-                </div>
-              )}
-              <div className="mb-10">
-                <span className="text-[11px] font-black text-[#00BFA5] uppercase tracking-[0.2em] mb-3 block">{p.sub}</span>
-                <h3 className="text-4xl font-black text-[#0D1B2A] mb-4">{p.name}</h3>
-                <p className="text-[#5A6B7A] text-sm font-medium leading-relaxed">{p.desc}</p>
-              </div>
-              <ul className="space-y-5 mb-12 flex-1">
-                {p.features.map((f, j) => (
-                  <li key={j} className="flex items-center gap-4 text-sm font-bold text-[#0D1B2A]">
-                    <div className="w-5 h-5 rounded-full bg-[#00BFA5]/10 flex items-center justify-center shrink-0">
-                      <Icon name="check" className="w-3.5 h-3.5 text-[#00BFA5]" />
-                    </div>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
-                 className={`block text-center font-black py-5 rounded-2xl transition-all text-sm tracking-wide ${p.popular ? 'btn-primary' : 'border-2 border-[#0D1B2A] text-[#0D1B2A] hover:bg-[#0D1B2A] hover:text-white'}`}>
-                QUERO SOLICITAR MINHA ESTRUTURA EM 48H
-              </a>
             </div>
           ))}
         </div>
@@ -579,16 +388,16 @@ function Results() {
   return (
     <section id="resultados" className="py-24 px-6 sm:px-8 relative overflow-hidden">
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="mb-20 text-left lg:text-center">
-          <span className="section-label mb-6">Métricas Reais</span>
-          <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] mb-6">Impacto auditado.</h2>
+        <div className="mb-20 text-center">
+          <span className="section-label mb-6">A Prova Fria</span>
+          <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] mb-6">Impacto Auditado.</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {[
-            { value: '+300%', label: 'Fluxo de Leads', desc: 'Média de aumento no 3º mês' },
-            { value: '-45%', label: 'CPL Otimizado', desc: 'Redução média de custo/aquisição' },
-            { value: 'Elite', label: 'Rank Google', desc: 'Posicionamento Top 3 garantido' },
-            { value: '5.2x', label: 'ROI Médio', desc: 'Retorno sobre Ads gerenciados' },
+            { value: '+300%', label: 'Fluxo de oportunidades', desc: 'qualificadas chegando no WhatsApp' },
+            { value: '-45%', label: 'Redução no Custo', desc: 'por Lead (CPL)' },
+            { value: 'Elite', label: 'Posicionamento Premium', desc: 'de autoridade local' },
+            { value: '5.2x', label: 'Retorno Médio', desc: 'sobre o Investimento (ROI)' },
           ].map((m, i) => (
             <div key={i} className="glass-card p-10 text-center border-[#0D1B2A]/5 bg-white/60">
               <div className="text-6xl font-black text-[#0D1B2A] mb-4 tracking-tighter" style={{ filter: 'drop-shadow(0 4px 6px rgba(0, 191, 165, 0.2))' }}>{m.value}</div>
@@ -602,24 +411,80 @@ function Results() {
   )
 }
 
-function Differentials() {
-  const items = [
-    { icon: 'shield', title: 'Compliance CFM', desc: 'Estratégias rigorosamente alinhadas com as normas de publicidade médica de 2024.' },
-    { icon: 'chart', title: 'Foco em Vendas', desc: 'Não entregamos likes, entregamos pacientes qualificados na sua recepção.' },
-    { icon: 'zap', title: 'Tecnologia Proprietária', desc: 'Dashboards e automações exclusivas para gestão de performance médica.' },
-    { icon: 'heart', title: 'Setor Exclusivo', desc: 'Atendemos apenas o setor de saúde. Conhecemos a dor do médico.' },
+function RiskReversal() {
+  return (
+    <section className="py-24 px-6 sm:px-8 relative overflow-hidden">
+      <div className="max-w-5xl mx-auto glass-card p-12 sm:p-20 bg-[#F8FAFC] border-[#00BFA5]/30">
+        <span className="section-label mb-8">Inversão Total de Risco</span>
+        <h2 className="text-4xl sm:text-5xl font-black text-[#0D1B2A] mb-10 leading-tight">
+          Você não paga para imaginar.<br />
+          <span className="text-[#00BFA5]">Você vê pronto.</span>
+        </h2>
+        <div className="space-y-6 text-[#5A6B7A] text-xl font-medium mb-12">
+          <p>Entregamos sua estrutura pronta em <strong className="text-[#0D1B2A]">48 horas ANTES do contrato:</strong></p>
+          <ul className="space-y-4 text-lg">
+            <li className="flex items-center gap-3"><Icon name="check" className="w-5 h-5 text-[#00BFA5]" /> Sua nova Vitrine de Elite estruturada.</li>
+            <li className="flex items-center gap-3"><Icon name="check" className="w-5 h-5 text-[#00BFA5]" /> Landing Page de alta conversão.</li>
+            <li className="flex items-center gap-3"><Icon name="check" className="w-5 h-5 text-[#00BFA5]" /> Linha editorial de posts/reels chave.</li>
+            <li className="flex items-center gap-3"><Icon name="check" className="w-5 h-5 text-[#00BFA5]" /> Diretriz de marca, e posicionamento.</li>
+            <li className="flex items-center gap-3"><Icon name="check" className="w-5 h-5 text-[#00BFA5]" /> O desenho tático dos seus Anúncios Cirúrgicos.</li>
+            <li className="flex items-center gap-3"><Icon name="check" className="w-5 h-5 text-[#00BFA5]" /> A auditoria de presença digital do seu território.</li>
+          </ul>
+          <p className="pt-4 border-t border-[#0D1B2A]/10">Se você aprovar o sistema, nós avançamos. Se não, você não deve um único centavo. Risco zero para o seu consultório.</p>
+        </div>
+        <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex px-12 py-5 text-xl font-black">
+          QUERO MINHA ESTRUTURA EM 48H
+        </a>
+      </div>
+    </section>
+  )
+}
+
+function Plans() {
+  const bundles = [
+    { name: 'Essencial', sub: 'Destrave sua agenda', desc: 'O sistema cirúrgico para quem precisa sair da invisibilidade e destravar a agenda.', price: 'R$ 2.500/mês', cta: 'VERIFICAR DISPONIBILIDADE REGIONAL', features: ['M1 — Diagnóstico Estratégico: Raio-X profundo dos gargalos da sua clínica e mapeamento da concorrência local.','M2 — Diretriz de Marca & Posicionamento: Ajuste fino da sua identidade visual para atrair o público de alto ticket.','O7 — Vitrine Digital Activa: Configuração técnica do seu Google Meu Negócio (GMB) + Alinhamento do Instagram para autoridade (Zero dancinhas).','M4 — Landing Page de Elite: Página institucional ultraveloz, focada em conversão e 100% adequada às normas do CFM.','M6 — Anúncios Cirúrgicos (Meta + Google Ads): Campanhas configuradas especificamente para capturar o paciente no momento exato da busca pela sua subespecialidade.'] },
+    { name: 'Growth', sub: 'Escala rápida', desc: 'A estrutura completa para clínicas que buscam escala rápida e volumosa de pacientes.', price: 'R$ 3.500 – R$ 4.500/mês', popular: true, cta: 'ATIVAR ESCALA DA CLÍNICA', features: ['Tudo do Plano Essencial +','M5 — Linha Editorial Recorrente (16 posts/mês): Produção e agendamento de criativos de performance para manter sua vitrine ativa.','M3 — Site Premium Expandido (8 Seções): Arquitetura web completa para clínicas com múltiplos profissionais ou subespecialidades estruturadas.','Auditoria Comercial da Recepção: Análise ativa dos scripts do seu WhatsApp para garantir que o lead que chega vire consulta paga.'] },
+    { name: 'Authority', sub: 'Monopólio regional absoluto', desc: 'Para o especialista que exige dominar o topo do mercado.', price: 'R$ 5.500/mês', cta: 'DOMINAR MEU TERRITÓRIO', features: ['Tudo do Plano Growth +','M7 — SEO Avançado + GMB Contínuo: Trabalho de posicionamento orgânico para fazer seu nome liderar as buscas sem depender apenas de anúncios pagos.','M8 — Automação & Bot IA 24/7: Atendimento inteligente no WhatsApp para qualificar, responder e direcionar o paciente premium na mesma hora, mesmo de madrugada.','Produção Audiovisual Dedicada: Captação de imagens e vídeos de alta classe no seu próprio consultório para anúncios.'] },
   ]
   return (
-    <section className="py-24 px-6 sm:px-8 relative bg-[#F8FAFC]">
+    <section id="planos" className="py-24 px-6 sm:px-8 relative bg-[#F8FAFC]">
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {items.map((item, i) => (
-            <div key={i} className="glass-card p-10 hover:border-[#00BFA5] group bg-white shadow-xl shadow-[#0D1B2A]/5">
-              <div className="w-14 h-14 rounded-2xl bg-[#0D1B2A] text-white flex items-center justify-center mb-8 group-hover:bg-[#00BFA5] transition-all duration-300 shadow-lg shadow-[#0D1B2A]/10">
-                <Icon name={item.icon} className="w-7 h-7" />
+        <div className="text-center mb-16">
+          <span className="section-label mb-6">Planos de Engenharia</span>
+          <p className="text-[#0D1B2A] text-lg font-black max-w-3xl mx-auto mb-12 bg-white/80 p-6 rounded-2xl border border-[#0D1B2A]/5">
+            "Para garantir a soberania nos leilões do Google, limitamos a engenharia a apenas <span className="text-[#00BFA5]">3 especialistas por região</span>."
+          </p>
+          <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] mb-6">Ativos de Performance.</h2>
+        </div>
+        
+        <div className="grid md:grid-cols-3 gap-8">
+          {bundles.map((p, i) => (
+            <div key={i} className={`glass-card p-10 flex flex-col relative transition-all duration-500 ${p.popular ? 'border-[#00BFA5] border-2 scale-105 z-10 bg-white' : 'bg-white/40'}`}>
+              {p.popular && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#00BFA5] text-white text-[10px] font-black px-5 py-2 rounded-full shadow-xl shadow-[#00BFA5]/20 tracking-widest">
+                  MAIS ESCOLHIDO
+                </div>
+              )}
+              <div className="mb-8">
+                <span className="text-[11px] font-black text-[#00BFA5] uppercase tracking-[0.2em] mb-2 block">{p.sub}</span>
+                <h3 className="text-3xl font-black text-[#0D1B2A] mb-3">{p.name}</h3>
+                <div className="text-xl font-black text-[#0D1B2A] mb-4 bg-[#F8FAFC] inline-block px-4 py-2 rounded-lg border border-[#0D1B2A]/5">{p.price}</div>
+                <p className="text-[#5A6B7A] text-sm font-medium leading-relaxed">{p.desc}</p>
               </div>
-              <h3 className="text-[#0D1B2A] font-black text-xl mb-4 tracking-tight">{item.title}</h3>
-              <p className="text-[#5A6B7A] text-sm font-medium leading-relaxed">{item.desc}</p>
+              <ul className="space-y-4 mb-10 flex-1">
+                {p.features.map((f, j) => (
+                  <li key={j} className="flex items-start gap-3 text-sm font-bold text-[#0D1B2A]">
+                    <div className="w-5 h-5 rounded-full bg-[#00BFA5]/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <Icon name="check" className="w-3 h-3 text-[#00BFA5]" />
+                    </div>
+                    <span className="leading-snug">{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
+                 className={`block text-center font-black py-4 rounded-xl transition-all text-xs tracking-widest uppercase ${p.popular ? 'btn-primary' : 'border-2 border-[#0D1B2A] text-[#0D1B2A] hover:bg-[#0D1B2A] hover:text-white'}`}>
+                {p.cta}
+              </a>
             </div>
           ))}
         </div>
@@ -631,17 +496,16 @@ function Differentials() {
 function FAQ() {
   const [openIdx, setOpenIdx] = useState(null)
   const faqs = [
-    { q: 'Quanto tempo para ver os primeiros resultados?', a: 'Os primeiros leads começam a chegar na primeira semana. A estabilização do sistema e previsibilidade total ocorrem entre 60 e 90 dias de operação ativa.' },
-    { q: 'O investimento em anúncios está incluso?', a: 'Não. O valor dos anúncios é pago diretamente às plataformas (Google/Meta). Nós cuidamos de toda a engenharia e otimização para que cada real renda o máximo.' },
-    { q: 'Vocês atendem clínicas de qual tamanho?', a: 'Atendemos desde clínicas boutique até grandes centros médicos. Nossas estratégias são modulares e escalam conforme sua capacidade operacional.' },
-    { q: 'Como é feito o acompanhamento das métricas?', a: 'Você terá um dashboard 24/7 com todos os dados e reuniões quinzenais de alinhamento estratégico com nossos gestores de performance.' },
+    { q: 'Quanto tempo para os resultados?', a: 'Sistema completo rodando em 15 dias, campanhas ativas e coletando leads nos primeiros 30 dias.' },
+    { q: 'Como controlo o retorno?', a: 'Te entregamos tudo que você precisa saber para decidir. Relatórios Executivos e Dashboard analítico em tempo real integrado ao seu WhatsApp comercial.' },
+    { q: 'Existem multas de contrato?', a: 'Não. Nós entregamos o produto antes do contrato para garantir que você só assina pelo resultado.' },
   ]
   return (
     <section id="faq" className="py-24 px-6 sm:px-8 relative bg-white">
       <div className="max-w-4xl mx-auto relative z-10">
         <div className="text-center mb-20">
-          <span className="section-label mb-6">Suporte & FAQ</span>
-          <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] mb-6">Dúvidas Técnicas.</h2>
+          <span className="section-label mb-6">Matando Objeções</span>
+          <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] mb-6">FAQ Rápido.</h2>
         </div>
         <div className="space-y-4">
           {faqs.map((faq, i) => (
@@ -671,16 +535,18 @@ function CTA() {
     <section className="py-24 px-6 sm:px-8 relative">
       <div className="max-w-6xl mx-auto glass-card p-16 sm:p-24 text-center relative overflow-hidden bg-[#0D1B2A] border-none shadow-3xl">
         <div className="absolute inset-0 bg-gradient-to-br from-[#00BFA5]/20 to-transparent pointer-events-none" />
-        <h2 className="text-5xl sm:text-8xl font-black text-white leading-[0.9] tracking-tighter mb-12 relative z-10">
-          SISTEMA<br />
-          <span className="text-[#00BFA5]">PULSO</span><br />
-          ATIVAR AGORA.
+        <span className="section-label mb-8 bg-[#00BFA5]/20 text-[#00BFA5] border-none relative z-10">Gatilhada Final</span>
+        <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.0] tracking-tighter mb-8 relative z-10">
+          Sua reputação está trabalhando<br />menos do que deveria.
         </h2>
+        <p className="text-xl text-[#5A6B7A] font-bold mb-12 relative z-10 max-w-3xl mx-auto">
+          Horários ociosos &times; Valor do procedimento = <span className="text-[#00BFA5]">Prejuízo mensal.</span><br/>Não dê essa vantagem para o concorrente ao lado.
+        </p>
         <div className="flex flex-col sm:flex-row justify-center gap-6 relative z-10">
           <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
-             className="bg-white text-[#0D1B2A] hover:bg-[#00BFA5] hover:text-white px-14 py-6 text-xl font-black rounded-2xl flex items-center justify-center gap-4 transition-all duration-500 shadow-2xl">
+             className="bg-[#00BFA5] text-[#0D1B2A] hover:bg-white px-14 py-6 text-xl font-black rounded-2xl flex items-center justify-center gap-4 transition-all duration-500 shadow-[0_0_30px_rgba(0,191,165,0.4)]">
             <Icon name="phone" className="w-7 h-7" />
-            QUERO SOLICITAR MINHA ESTRUTURA EM 48H
+            ATIVAR SISTEMA PULSO
           </a>
         </div>
       </div>
@@ -697,7 +563,7 @@ function Footer() {
           <p className="text-[#5A6B7A] text-[10px] font-black uppercase tracking-[0.3em]">Engenharia de Captação Médica © {new Date().getFullYear()}</p>
         </div>
         <div className="flex gap-12">
-          {['Serviços', 'Resultados', 'Wiki'].map((l) => (
+          {['Serviços', 'Resultados', 'Planos', 'Wiki'].map((l) => (
             <a key={l} href={l === 'Wiki' ? '#/wiki' : `#${l.toLowerCase()}`} className="text-xs font-black text-[#5A6B7A] hover:text-[#00BFA5] uppercase tracking-widest transition-colors duration-300">{l}</a>
           ))}
         </div>
@@ -723,11 +589,9 @@ function App() {
         <FadeIn from="blur"><Hero /></FadeIn>
         <FadeIn from="up"><PainPoints /></FadeIn>
         <FadeIn from="blur"><Services /></FadeIn>
-        <FadeIn from="left"><HowItWorks /></FadeIn>
-        <FadeIn from="zoom"><RiskReversal /></FadeIn>
         <FadeIn from="right"><Results /></FadeIn>
+        <FadeIn from="zoom"><RiskReversal /></FadeIn>
         <FadeIn from="up"><Plans /></FadeIn>
-        <FadeIn from="blur"><Differentials /></FadeIn>
         <FadeIn from="up"><FAQ /></FadeIn>
         <FadeIn from="zoom"><CTA /></FadeIn>
         <Footer />
