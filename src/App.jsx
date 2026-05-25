@@ -3,7 +3,7 @@ import './index.css'
 import Wiki from './Wiki.jsx'
 import heartbeatSrc from '/heartbeat.mp3?url'
 
-const WHATSAPP_LINK = 'https://wa.me/5561991465706?text=Ol%C3%A1%2C%20quero%20dar%20o%20primeiro%20passo%20para%20a%20previsibilidade%20financeira%20do%20meu%20consult%C3%B3rio.'
+const WHATSAPP_LINK = 'https://wa.me/5561999999999?text=Ol%C3%A1%2C%20quero%20minha%20auditoria%20gratuita'
 
 function Icon({ name, className = '' }) {
   const icons = {
@@ -16,7 +16,7 @@ function Icon({ name, className = '' }) {
     clipboard: <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 14h6"/><path d="M9 18h6"/></svg>,
     camera: <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>,
     instagram: <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>,
-    sparkles: <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>,
+    sparkles: <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1-1.3 1.3L12 21l1.9-5.8a2 2 0 0 1-1.3-1.3Z"/></svg>,
     check: <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6 9 17l-5-5"/></svg>,
     users: <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
     calendar: <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>,
@@ -184,7 +184,7 @@ function Navbar() {
     <nav className="fixed top-6 left-0 right-0 z-50 px-6">
       <div className="max-w-5xl mx-auto glass-card h-16 px-6 flex items-center justify-between" style={{ borderRadius: '100px', background: 'rgba(255, 255, 255, 0.8)', borderColor: 'rgba(0, 191, 165, 0.15)' }}>
         <a href="#" className="flex items-center">
-          <img src={import.meta.env.BASE_URL + 'pulso-logo.svg'} alt="Pulso" className="h-6" />
+          <img src={import.meta.env.BASE_URL + 'pulso-logo.svg'} alt="Pulso" className="h-8 w-auto" />
         </a>
         <div className="hidden md:flex items-center gap-8">
           {links.map(([label, href]) => (
@@ -231,21 +231,20 @@ function Hero() {
           <div className="mb-8 flex">
             <span className="section-label flex items-center gap-2">
               <span className="glow-point" />
-              Diagnóstico gratuito disponível
+              ENGENHARIA DE CAPTAÇÃO MÉDICA DE ALTO PADRÃO
             </span>
           </div>
           <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black text-[#0D1B2A] leading-[0.95] tracking-tighter mb-8">
-            AGENDA CHEIA.<br />
-            <span className="text-[#00BFA5]">RESULTADO REAL.</span>
+            O consultório ao lado agradece o seu <span className="text-[#00BFA5]">silêncio digital.</span>
           </h1>
           <p className="text-[#5A6B7A] text-xl max-w-xl mb-12 leading-relaxed font-medium">
-            Transformamos o marketing da sua clínica em um sistema previsível de captação de pacientes de alto ticket.
+            Enquanto você confia exclusivamente no boca a boca, médicos menos experientes dominam o Google em Brasília e capturam os pacientes premium que deveriam ser seus. Nós construímos o sistema previsível de captação que corrige essa injustiça.
           </p>
           <div className="flex flex-wrap gap-5 mb-16">
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
                className="btn-primary flex items-center gap-3 px-8 py-4 text-base">
-              <Icon name="phone" className="w-5 h-5" />
-              Falar com especialista
+              <Icon name="clipboard" className="w-5 h-5" />
+              Quero Minha Auditoria Gratuita em 48h
             </a>
             <a href="#como-funciona"
                className="glass-card flex items-center gap-3 px-8 py-4 text-base font-bold text-[#0D1B2A] border-rgba(0,191,165,0.2) hover:border-[#00BFA5]/40">
@@ -334,10 +333,10 @@ function Hero() {
 
 function PainPoints() {
   const points = [
-    { title: 'Agenda com horários vagos', desc: 'Você tem capacidade para atender mais, mas os pacientes não chegam. Raramente é a qualidade do serviço — é visibilidade.', subs: ['Subutilização de capacidade', 'Receita imprevisível'] },
-    { title: 'Dependência de indicações', desc: 'Quando as indicações param, a receita cai. Impossível escalar dependendo de algo fora do seu controle.', subs: ['Sem fluxo constante', 'Crescimento estagnado'] },
-    { title: 'Marketing sem retorno', desc: 'Já investiu em agência e posts. O resultado? Likes, mas não pacientes. Falta estratégia de conversão.', subs: ['Zero ROI mensurável', 'Conteúdo ineficaz'] },
-    { title: 'Invisível no Google', desc: 'Pacientes pesquisam "clínica perto de mim" e seus concorrentes aparecem. Você investe em estrutura, não em SEO.', subs: ['Fora do Google Maps', 'Zero tráfego local'] },
+    { title: 'Agenda vulnerável ao acaso.', desc: 'Confiar que o próximo mês se pagará baseado apenas na sorte de novas indicações físicas é um diagnóstico perigoso para a sua estrutura comercial.', subs: ['Subutilização de capacidade', 'Receita imprevisível'] },
+    { title: 'O ralo financeiro do "marketing frufru".', desc: 'Investir milhares de reais em agências tradicionais que entregam posts bonitos e promessas de dancinhas, mas falham em gerar leads qualificados.', subs: ['Sem fluxo constante', 'Crescimento estagnado'] },
+    { title: 'O ciclo incompleto da indicação.', desc: 'A indicação física começa no telefone de um amigo, mas termina invariavelmente em uma busca no Google. Se a sua vitrine digital hesita, o lead esfria.', subs: ['Zero ROI mensurável', 'Conteúdo ineficaz'] },
+    { title: 'Concorrência local dominando a atenção.', desc: 'Assistir passivamente a profissionais recém-formados ou tecnicamente inferiores ocupando o topo das pesquisas e capturando a fatia lucrativa.', subs: ['Fora do Google Maps', 'Zero tráfego local'] },
   ]
   return (
     <section className="py-24 px-6 sm:px-8 relative">
@@ -345,10 +344,10 @@ function PainPoints() {
         <div className="mb-16 text-center">
           <span className="section-label mb-4">Contexto de Mercado</span>
           <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] leading-tight mb-6">
-            A maioria das clínicas<br />trava no mesmo ponto.
+            O prejuízo silencioso de ser invisível<br />para o mercado de alto ticket.
           </h2>
           <p className="text-[#5A6B7A] max-w-2xl mx-auto text-lg font-medium">
-            A diferença é que agora existe uma solução técnica para o mercado médico de alto ticket.
+            A maioria das clínicas trava no mesmo ponto. A diferença é que agora existe uma solução técnica de Engenharia de Captação.
           </p>
         </div>
         <div className="grid md:grid-cols-2 gap-6">
@@ -381,32 +380,30 @@ function PainPoints() {
 
 function Services() {
   const services = [
-    { icon: 'clipboard', name: 'Diagnóstico Completo', sub: 'Ponto de partida', desc: 'Score 0-100 da sua clínica: digital, comercial e competitivo.', badge: 'Incluso', tags: ['Auditoria 360', 'Gap Analysis'] },
-    { icon: 'megaphone', name: 'Tráfego Pago Elite', sub: 'Google + Meta Ads', desc: 'Anúncios que atraem pacientes qualificados, focados em procedimentos de alto ticket.', badge: 'Performance', tags: ['ROI Focus', 'Otimização Diária'] },
-    { icon: 'globe', name: 'Ecossistema Digital', sub: 'Sites & Landing Pages', desc: 'Interfaces de alta velocidade feitas para converter visitante em agendamento imediato.', badge: 'Conversão', tags: ['SEO Técnico', 'Mobile-First'] },
-    { icon: 'instagram', name: 'Autoridade Social', sub: 'Gestão de Redes', desc: 'Posicionamento premium que gera confiança e desejo antes mesmo da primeira consulta.', badge: 'Marca', tags: ['Content Strategy', 'Video Prep'] },
-    { icon: 'sparkles', name: 'Sistemas de Automação', sub: 'IA & CRM', desc: 'Chatbots inteligentes e CRM configurado para não perder nenhum lead qualificado.', badge: 'Escala', tags: ['Smart Reply', 'Lead Scoring'] },
-    { icon: 'map', name: 'Busca Local Avançada', sub: 'Google Maps', desc: 'Domínio total das buscas locais na sua região para sua especialidade principal.', badge: 'Presença', tags: ['Top 3 Maps', 'Review MGMT'] },
+    { icon: 'clipboard', name: 'Deep Scan', sub: 'Diagnóstico Digital Profundo', desc: 'Raio-X comercial completo da presença da sua clínica em relação aos seus concorrentes diretos na Asa Sul, Lago Sul e regiões de elite.', badge: 'Incluso', tags: ['Auditoria 360', 'Gap Analysis'] },
+    { icon: 'megaphone', name: 'Anúncios Cirúrgicos', sub: 'Performance de Elite', desc: 'Campanhas de alta performance no Google Ads e Meta Ads, desenhadas exclusivamente para atrair pacientes qualificados sem violar as normas éticas.', badge: 'Performance', tags: ['ROI Focus', 'Otimização Diária'] },
+    { icon: 'globe', name: 'Vitrine de Elite', sub: 'Interfaces de Conversão', desc: 'Desenvolvimento de Landing Pages de alta velocidade, totalmente adequadas ao compliance do CFM. Estruturas que geram autoridade imediata.', badge: 'Conversão', tags: ['SEO Técnico', 'Mobile-First'] },
+    { icon: 'sparkles', name: 'Auditoria da Recepção', sub: 'Inteligência Comercial', desc: 'Auditamos o processo de atendimento do seu WhatsApp para garantir que o tráfego qualificado que chega vire consulta paga na agenda.', badge: 'Vendas', tags: ['WhatsApp Audit', 'Scripts'] },
   ]
 
   return (
     <section id="servicos" className="py-24 px-6 sm:px-8 relative">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <span className="section-label mb-6">Nossas Soluções</span>
+          <span className="section-label mb-6">Nossas Ferramentas</span>
           <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] mb-6">
-            Estratégia,<br />não apenas posts.
+            A Engenharia por trás do resultado:<br />Ferramentas de Precisão Comercial.
           </h2>
           <p className="text-[#5A6B7A] text-lg max-w-2xl mx-auto font-medium">
-            Cada serviço resolve um gargalo técnico específico do seu funil de pacientes.
+            Cada serviço resolve um gargalo técnico específico do seu funil de pacientes de alto ticket.
           </p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
           {services.map((s, i) => (
-            <div key={i} className="glass-card p-8 group flex flex-col gap-6">
+            <div key={i} className="glass-card p-10 group flex flex-col gap-6">
               <div className="flex items-start justify-between">
-                <div className="w-12 h-12 rounded-xl bg-[#00BFA5]/10 border border-[#00BFA5]/20 flex items-center justify-center group-hover:bg-[#00BFA5] group-hover:text-white transition-all duration-300">
-                  <Icon name={s.icon} className="w-6 h-6" />
+                <div className="w-14 h-14 rounded-2xl bg-[#00BFA5]/10 border border-[#00BFA5]/20 flex items-center justify-center group-hover:bg-[#00BFA5] group-hover:text-white transition-all duration-300">
+                  <Icon name={s.icon} className="w-8 h-8" />
                 </div>
                 <span className="text-[10px] font-black uppercase tracking-widest text-[#00BFA5] bg-[#00BFA5]/5 px-3 py-1 rounded-full border border-[#00BFA5]/15">
                   {s.badge}
@@ -414,17 +411,43 @@ function Services() {
               </div>
               <div>
                 <span className="text-[10px] font-bold text-[#5A6B7A] uppercase tracking-widest mb-1 block">{s.sub}</span>
-                <h3 className="font-bold text-[#0D1B2A] text-xl">{s.name}</h3>
+                <h3 className="font-bold text-[#0D1B2A] text-2xl">{s.name}</h3>
               </div>
-              <p className="text-[#5A6B7A] text-sm leading-relaxed flex-1">{s.desc}</p>
+              <p className="text-[#5A6B7A] text-base leading-relaxed flex-1">{s.desc}</p>
               <div className="flex flex-wrap gap-2 pt-4 border-t border-[#0D1B2A]/5">
                 {s.tags.map((t, j) => (
-                  <span key={j} className="text-[9px] font-black uppercase tracking-tight text-[#5A6B7A]/60 bg-[#F8FAFC] border border-[#0D1B2A]/5 px-2 py-1 rounded-md">{t}</span>
+                  <span key={j} className="text-[10px] font-black uppercase tracking-tight text-[#5A6B7A]/60 bg-[#F8FAFC] border border-[#0D1B2A]/5 px-2 py-1 rounded-md">{t}</span>
                 ))}
               </div>
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  )
+}
+
+function RiskReversal() {
+  return (
+    <section className="py-24 px-6 sm:px-8 relative overflow-hidden">
+      <div className="max-w-5xl mx-auto glass-card p-12 sm:p-20 bg-[#F8FAFC] border-[#00BFA5]/30">
+        <span className="section-label mb-8">Risco Zero Pulso</span>
+        <h2 className="text-4xl sm:text-5xl font-black text-[#0D1B2A] mb-10 leading-tight">
+          Você não paga para imaginar.<br />
+          <span className="text-[#00BFA5]">Você vê primeiro, depois decide.</span>
+        </h2>
+        <div className="space-y-6 text-[#5A6B7A] text-xl font-medium mb-12">
+          <p>Reduzimos o seu risco a zero. Em até <strong className="text-[#0D1B2A]">48 horas</strong>, antes de você assinar qualquer contrato ou realizar qualquer pagamento de setup, a equipe de engenharia da Pulso vai entregar para o seu consultório:</p>
+          <ul className="space-y-4">
+            <li className="flex items-center gap-3"><Icon name="check" className="w-6 h-6 text-[#00BFA5]" /> O design completo da sua nova <strong>Vitrine de Elite</strong> (Landing Page);</li>
+            <li className="flex items-center gap-3"><Icon name="check" className="w-6 h-6 text-[#00BFA5]" /> O planejamento estratégico dos seus <strong>Anúncios Cirúrgicos</strong>;</li>
+            <li className="flex items-center gap-3"><Icon name="check" className="w-6 h-6 text-[#00BFA5]" /> Uma <strong>Auditoria Comercial</strong> da sua presença atual.</li>
+          </ul>
+          <p>Se você olhar para a nossa entrega técnica e não enxergar a engrenagem que vai dar previsibilidade à sua agenda, nós apertamos as mãos e você não nos deve absolutamente nada. O risco do trabalho inicial é 100% nosso.</p>
+        </div>
+        <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex px-12 py-5 text-xl font-black">
+          SOLICITAR MINHA ESTRUTURA EM 48H
+        </a>
       </div>
     </section>
   )
@@ -441,9 +464,9 @@ function HowItWorks() {
     <section id="como-funciona" className="py-24 px-6 sm:px-8 relative">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center relative z-10">
         <div>
-          <span className="section-label mb-6">Metodologia Pulso</span>
+          <span className="section-label mb-6">Engenharia de Captação</span>
           <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] leading-tight mb-10">
-            A engenharia por<br />trás do resultado.
+            A técnica por<br />trás do resultado.
           </h2>
           <div className="space-y-10">
             {steps.map((s, i) => (
@@ -502,17 +525,19 @@ function HowItWorks() {
 
 function Plans() {
   const bundles = [
-    { name: 'Starter', sub: 'Essencial Digital', desc: 'Fundação necessária para clínicas que precisam de presença profissional.', features: ['Google Meu Negócio','12 posts/mês Estratégicos','Diagnóstico de Gaps','Suporte Prioritário'] },
-    { name: 'Growth', sub: 'Tração de Agenda', desc: 'Nosso sistema completo para lotar a agenda com pacientes qualificados.', popular: true, features: ['Google Ads + Meta Ads','Site High-Performance','Landing Pages de Elite','Dashboard em Tempo Real','Treinamento Comercial'] },
-    { name: 'Authority', sub: 'Liderança de Nicho', desc: 'Para médicos que buscam ser a referência absoluta em sua região.', features: ['Estratégia de Autoridade','Produção Audiovisual','IA de Atendimento','Consultoria VIP','Gestão de Reputação'] },
+    { name: 'Starter', sub: 'Fundação Digital', desc: 'Presença profissional obrigatória para clínicas em fase de estruturação.', features: ['Google Meu Negócio Elite','12 Vitrines de Autoridade/mês','Deep Scan Inicial','Suporte Técnico'] },
+    { name: 'Growth', sub: 'Escala de Agenda', desc: 'Sistema completo de Engenharia de Captação para lotar horários com ticket premium.', popular: true, features: ['Anúncios Cirúrgicos','Vitrine de Elite (Landing Page)','Dashboard de Leads Live','Auditoria de Recepção','Treinamento Comercial'] },
+    { name: 'Authority', sub: 'Soberania Regional', desc: 'Para médicos que buscam o domínio total do mercado e leilão digital da região.', features: ['Estratégia Multicanal','Produção Audiovisual VIP','IA de Atendimento 24h','Consultoria Estratégica','Gestão de Reputação Premium'] },
   ]
   return (
     <section id="planos" className="py-24 px-6 sm:px-8 relative bg-[#F8FAFC]">
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-20">
-          <span className="section-label mb-6">Investimento Técnico</span>
-          <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] mb-6">Planos que escalam.</h2>
-          <p className="text-[#5A6B7A] text-xl max-w-2xl mx-auto font-medium">Modelos adaptados para diferentes estágios de crescimento.</p>
+        <div className="text-center mb-16">
+          <span className="section-label mb-6">Barreira de Entrada</span>
+          <p className="text-[#0D1B2A] text-lg font-black max-w-3xl mx-auto mb-12">
+            "Para garantir a máxima performance e a soberania dos nossos clientes nos leilões do Google, nós limitamos estritamente a nossa atuação a <span className="text-[#00BFA5]">3 médicos por especialidade por região</span>. Não anunciamos concorrentes diretos no mesmo território."
+          </p>
+          <h2 className="text-4xl sm:text-6xl font-black text-[#0D1B2A] mb-6">Planos de Engenharia.</h2>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8">
@@ -540,7 +565,7 @@ function Plans() {
               </ul>
               <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
                  className={`block text-center font-black py-5 rounded-2xl transition-all text-sm tracking-wide ${p.popular ? 'btn-primary' : 'border-2 border-[#0D1B2A] text-[#0D1B2A] hover:bg-[#0D1B2A] hover:text-white'}`}>
-                Verificar Disponibilidade
+                QUERO SOLICITAR MINHA ESTRUTURA EM 48H
               </a>
             </div>
           ))}
@@ -579,10 +604,10 @@ function Results() {
 
 function Differentials() {
   const items = [
-    { icon: 'shield', title: 'Compliance Médica', desc: 'Estratégias rigorosamente alinhadas com as normas do CFM 2024.' },
-    { icon: 'chart', title: 'Estratégia ROI', desc: 'Foco total em converter cliques em agendamentos reais na sua clínica.' },
-    { icon: 'zap', title: 'Stack Tecnológica', desc: 'Dashboards e automações exclusivas para gestão de performance.' },
-    { icon: 'heart', title: 'Setor Exclusivo', desc: 'Atendemos apenas o setor de saúde. Conhecemos o seu paciente.' },
+    { icon: 'shield', title: 'Compliance CFM', desc: 'Estratégias rigorosamente alinhadas com as normas de publicidade médica de 2024.' },
+    { icon: 'chart', title: 'Foco em Vendas', desc: 'Não entregamos likes, entregamos pacientes qualificados na sua recepção.' },
+    { icon: 'zap', title: 'Tecnologia Proprietária', desc: 'Dashboards e automações exclusivas para gestão de performance médica.' },
+    { icon: 'heart', title: 'Setor Exclusivo', desc: 'Atendemos apenas o setor de saúde. Conhecemos a dor do médico.' },
   ]
   return (
     <section className="py-24 px-6 sm:px-8 relative bg-[#F8FAFC]">
@@ -645,20 +670,17 @@ function CTA() {
   return (
     <section className="py-24 px-6 sm:px-8 relative">
       <div className="max-w-6xl mx-auto glass-card p-16 sm:p-24 text-center relative overflow-hidden bg-[#0D1B2A] border-none shadow-3xl">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#00BFA5]/18 via-transparent to-[#1D4ED8]/10 pointer-events-none" />
-        <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black text-black leading-[0.95] tracking-tighter mb-6 relative z-10">
-          O consultório ao lado
-          <br />
-          <span className="text-[#7CE9D8]">agradece o seu silêncio digital.</span>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#00BFA5]/20 to-transparent pointer-events-none" />
+        <h2 className="text-5xl sm:text-8xl font-black text-white leading-[0.9] tracking-tighter mb-12 relative z-10">
+          SISTEMA<br />
+          <span className="text-[#00BFA5]">PULSO</span><br />
+          ATIVAR AGORA.
         </h2>
-        <p className="text-base sm:text-xl text-white/72 font-semibold leading-relaxed max-w-3xl mx-auto mb-12 relative z-10">
-          Dê o primeiro passo para previsibilidade financeira agora.
-        </p>
         <div className="flex flex-col sm:flex-row justify-center gap-6 relative z-10">
           <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"
-             className="bg-[#00BFA5] text-[#062B2C] hover:bg-[#7CE9D8] hover:text-[#031A1B] px-14 py-6 text-lg sm:text-xl font-black rounded-2xl flex items-center justify-center gap-4 transition-all duration-500 shadow-[0_20px_60px_rgba(0,191,165,0.28)]">
+             className="bg-white text-[#0D1B2A] hover:bg-[#00BFA5] hover:text-white px-14 py-6 text-xl font-black rounded-2xl flex items-center justify-center gap-4 transition-all duration-500 shadow-2xl">
             <Icon name="phone" className="w-7 h-7" />
-            Dê o primeiro passo agora
+            QUERO SOLICITAR MINHA ESTRUTURA EM 48H
           </a>
         </div>
       </div>
@@ -671,8 +693,8 @@ function Footer() {
     <footer className="py-16 px-6 sm:px-8 border-t border-[#0D1B2A]/5 bg-white">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
         <div className="flex flex-col items-center md:items-start gap-6">
-          <img src={import.meta.env.BASE_URL + 'pulso-logo.svg'} alt="Pulso" className="h-7" />
-          <p className="text-[#5A6B7A] text-[10px] font-black uppercase tracking-[0.3em]">Advanced Healthcare Growth © {new Date().getFullYear()}</p>
+          <img src={import.meta.env.BASE_URL + 'pulso-logo.svg'} alt="Pulso" className="h-7 w-auto" />
+          <p className="text-[#5A6B7A] text-[10px] font-black uppercase tracking-[0.3em]">Engenharia de Captação Médica © {new Date().getFullYear()}</p>
         </div>
         <div className="flex gap-12">
           {['Serviços', 'Resultados', 'Wiki'].map((l) => (
@@ -702,6 +724,7 @@ function App() {
         <FadeIn from="up"><PainPoints /></FadeIn>
         <FadeIn from="blur"><Services /></FadeIn>
         <FadeIn from="left"><HowItWorks /></FadeIn>
+        <FadeIn from="zoom"><RiskReversal /></FadeIn>
         <FadeIn from="right"><Results /></FadeIn>
         <FadeIn from="up"><Plans /></FadeIn>
         <FadeIn from="blur"><Differentials /></FadeIn>
