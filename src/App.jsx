@@ -129,10 +129,10 @@ function EEGCanvas() {
         ctx.beginPath()
         ctx.moveTo(prevX, py)
         ctx.lineTo(x, y)
-        ctx.strokeStyle = ACCENT_COLOR
+        ctx.strokeStyle = currentAccentColor
         ctx.lineWidth = 2.5
         ctx.shadowBlur = 10
-        ctx.shadowColor = 'rgba(0, 191, 165, 0.4)'
+        ctx.shadowColor = currentAccentColor === '#00BFA5' ? 'rgba(0, 191, 165, 0.4)' : 'rgba(239, 68, 68, 0.4)'
         ctx.stroke()
         ctx.shadowBlur = 0
       }
@@ -145,6 +145,7 @@ function EEGCanvas() {
     return () => {
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', resize)
+      window.removeEventListener('eeg-color-change', handleColorChange)
       UNLOCK_EVENTS.forEach(e => document.removeEventListener(e, onUnlock))
       audio.pause()
     }
@@ -316,6 +317,16 @@ function Hero() {
 }
 
 function PainPoints() {
+  const ref = useRef(null)
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      const color = entry.isIntersecting ? '#EF4444' : '#00BFA5'
+      window.dispatchEvent(new CustomEvent('eeg-color-change', { detail: { color } }))
+    }, { threshold: 0.3 })
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [])
+
   const points = [
     { title: 'Agenda Vulnerável', desc: 'Você tem anos de especialidade, mas sua receita ainda é refém do acaso.' },
     { title: 'O Ralo do Marketing de Tiktok', desc: 'Agências tradicionais vendem "posts bonitos". Nós geramos leads qualificados.' },
@@ -323,7 +334,7 @@ function PainPoints() {
     { title: 'Injustiça de Mercado', desc: 'Médicos com metade da sua experiência dominam a internet e lotam a agenda.' },
   ]
   return (
-    <section className="py-24 px-6 sm:px-8 relative">
+    <section ref={ref} className="py-24 px-6 sm:px-8 relative">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="mb-16 text-center">
           <span className="section-label mb-4">O Diagnóstico da Dor</span>
@@ -594,6 +605,14 @@ function App() {
         <FadeIn from="up"><Plans /></FadeIn>
         <FadeIn from="up"><FAQ /></FadeIn>
         <FadeIn from="zoom"><CTA /></FadeIn>
+        <Footer />
+      </div>
+    </div>
+  )
+}
+
+export default App
+adeIn from="zoom"><CTA /></FadeIn>
         <Footer />
       </div>
     </div>
