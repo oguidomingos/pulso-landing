@@ -327,7 +327,10 @@ function PainPoints() {
     const observer = new IntersectionObserver(([entry]) => {
       const color = entry.isIntersecting ? '#EF4444' : '#00BFA5'
       window.dispatchEvent(new CustomEvent('eeg-color-change', { detail: { color } }))
-    }, { threshold: 0.3 })
+    }, { 
+      threshold: 0.1,
+      rootMargin: '-10% 0px -10% 0px'
+    })
     if (ref.current) observer.observe(ref.current)
     return () => observer.disconnect()
   }, [])
