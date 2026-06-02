@@ -428,8 +428,8 @@ function Navbar() {
   const { setOpen: openModal } = useContext(ModalContext)
   const links = [['Mecanismo','#servicos'],['Resultados','#resultados'],['Planos','#planos'],['Dúvidas','#faq']]
   return (
-    <nav className="fixed top-4 sm:top-6 left-0 right-0 z-50 px-4 sm:px-6">
-      <div className="max-w-5xl mx-auto glass-card h-14 sm:h-16 px-4 sm:px-6 flex items-center justify-between" style={{ borderRadius: '100px', background: 'rgba(247, 249, 252, 0.8)', borderColor: 'rgba(44, 177, 188, 0.15)' }}>
+    <nav className="fixed top-4 sm:top-6 left-0 right-0 z-50 px-3 sm:px-6 max-w-[100vw] overflow-hidden">
+      <div className="max-w-5xl mx-auto glass-card h-14 sm:h-16 px-3 sm:px-6 flex items-center justify-between" style={{ borderRadius: '100px', background: 'rgba(247, 249, 252, 0.8)', borderColor: 'rgba(44, 177, 188, 0.15)' }}>
         <a href="#" className="flex items-center">
           <img src={import.meta.env.BASE_URL + 'pulso-logo-horizontal.svg'} alt="Pulso" className="h-8 sm:h-10 w-auto" />
         </a>
@@ -466,36 +466,33 @@ function Navbar() {
 function Hero() {
   const { setOpen } = useContext(ModalContext)
   return (
-    <section className="min-h-screen flex items-center pt-20 sm:pt-24 px-4 sm:px-8 relative overflow-hidden">
+    <section className="min-h-[100svh] flex items-center pt-24 sm:pt-24 px-5 sm:px-8 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[10%] right-[5%] w-[600px] h-[600px] rounded-full bg-[#2CB1BC]/5 blur-[120px]" />
         <div className="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] rounded-full bg-[#2CB1BC]/3 blur-[100px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-[1fr_auto] gap-12 items-center py-12 sm:py-20 relative z-10">
-        <div className="text-left">
-          <div className="mb-5 sm:mb-8 flex">
-            <span className="section-label flex items-center gap-2 text-[9px] sm:text-[11px]">
-              <span className="glow-point" />
-              ENGENHARIA DE CAPTAÇÃO MÉDICA
+      <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-[1fr_auto] gap-12 items-center sm:py-20 relative z-10">
+        <div>
+          <div className="mb-5 sm:mb-8">
+            <span className="section-label text-[11px] sm:text-xs">
+              Engenharia de Captação Médica
             </span>
           </div>
-          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold text-[#102A43] leading-[0.95] tracking-tighter mb-5 sm:mb-8">
+          <h1 className="text-[32px] sm:text-5xl lg:text-7xl font-bold text-[#102A43] leading-[1.1] sm:leading-[0.95] tracking-tight sm:tracking-tighter mb-6 sm:mb-8">
             O consultório ao lado agradece o seu <span className="text-[#2CB1BC]">silêncio digital.</span>
           </h1>
           <p className="text-[#486581] text-base sm:text-xl max-w-xl mb-8 sm:mb-12 leading-relaxed font-medium">
-            A indicação física hoje termina na pesquisa na internet. E você é invisível, o paciente escolhe o concorrente anunciado. Criamos seu sistema previsível de agendamento em 48 horas. Antes de qualquer contrato.
+            A indicação física hoje termina na pesquisa na internet. <strong className="text-[#102A43]">E você é invisível, o paciente escolhe o concorrente anunciado.</strong> Criamos seu sistema previsível de agendamento em 48 horas. Antes de qualquer contrato.
           </p>
-          <div className="flex flex-wrap gap-5 mb-6 sm:mb-8">
-            <button onClick={() => setOpen(true)}
-               className="btn-primary flex items-center gap-3 px-6 py-3.5 text-sm sm:px-8 sm:py-4 sm:text-base">
-              QUERO MINHA AUDITORIA EM 48H
-            </button>
-          </div>
-          <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-[#486581] text-[10px] sm:text-xs font-bold uppercase tracking-widest">
-            <span className="flex items-center gap-1.5 sm:gap-2"><Icon name="check" className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#2CB1BC]"/> Adequado ao CFM</span>
-            <span className="flex items-center gap-1.5 sm:gap-2"><Icon name="check" className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#2CB1BC]"/> Setup Zero</span>
-            <span className="flex items-center gap-1.5 sm:gap-2"><Icon name="check" className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#2CB1BC]"/> Exclusividade Regional</span>
+          <button onClick={() => setOpen(true)}
+             className="btn-primary w-full sm:w-auto flex items-center justify-center gap-3 px-6 py-4 text-[15px] sm:px-8 sm:py-4 sm:text-base mb-6 sm:mb-8">
+            QUERO MINHA AUDITORIA EM 48H
+          </button>
+          <div className="flex items-center gap-4 sm:gap-6 text-[#486581] text-[10px] sm:text-xs font-bold uppercase tracking-wide sm:tracking-widest">
+            <span className="flex items-center gap-1.5"><Icon name="check" className="w-3.5 h-3.5 text-[#2CB1BC]"/> Adequado ao CFM</span>
+            <span className="flex items-center gap-1.5"><Icon name="check" className="w-3.5 h-3.5 text-[#2CB1BC]"/> Setup Zero</span>
+            <span className="flex items-center gap-1.5"><Icon name="check" className="w-3.5 h-3.5 text-[#2CB1BC]"/> Exclusividade Regional</span>
           </div>
         </div>
 
@@ -581,7 +578,7 @@ function PainPoints() {
     <section ref={ref} className="py-14 sm:py-20 px-4 sm:px-8 relative z-10 transition-all duration-[1750ms]">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="mb-8 sm:mb-12 text-center">
-          <span className={`section-label mb-4 transition-all duration-[1750ms] ${isDark ? '!bg-red-500/10 !border-red-500/20 !text-red-400' : ''}`}>O Diagnóstico da Dor</span>
+          <span className={`section-label mb-4 transition-all duration-[1750ms] ${isDark ? '!text-red-400' : ''}`}>O Diagnóstico da Dor</span>
           <h2 className={`text-2xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4 sm:mb-6 transition-colors duration-[1750ms] ${isDark ? 'text-white drop-shadow-lg' : 'text-[#102A43]'}`}>
             O prejuízo silencioso de ser invisível<br className="hidden sm:block" /> no digital.
           </h2>
@@ -657,7 +654,7 @@ function Results() {
             <div key={i} className="glass-card p-4 sm:p-8 text-center border-[#102A43]/5 bg-[#F7F9FC]/60">
               <div className="text-3xl sm:text-5xl font-bold text-[#102A43] mb-2 sm:mb-4 tracking-tighter" style={{ filter: 'drop-shadow(0 4px 6px rgba(44, 177, 188, 0.2))' }}>{m.value}</div>
               <div className="text-[#102A43] font-bold text-xs sm:text-base mb-1 sm:mb-2 uppercase tracking-tight">{m.label}</div>
-              <div className="text-[#486581] text-[8px] sm:text-[10px] uppercase font-bold tracking-widest">{m.desc}</div>
+              <div className="text-[#486581] text-[8px] sm:text-[10px] uppercase font-bold tracking-wide sm:tracking-widest">{m.desc}</div>
             </div>
           ))}
         </div>
@@ -699,9 +696,9 @@ function RiskReversal() {
 function Plans() {
   const { setOpen } = useContext(ModalContext)
   const bundles = [
-    { name: 'Essencial', sub: 'Destrave sua agenda', desc: 'O sistema cirúrgico para quem precisa sair da invisibilidade e destravar a agenda.', price: 'R$ 2.500/mês', cta: 'VERIFICAR DISPONIBILIDADE REGIONAL', features: ['M1 — Diagnóstico Estratégico: Raio-X profundo dos gargalos da sua clínica e mapeamento da concorrência local.','M2 — Diretriz de Marca & Posicionamento: Ajuste fino da sua identidade visual para atrair o público de alto ticket.','O7 — Vitrine Digital Activa: Configuração técnica do seu Google Meu Negócio (GMB) + Alinhamento do Instagram para autoridade (Zero dancinhas).','M4 — Landing Page de Elite: Página institucional ultraveloz, focada em conversão e 100% adequada às normas do CFM.','M6 — Anúncios Cirúrgicos (Meta + Google Ads): Campanhas configuradas especificamente para capturar o paciente no momento exato da busca pela sua subespecialidade.'] },
-    { name: 'Growth', sub: 'Escala rápida', desc: 'A estrutura completa para clínicas que buscam escala rápida e volumosa de pacientes.', price: 'R$ 3.500 – R$ 4.500/mês', popular: true, cta: 'ATIVAR ESCALA DA CLÍNICA', features: ['Tudo do Plano Essencial +','M5 — Linha Editorial Recorrente (16 posts/mês): Produção e agendamento de criativos de performance para manter sua vitrine ativa.','M3 — Site Premium Expandido (8 Seções): Arquitetura web completa para clínicas com múltiplos profissionais ou subespecialidades estruturadas.','Auditoria Comercial da Recepção: Análise ativa dos scripts do seu WhatsApp para garantir que o lead que chega vire consulta paga.'] },
-    { name: 'Authority', sub: 'Monopólio regional absoluto', desc: 'Para o especialista que exige dominar o topo do mercado.', price: 'R$ 5.500/mês', cta: 'DOMINAR MEU TERRITÓRIO', features: ['Tudo do Plano Growth +','M7 — SEO Avançado + GMB Contínuo: Trabalho de posicionamento orgânico para fazer seu nome liderar as buscas sem depender apenas de anúncios pagos.','M8 — Automação & Bot IA 24/7: Atendimento inteligente no WhatsApp para qualificar, responder e direcionar o paciente premium na mesma hora, mesmo de madrugada.','Produção Audiovisual Dedicada: Captação de imagens e vídeos de alta classe no seu próprio consultório para anúncios.'] },
+    { name: 'Essencial', sub: 'Destrave sua agenda', desc: 'O sistema cirúrgico para quem precisa sair da invisibilidade e destravar a agenda.', price: 'R$ 2.500/mês', cta: 'VERIFICAR DISPONIBILIDADE', features: ['M1 — Diagnóstico Estratégico: Raio-X profundo dos gargalos da sua clínica e mapeamento da concorrência local.','M2 — Diretriz de Marca & Posicionamento: Ajuste fino da sua identidade visual para atrair o público de alto ticket.','O7 — Vitrine Digital Activa: Configuração técnica do seu Google Meu Negócio (GMB) + Alinhamento do Instagram para autoridade (Zero dancinhas).','M4 — Landing Page de Elite: Página institucional ultraveloz, focada em conversão e 100% adequada às normas do CFM.','M6 — Anúncios Cirúrgicos (Meta + Google Ads): Campanhas configuradas especificamente para capturar o paciente no momento exato da busca pela sua subespecialidade.'] },
+    { name: 'Growth', sub: 'Escala rápida', desc: 'A estrutura completa para clínicas que buscam escala rápida e volumosa de pacientes.', price: 'R$ 3.500 – R$ 4.500/mês', popular: true, cta: 'ATIVAR ESCALA', features: ['Tudo do Plano Essencial +','M5 — Linha Editorial Recorrente (16 posts/mês): Produção e agendamento de criativos de performance para manter sua vitrine ativa.','M3 — Site Premium Expandido (8 Seções): Arquitetura web completa para clínicas com múltiplos profissionais ou subespecialidades estruturadas.','Auditoria Comercial da Recepção: Análise ativa dos scripts do seu WhatsApp para garantir que o lead que chega vire consulta paga.'] },
+    { name: 'Authority', sub: 'Monopólio regional absoluto', desc: 'Para o especialista que exige dominar o topo do mercado.', price: 'R$ 5.500/mês', cta: 'DOMINAR TERRITÓRIO', features: ['Tudo do Plano Growth +','M7 — SEO Avançado + GMB Contínuo: Trabalho de posicionamento orgânico para fazer seu nome liderar as buscas sem depender apenas de anúncios pagos.','M8 — Automação & Bot IA 24/7: Atendimento inteligente no WhatsApp para qualificar, responder e direcionar o paciente premium na mesma hora, mesmo de madrugada.','Produção Audiovisual Dedicada: Captação de imagens e vídeos de alta classe no seu próprio consultório para anúncios.'] },
   ]
   return (
     <section id="planos" className="py-14 sm:py-20 px-4 sm:px-8 relative bg-[#F7F9FC]">
@@ -736,7 +733,7 @@ function Plans() {
                 ))}
               </ul>
               <button onClick={() => setOpen(true)}
-                 className={`block w-full text-center font-bold py-3 sm:py-4 rounded-xl transition-all text-[10px] sm:text-xs tracking-widest uppercase ${p.popular ? 'btn-primary' : 'border-2 border-[#102A43] text-[#102A43] hover:bg-[#102A43] hover:text-white'}`}>
+                 className={`block w-full text-center font-bold py-3 sm:py-4 rounded-xl transition-all text-[10px] sm:text-xs tracking-wider sm:tracking-widest uppercase ${p.popular ? 'btn-primary' : 'border-2 border-[#102A43] text-[#102A43] hover:bg-[#102A43] hover:text-white'}`}>
                 {p.cta}
               </button>
             </div>
@@ -835,7 +832,7 @@ function LossCalculator() {
         <div className="glass-card overflow-hidden shadow-xl shadow-[#102A43]/10 border-[#102A43]/8 bg-[#F7F9FC]/95 hover:transform-none">
           {/* Header */}
           <div className="flex items-center justify-between px-4 sm:px-6 pt-4 sm:pt-5 pb-2">
-            <span className="text-[10px] sm:text-[11px] text-[#486581] font-bold uppercase tracking-widest">Simulador de Prejuízo</span>
+            <span className="text-[10px] sm:text-[11px] text-[#486581] font-bold uppercase tracking-wider sm:tracking-widest">Simulador de Prejuízo</span>
             <div className="flex items-center gap-2 bg-[#2CB1BC]/10 px-3 py-1 rounded-full border border-[#2CB1BC]/15">
               <span className="w-1.5 h-1.5 rounded-full bg-[#2CB1BC] animate-pulse" />
               <span className="text-[10px] text-[#2CB1BC] font-bold uppercase">Live</span>
@@ -911,7 +908,7 @@ function CTA() {
     <section className="py-14 sm:py-20 px-4 sm:px-8 relative">
       <div className="max-w-6xl mx-auto glass-card p-6 sm:p-12 lg:p-16 text-center relative overflow-hidden border-none shadow-3xl" style={{ background: 'linear-gradient(135deg, #0d1f33 0%, #102A43 40%, #153550 100%)' }}>
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 30% 20%, rgba(44,177,188,0.15) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(51,207,211,0.08) 0%, transparent 50%)' }} />
-        <span className="section-label mb-5 sm:mb-8 bg-[#2CB1BC]/15 text-[#33cfd3] border-[#2CB1BC]/20 relative z-10">Última Etapa</span>
+        <span className="section-label mb-5 sm:mb-8 text-[#33cfd3] relative z-10">Última Etapa</span>
         <h2 className="text-2xl sm:text-4xl lg:text-6xl font-bold text-white leading-[1.0] tracking-tighter mb-5 sm:mb-8 relative z-10">
           Sua reputação está trabalhando<br className="hidden sm:block" /> menos do que deveria.
         </h2>
@@ -936,11 +933,11 @@ function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 sm:gap-12">
         <div className="flex flex-col items-center md:items-start gap-4 sm:gap-6">
           <img src={import.meta.env.BASE_URL + 'pulso-logo.svg'} alt="Pulso" className="h-6 sm:h-7 w-auto" />
-          <p className="text-[#486581] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em]">Engenharia de Captação Médica © {new Date().getFullYear()}</p>
+          <p className="text-[#486581] text-[9px] sm:text-[10px] font-black uppercase tracking-widest sm:tracking-[0.3em]">Engenharia de Captação Médica © {new Date().getFullYear()}</p>
         </div>
         <div className="flex gap-6 sm:gap-12">
           {['Serviços', 'Resultados', 'Planos', 'Wiki'].map((l) => (
-            <a key={l} href={l === 'Wiki' ? '#/wiki' : `#${l.toLowerCase()}`} className="text-[10px] sm:text-xs font-black text-[#486581] hover:text-[#2CB1BC] uppercase tracking-widest transition-colors duration-300">{l}</a>
+            <a key={l} href={l === 'Wiki' ? '#/wiki' : `#${l.toLowerCase()}`} className="text-[10px] sm:text-xs font-black text-[#486581] hover:text-[#2CB1BC] uppercase tracking-wider sm:tracking-widest transition-colors duration-300">{l}</a>
           ))}
         </div>
       </div>
@@ -960,7 +957,7 @@ function App() {
   if (page === 'wiki') return <Wiki />
   return (
     <ModalContext.Provider value={{ open: modalOpen, setOpen: setModalOpen }}>
-      <div className="bg-[#F7F9FC] min-h-screen relative">
+      <div className="bg-[#F7F9FC] min-h-screen relative overflow-x-hidden">
         <EEGCanvas />
         <DarkOverlay />
         <div className="relative z-10">
